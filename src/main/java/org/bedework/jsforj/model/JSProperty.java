@@ -134,25 +134,5 @@ public interface JSProperty {
    *
    * @return the value of the property
    */
-  Object getValue();
-
-  /** Returns value as a String.
-   *
-   * @return the value of the property
-   * @throws RuntimeException if not a String property
-   */
-  String getStringValue();
-
-  /** Used to create a property
-   *
-   *
-   * @param name of the property
-   * @param type of the property
-   * @param value of the property
-   * @return new property instance
-   * @throws RuntimeException if type or value not compatible
-   */
-  JSProperty newProperty(String name,
-                         String type,
-                         Object value);
+  JSValue getValue();
 }

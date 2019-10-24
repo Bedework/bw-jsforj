@@ -18,6 +18,7 @@
     <bw-util-logging.version>4.0.4</bw-util-logging.version>
 
 		<!-- Third Party Library Versions -->
+    <jackson.version>2.9.8</jackson.version>
 
     <!-- test only -->
     <junit.version>4.8.2</junit.version>
@@ -96,6 +97,24 @@
     </dependency>
 
 		<!-- Third Party Dependencies -->
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>log4j</groupId>

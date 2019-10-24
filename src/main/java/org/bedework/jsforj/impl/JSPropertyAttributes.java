@@ -16,89 +16,487 @@ import java.util.Map;
  * User: mike Date: 10/23/19 Time: 16:53
  */
 public class JSPropertyAttributes {
-  private static Map<String, List<String>> ptypes = new HashMap<>();
+  public static class TypeInfo {
+    private final boolean valueList;
+    private final boolean propertyList;
+    private final String elementType;
+    private final boolean object;
+    private final List<String> types;
+
+    TypeInfo(final String name,
+             final boolean valueList,
+             final boolean propertyList,
+             final String elementType,
+             final boolean object,
+             final String... types) {
+      this.valueList = valueList;
+      this.propertyList = propertyList;
+      this.elementType = elementType;
+      this.object = object;
+      this.types = List.of(types);
+    }
+
+    public boolean getValueList() {
+      return valueList;
+    }
+
+    public boolean getPropertyList() {
+      return propertyList;
+    }
+
+    public String getElementType() {
+      return elementType;
+    }
+
+    public boolean getObject() {
+      return object;
+    }
+
+    public List<String> getTypes() {
+      return types;
+    }
+  }
+
+  private static Map<String, TypeInfo> ptypes = new HashMap<>();
 
   private static Map<String, List<String>> validFor = new HashMap<>();
 
   private static Map<String, List<String>> contains = new HashMap<>();
 
   static {
-    ptype(JSProperty.type, JSTypes.typeString);
-    ptype(JSProperty.acknowledged, JSTypes.typeUTCDateTime);
-    ptype(JSProperty.action, JSTypes.typeString);
-    ptype(JSProperty.alerts, JSTypes.typeAlerts);
-    ptype(JSProperty.categories, JSTypes.typeStrings);
-    ptype(JSProperty.cid, JSTypes.typeString);
-    ptype(JSProperty.color, JSTypes.typeString);
-    ptype(JSProperty.contentType, JSTypes.typeString);
-    ptype(JSProperty.coordinates, JSTypes.typeString);
-    ptype(JSProperty.created, JSTypes.typeUTCDateTime);
-    ptype(JSProperty.delegatedFrom, JSTypes.typeStrings);
-    ptype(JSProperty.delegatedTo, JSTypes.typeStrings);
-    ptype(JSProperty.description, JSTypes.typeString);
-    ptype(JSProperty.descriptionContentType, JSTypes.typeString);
-    ptype(JSProperty.display, JSTypes.typeString);
-    ptype(JSProperty.due, JSTypes.typeLocalDateTime);
-    ptype(JSProperty.duration, JSTypes.typeDuration);
-    ptype(JSProperty.email, JSTypes.typeString);
-    ptype(JSProperty.entries, JSTypes.typeEntries);
-    ptype(JSProperty.estimatedDuration, JSTypes.typeDuration);
-    ptype(JSProperty.excluded, JSTypes.typeBoolean);
-    ptype(JSProperty.expectReply, JSTypes.typeBoolean);
-    ptype(JSProperty.freeBusyStatus, JSTypes.typeString);
-    ptype(JSProperty.href, JSTypes.typeString);
-    ptype(JSProperty.invitedBy, JSTypes.typeString);
-    ptype(JSProperty.keywords, JSTypes.typeStrings);
-    ptype(JSProperty.kind, JSTypes.typeString);
-    ptype(JSProperty.language, JSTypes.typeString);
-    ptype(JSProperty.linkIds, JSTypes.typeIds);
-    ptype(JSProperty.localizations, JSTypes.typeLocalizations);
-    ptype(JSProperty.locationId, JSTypes.typeString);
-    ptype(JSProperty.locations, JSTypes.typeLocations);
-    ptype(JSProperty.memberOf, JSTypes.typeStrings);
-    ptype(JSProperty.method, JSTypes.typeString);
-    ptype(JSProperty.name, JSTypes.typeString);
-    ptype(JSProperty.offset, JSTypes.typeSignedDuration);
-    ptype(JSProperty.participants, JSTypes.typeParticipants);
-    ptype(JSProperty.participationComment, JSTypes.typeString);
-    ptype(JSProperty.participationStatus, JSTypes.typeString);
-    ptype(JSProperty.priority, JSTypes.typeInt);
-    ptype(JSProperty.privacy, JSTypes.typeString);
-    ptype(JSProperty.prodId, JSTypes.typeString);
-    ptype(JSProperty.recurrenceId, JSTypes.typeLocalDateTime);
+    ptype(JSProperty.type,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.acknowledged,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
+    ptype(JSProperty.action,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.alerts,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeAlert, // elementType
+          false, // object
+          JSTypes.typeAlerts);
+    ptype(JSProperty.categories,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.cid,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.color,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.contentType,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.coordinates,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.created,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
+    ptype(JSProperty.delegatedFrom,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.delegatedTo,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.description,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.descriptionContentType,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.display,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.due,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeLocalDateTime);
+    ptype(JSProperty.duration,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeDuration);
+    ptype(JSProperty.email,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.entries,
+          false, // valueList
+          true, // propertyList
+          "JSTask|JSEvent", // elementType - special cased
+          false, // object
+          JSTypes.typeEntries);
+    ptype(JSProperty.estimatedDuration,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeDuration);
+    ptype(JSProperty.excluded,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeBoolean);
+    ptype(JSProperty.expectReply,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeBoolean);
+    ptype(JSProperty.freeBusyStatus,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.href,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.invitedBy,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.keywords,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.kind,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.language,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.linkIds,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeId, // elementType
+          false, // object
+          JSTypes.typeIds);
+    ptype(JSProperty.localizations,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typePatchObject, // elementType
+          false, // object
+          JSTypes.typeLocalizations);
+    ptype(JSProperty.locationId,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.locations,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeLocation, // elementType
+          false, // object
+          JSTypes.typeLocations);
+    ptype(JSProperty.memberOf,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.method,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.name,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.offset,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeSignedDuration);
+    ptype(JSProperty.participants,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeParticipant, // elementType
+          false, // object
+          JSTypes.typeParticipants);
+    ptype(JSProperty.participationComment,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.participationStatus,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.priority,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeInt);
+    ptype(JSProperty.privacy,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.prodId,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.recurrenceId,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeLocalDateTime);
     ptype(JSProperty.recurrenceOverrides,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typePatchObject, // elementType
+          false, // object
           JSTypes.typeRecurrenceOverrides);
-    ptype(JSProperty.recurrenceRule, JSTypes.typeRecurrenceRule);
-    ptype(JSProperty.rel, JSTypes.typeString);
-    ptype(JSProperty.relatedTo, JSTypes.typeRelations);
-    ptype(JSProperty.relation, JSTypes.typeStrings);
-    ptype(JSProperty.relativeTo, JSTypes.typeString);
-    ptype(JSProperty.replyTo, JSTypes.typeStringStrings);
-    ptype(JSProperty.roles, JSTypes.typeStrings);
-    ptype(JSProperty.scheduleAgent, JSTypes.typeString);
-    ptype(JSProperty.scheduleSequence, JSTypes.typeUnsignedInt);
-    ptype(JSProperty.scheduleUpdated, JSTypes.typeUTCDateTime);
-    ptype(JSProperty.sendTo, JSTypes.typeStringStrings);
-    ptype(JSProperty.sequence, JSTypes.typeUnsignedInt);
-    ptype(JSProperty.showWithoutTime, JSTypes.typeBoolean);
-    ptype(JSProperty.size, JSTypes.typeUnsignedInt);
-    ptype(JSProperty.start, JSTypes.typeLocalDateTime);
-    ptype(JSProperty.source, JSTypes.typeString);
-    ptype(JSProperty.status, JSTypes.typeString);
-    ptype(JSProperty.statusUpdatedAt, JSTypes.typeUTCDateTime);
-    ptype(JSProperty.timestamp, JSTypes.typeUTCDateTime);
-    ptype(JSProperty.timeZone, JSTypes.typeString);
-    ptype(JSProperty.timeZones, JSTypes.typeTimeZones);
-    ptype(JSProperty.title, JSTypes.typeString);
+    ptype(JSProperty.recurrenceRule,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          true, // object
+          JSTypes.typeRecurrenceRule);
+    ptype(JSProperty.rel,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.relatedTo,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeRelation, // elementType
+          false, // object
+          JSTypes.typeRelations);
+    ptype(JSProperty.relation,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.relativeTo,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.replyTo,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStringStrings);
+    ptype(JSProperty.roles,
+          true, // valueList
+          false, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStrings);
+    ptype(JSProperty.scheduleAgent,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.scheduleSequence,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUnsignedInt);
+    ptype(JSProperty.scheduleUpdated,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
+    ptype(JSProperty.sendTo,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeString, // elementType
+          false, // object
+          JSTypes.typeStringStrings);
+    ptype(JSProperty.sequence,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUnsignedInt);
+    ptype(JSProperty.showWithoutTime,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeBoolean);
+    ptype(JSProperty.size,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUnsignedInt);
+    ptype(JSProperty.start,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeLocalDateTime);
+    ptype(JSProperty.source,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.status,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.statusUpdatedAt,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
+    ptype(JSProperty.timestamp,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
+    ptype(JSProperty.timeZone,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.timeZones,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeTimeZone, // elementType
+          false, // object
+          JSTypes.typeTimeZones);
+    ptype(JSProperty.title,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
     ptype(JSProperty.trigger,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          true, // object
           JSTypes.typeOffsetTrigger, JSTypes.typeAbsoluteTrigger,
           JSTypes.typeUnknownTrigger);
-    ptype(JSProperty.uid, JSTypes.typeString);
-    ptype(JSProperty.updated, JSTypes.typeUTCDateTime);
-    ptype(JSProperty.useDefaultAlerts, JSTypes.typeBoolean);
+    ptype(JSProperty.uid,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeString);
+    ptype(JSProperty.updated,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
+    ptype(JSProperty.useDefaultAlerts,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeBoolean);
     ptype(JSProperty.virtualLocations,
+          false, // valueList
+          true, // propertyList
+          JSTypes.typeVirtualLocation, // elementType
+          false, // object
           JSTypes.typeVirtualLocations);
-    ptype(JSProperty.when, JSTypes.typeUTCDateTime);
+    ptype(JSProperty.when,
+          false, // valueList
+          false, // propertyList
+          null, // elementType
+          false, // object
+          JSTypes.typeUTCDateTime);
 
     /* ===== valid for ============================== */
 
@@ -233,8 +631,13 @@ public class JSPropertyAttributes {
   }
 
   private static void ptype(final String name,
+                            final boolean valueList,
+                            final boolean propertyList,
+                            final String elementType,
+                            final boolean object,
                             final String... types) {
-    ptypes.put(name, List.of(types));
+    ptypes.put(name, new TypeInfo(name, valueList, propertyList,
+                                  elementType, object, types));
   }
 
   private static void validFor(final String name,
@@ -249,6 +652,16 @@ public class JSPropertyAttributes {
   }
 
   static List<String> getTypes(final String name) {
+    final var info = ptypes.get(name);
+
+    if (info == null) {
+      return null;
+    }
+
+    return info.getTypes();
+  }
+
+  static TypeInfo getTypeInfo(final String name) {
     return ptypes.get(name);
   }
 

@@ -3,11 +3,14 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.impl.properties.JSEventImpl;
+import org.bedework.jsforj.impl.properties.JSTaskImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSTask;
 import org.bedework.jsforj.model.JSTypes;
+import org.bedework.jsforj.model.JSValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,7 +22,7 @@ import java.io.Reader;
  * User: mike Date: 10/23/19 Time: 23:44
  */
 public class JsonMapper extends ObjectMapper {
-  final static JSFactory factory = new JSFactory();
+  final static JSFactory factory = JSFactory.getFactory();
 
   public JsonMapper() {
     setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -54,7 +57,8 @@ public class JsonMapper extends ObjectMapper {
   }
 
   private JSEvent parseEvent(final JsonNode nd) {
-    final JSEventImpl ent = new JSEventImpl();
+    final JSEventImpl ent = new JSEventImpl(null,
+                                            factory.makeValue(null, nd));
 
     parseProperties(ent, nd);
 
@@ -62,7 +66,8 @@ public class JsonMapper extends ObjectMapper {
   }
 
   private JSTask parseTask(final JsonNode nd) {
-    final JSTaskImpl ent = new JSTaskImpl();
+    final JSTaskImpl ent = new JSTaskImpl(null,
+                                          factory.makeValue(null, nd));
 
     parseProperties(ent, nd);
 
@@ -70,7 +75,8 @@ public class JsonMapper extends ObjectMapper {
   }
 
   private JSGroup parseGroup(final JsonNode nd) {
-    final JSGroupImpl ent = new JSGroupImpl();
+    final JSGroupImpl ent = new JSGroupImpl(null,
+                                            factory.makeValue(null, nd));
 
     parseProperties(ent, nd);
 
@@ -79,13 +85,15 @@ public class JsonMapper extends ObjectMapper {
 
   void parseProperties(final JSCalendarObject ent,
                        final JsonNode nd) {
+    JSValue val = ent.getValue();
+
     for (var it = nd.fieldNames(); it.hasNext(); ) {
       var fieldName = it.next();
 
       //TODO - check validity?
 
       JsonNode fldNode = nd.findValue(fieldName);
-      ent.addProperty(factory.makeProperty(fieldName, fldNode));
+      val.addProperty(factory.makeProperty(fieldName, fldNode));
     }
   }
 }

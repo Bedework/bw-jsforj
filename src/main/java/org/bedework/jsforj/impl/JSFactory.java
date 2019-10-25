@@ -3,6 +3,8 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.impl.properties.JSPropertyFactory;
+import org.bedework.jsforj.impl.properties.JSPropertyImpl;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
@@ -12,30 +14,28 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: mike Date: 10/24/19 Time: 10:51
  */
 public class JSFactory {
-  final static JsonNodeFactory nodeFactory =
+  private final static JSFactory factory = new JSFactory();
+
+  private final static JsonNodeFactory nodeFactory =
           JsonNodeFactory.withExactBigDecimals(false);
 
-  /** Used to create a property
-   *
-   *
-   * @param name of the property
-   * @param value of the property
-   * @return new property instance
-   * @throws RuntimeException if type or value not compatible
-   */
-  public JSProperty newProperty(String name,
-                                JSValue value) {
-    return new JSPropertyImpl(name, value);
+  private final static Map<String, JSPropertyFactory> proeprtyFactories =
+          new HashMap<>();
+
+  public static JSFactory getFactory() {
+    return factory;
   }
 
-  public JSProperty makeProperty(final String name,
-                                  final JsonNode nd) {
+  public JSValue makeValue(final String name,
+                              final JsonNode nd) {
     var typeInfo = JSPropertyAttributes.getTypeInfo(name);
 
     final String type;
@@ -62,8 +62,37 @@ public class JSFactory {
       }
     }
 
-    var value = newObjectValue(type, nd);
-    return newProperty(name, value);
+    return newObjectValue(type, nd);
+  }
+
+  public JSProperty makeProperty(final String name,
+                                 final JsonNode nd) {
+    final var typeInfo = JSPropertyAttributes.getTypeInfo(name);
+    final var value = makeValue(name, nd);
+
+    if (typeInfo == null) {
+      // Use generic class.
+      return new JSPropertyImpl(name, value);
+    }
+
+    final var factoryClass = typeInfo.getFactoryClass();
+
+    if (factoryClass == null) {
+      // Use generic class.
+      return new JSPropertyImpl(name, value);
+    }
+
+    final JSPropertyFactory pfactory;
+    try {
+      pfactory =
+              (JSPropertyFactory)factoryClass
+                      .getConstructor().newInstance();
+    } catch (final Throwable t) {
+      throw new RuntimeException(t);
+    }
+
+    return pfactory.newProperty(name, nd);
+
   }
 
   public JSValue newValue(final String val) {

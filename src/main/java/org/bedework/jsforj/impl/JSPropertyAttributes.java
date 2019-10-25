@@ -3,6 +3,16 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.impl.properties.JSPropertyFactory;
+import org.bedework.jsforj.impl.properties.factories.JSAlertFactory;
+import org.bedework.jsforj.impl.properties.factories.JSCalendarObjectFactory;
+import org.bedework.jsforj.impl.properties.factories.JSLocationFactory;
+import org.bedework.jsforj.impl.properties.factories.JSParticipantFactory;
+import org.bedework.jsforj.impl.properties.factories.JSRecurrenceRuleFactory;
+import org.bedework.jsforj.impl.properties.factories.JSRelationFactory;
+import org.bedework.jsforj.impl.properties.factories.JSTimeZoneFactory;
+import org.bedework.jsforj.impl.properties.factories.JSTriggerFactory;
+import org.bedework.jsforj.impl.properties.factories.JSVirtualLocationFactory;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 
@@ -19,20 +29,23 @@ public class JSPropertyAttributes {
   public static class TypeInfo {
     private final boolean valueList;
     private final boolean propertyList;
-    private final String elementType;
+    private final String[] elementType;
     private final boolean object;
+    private final Class<? extends JSPropertyFactory> factoryClass;
     private final List<String> types;
 
     TypeInfo(final String name,
              final boolean valueList,
              final boolean propertyList,
-             final String elementType,
+             final String[] elementType,
              final boolean object,
+             final Class<? extends JSPropertyFactory> factoryClass,
              final String... types) {
       this.valueList = valueList;
       this.propertyList = propertyList;
       this.elementType = elementType;
       this.object = object;
+      this.factoryClass = factoryClass;
       this.types = List.of(types);
     }
 
@@ -44,12 +57,21 @@ public class JSPropertyAttributes {
       return propertyList;
     }
 
-    public String getElementType() {
+    public String[] getElementType() {
       return elementType;
     }
 
     public boolean getObject() {
       return object;
+    }
+
+    /**
+     *
+     * @return class used to create objects - maybe the class represented here
+     *               or elements of the property list.
+     */
+    public Class getFactoryClass() {
+      return factoryClass;
     }
 
     public List<String> getTypes() {
@@ -69,402 +91,469 @@ public class JSPropertyAttributes {
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.acknowledged,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
     ptype(JSPropertyNames.action,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.alerts,
           false, // valueList
           true, // propertyList
-          JSTypes.typeAlert, // elementType
+          types(JSTypes.typeAlert), // elementType
           false, // object
+          JSAlertFactory.class, // factoryClass
           JSTypes.typeAlerts);
     ptype(JSPropertyNames.categories,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.cid,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.color,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.contentType,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.coordinates,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.created,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
     ptype(JSPropertyNames.delegatedFrom,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.delegatedTo,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.description,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.descriptionContentType,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.display,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.due,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeLocalDateTime);
     ptype(JSPropertyNames.duration,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeDuration);
     ptype(JSPropertyNames.email,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.entries,
           false, // valueList
           true, // propertyList
-          "JSTask|JSEvent", // elementType - special cased
+          types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
           false, // object
+          JSCalendarObjectFactory.class, // factoryClass
           JSTypes.typeEntries);
     ptype(JSPropertyNames.estimatedDuration,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeDuration);
     ptype(JSPropertyNames.excluded,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeBoolean);
     ptype(JSPropertyNames.expectReply,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeBoolean);
     ptype(JSPropertyNames.freeBusyStatus,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.href,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.invitedBy,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.keywords,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.kind,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.language,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.linkIds,
           true, // valueList
           false, // propertyList
-          JSTypes.typeId, // elementType
+          types(JSTypes.typeId), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeIds);
     ptype(JSPropertyNames.localizations,
           false, // valueList
           true, // propertyList
-          JSTypes.typePatchObject, // elementType
+          types(JSTypes.typePatchObject), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeLocalizations);
     ptype(JSPropertyNames.locationId,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.locations,
           false, // valueList
           true, // propertyList
-          JSTypes.typeLocation, // elementType
+          types(JSTypes.typeLocation), // elementType
           false, // object
+          JSLocationFactory.class, // factoryClass
           JSTypes.typeLocations);
     ptype(JSPropertyNames.memberOf,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.method,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.name,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.offset,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeSignedDuration);
     ptype(JSPropertyNames.participants,
           false, // valueList
           true, // propertyList
-          JSTypes.typeParticipant, // elementType
+          types(JSTypes.typeParticipant), // elementType
           false, // object
+          JSParticipantFactory.class, // factoryClass
           JSTypes.typeParticipants);
     ptype(JSPropertyNames.participationComment,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.participationStatus,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.priority,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeInt);
     ptype(JSPropertyNames.privacy,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.prodId,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.recurrenceId,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeLocalDateTime);
     ptype(JSPropertyNames.recurrenceOverrides,
           false, // valueList
           true, // propertyList
-          JSTypes.typePatchObject, // elementType
+          types(JSTypes.typePatchObject), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeRecurrenceOverrides);
     ptype(JSPropertyNames.recurrenceRule,
           false, // valueList
           false, // propertyList
           null, // elementType
           true, // object
+          JSRecurrenceRuleFactory.class, // factoryClass
           JSTypes.typeRecurrenceRule);
     ptype(JSPropertyNames.rel,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.relatedTo,
           false, // valueList
           true, // propertyList
-          JSTypes.typeRelation, // elementType
+          types(JSTypes.typeRelation), // elementType
           false, // object
+          JSRelationFactory.class, // factoryClass
           JSTypes.typeRelations);
     ptype(JSPropertyNames.relation,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.relativeTo,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.replyTo,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStringStrings);
     ptype(JSPropertyNames.roles,
           true, // valueList
           false, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStrings);
     ptype(JSPropertyNames.scheduleAgent,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.scheduleSequence,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUnsignedInt);
     ptype(JSPropertyNames.scheduleUpdated,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
     ptype(JSPropertyNames.sendTo,
           false, // valueList
           true, // propertyList
-          JSTypes.typeString, // elementType
+          types(JSTypes.typeString), // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeStringStrings);
     ptype(JSPropertyNames.sequence,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUnsignedInt);
     ptype(JSPropertyNames.showWithoutTime,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeBoolean);
     ptype(JSPropertyNames.size,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUnsignedInt);
     ptype(JSPropertyNames.start,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeLocalDateTime);
     ptype(JSPropertyNames.source,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.status,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.statusUpdatedAt,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
     ptype(JSPropertyNames.timestamp,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
     ptype(JSPropertyNames.timeZone,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.timeZones,
           false, // valueList
           true, // propertyList
-          JSTypes.typeTimeZone, // elementType
+          types(JSTypes.typeTimeZone), // elementType
           false, // object
+          JSTimeZoneFactory.class, // factoryClass
           JSTypes.typeTimeZones);
     ptype(JSPropertyNames.title,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.trigger,
           false, // valueList
           false, // propertyList
           null, // elementType
           true, // object
+          JSTriggerFactory.class, // factoryClass
           JSTypes.typeOffsetTrigger, JSTypes.typeAbsoluteTrigger,
           JSTypes.typeUnknownTrigger);
     ptype(JSPropertyNames.uid,
@@ -472,30 +561,35 @@ public class JSPropertyAttributes {
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeString);
     ptype(JSPropertyNames.updated,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
     ptype(JSPropertyNames.useDefaultAlerts,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeBoolean);
     ptype(JSPropertyNames.virtualLocations,
           false, // valueList
           true, // propertyList
-          JSTypes.typeVirtualLocation, // elementType
+          types(JSTypes.typeVirtualLocation), // elementType
           false, // object
+          JSVirtualLocationFactory.class, // factoryClass
           JSTypes.typeVirtualLocations);
     ptype(JSPropertyNames.when,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
+          null, // factoryClass
           JSTypes.typeUTCDateTime);
 
     /* ===== valid for ============================== */
@@ -633,11 +727,13 @@ public class JSPropertyAttributes {
   private static void ptype(final String name,
                             final boolean valueList,
                             final boolean propertyList,
-                            final String elementType,
+                            final String[] elementType,
                             final boolean object,
+                            final Class<? extends JSPropertyFactory> factoryClass,
                             final String... types) {
     ptypes.put(name, new TypeInfo(name, valueList, propertyList,
-                                  elementType, object, types));
+                                  elementType, object, factoryClass,
+                                  types));
   }
 
   private static void validFor(final String name,
@@ -649,6 +745,10 @@ public class JSPropertyAttributes {
                                                         k -> new ArrayList<>());
       contained.add(name);
     }
+  }
+  
+  private static String[] types(final String... types) {
+    return types;
   }
 
   static List<String> getTypes(final String name) {

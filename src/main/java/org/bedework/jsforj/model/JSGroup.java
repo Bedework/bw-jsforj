@@ -7,4 +7,6 @@ import java.util.List;
  */
 public interface JSGroup extends JSCalendarObject {
   List<JSCalendarObject> getEntries();
+
+  void addEntry(JSCalendarObject val);
 }

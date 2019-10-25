@@ -5,7 +5,9 @@ package org.bedework.jsforj.impl;
 
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSGroup;
+import org.bedework.jsforj.model.JSTypes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,12 +15,19 @@ import java.util.List;
  */
 public class JSGroupImpl extends JSCalendarObjectImpl
         implements JSGroup {
-  JSGroupImpl(final String type) {
-    super(type);
+  private List<JSCalendarObject> entries = new ArrayList<>();
+
+  JSGroupImpl() {
+    super(JSTypes.typeJSGroup);
   }
 
   @Override
   public List<JSCalendarObject> getEntries() {
-    return null;
+    return entries;
+  }
+
+  @Override
+  public void addEntry(final JSCalendarObject val) {
+    entries.add(val);
   }
 }

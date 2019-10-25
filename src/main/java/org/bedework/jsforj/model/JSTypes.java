@@ -4,6 +4,8 @@ package org.bedework.jsforj.model;
  * User: mike Date: 10/23/19 Time: 16:19
  */
 public interface JSTypes {
+  String typeUnknown = "Unknown";
+
   String typeAlert = "Alert";
   String typeAlerts = "Id[Alert]";
   String typeBoolean = "Boolean";

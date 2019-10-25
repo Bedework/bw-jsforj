@@ -3,7 +3,7 @@
 */
 package org.bedework.jsforj.impl;
 
-import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 
 import java.util.ArrayList;
@@ -64,434 +64,434 @@ public class JSPropertyAttributes {
   private static Map<String, List<String>> contains = new HashMap<>();
 
   static {
-    ptype(JSProperty.type,
+    ptype(JSPropertyNames.type,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.acknowledged,
+    ptype(JSPropertyNames.acknowledged,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUTCDateTime);
-    ptype(JSProperty.action,
+    ptype(JSPropertyNames.action,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.alerts,
+    ptype(JSPropertyNames.alerts,
           false, // valueList
           true, // propertyList
           JSTypes.typeAlert, // elementType
           false, // object
           JSTypes.typeAlerts);
-    ptype(JSProperty.categories,
+    ptype(JSPropertyNames.categories,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.cid,
+    ptype(JSPropertyNames.cid,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.color,
+    ptype(JSPropertyNames.color,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.contentType,
+    ptype(JSPropertyNames.contentType,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.coordinates,
+    ptype(JSPropertyNames.coordinates,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.created,
+    ptype(JSPropertyNames.created,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUTCDateTime);
-    ptype(JSProperty.delegatedFrom,
+    ptype(JSPropertyNames.delegatedFrom,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.delegatedTo,
+    ptype(JSPropertyNames.delegatedTo,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.description,
+    ptype(JSPropertyNames.description,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.descriptionContentType,
+    ptype(JSPropertyNames.descriptionContentType,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.display,
+    ptype(JSPropertyNames.display,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.due,
+    ptype(JSPropertyNames.due,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeLocalDateTime);
-    ptype(JSProperty.duration,
+    ptype(JSPropertyNames.duration,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeDuration);
-    ptype(JSProperty.email,
+    ptype(JSPropertyNames.email,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.entries,
+    ptype(JSPropertyNames.entries,
           false, // valueList
           true, // propertyList
           "JSTask|JSEvent", // elementType - special cased
           false, // object
           JSTypes.typeEntries);
-    ptype(JSProperty.estimatedDuration,
+    ptype(JSPropertyNames.estimatedDuration,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeDuration);
-    ptype(JSProperty.excluded,
+    ptype(JSPropertyNames.excluded,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeBoolean);
-    ptype(JSProperty.expectReply,
+    ptype(JSPropertyNames.expectReply,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeBoolean);
-    ptype(JSProperty.freeBusyStatus,
+    ptype(JSPropertyNames.freeBusyStatus,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.href,
+    ptype(JSPropertyNames.href,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.invitedBy,
+    ptype(JSPropertyNames.invitedBy,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.keywords,
+    ptype(JSPropertyNames.keywords,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.kind,
+    ptype(JSPropertyNames.kind,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.language,
+    ptype(JSPropertyNames.language,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.linkIds,
+    ptype(JSPropertyNames.linkIds,
           true, // valueList
           false, // propertyList
           JSTypes.typeId, // elementType
           false, // object
           JSTypes.typeIds);
-    ptype(JSProperty.localizations,
+    ptype(JSPropertyNames.localizations,
           false, // valueList
           true, // propertyList
           JSTypes.typePatchObject, // elementType
           false, // object
           JSTypes.typeLocalizations);
-    ptype(JSProperty.locationId,
+    ptype(JSPropertyNames.locationId,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.locations,
+    ptype(JSPropertyNames.locations,
           false, // valueList
           true, // propertyList
           JSTypes.typeLocation, // elementType
           false, // object
           JSTypes.typeLocations);
-    ptype(JSProperty.memberOf,
+    ptype(JSPropertyNames.memberOf,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.method,
+    ptype(JSPropertyNames.method,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.name,
+    ptype(JSPropertyNames.name,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.offset,
+    ptype(JSPropertyNames.offset,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeSignedDuration);
-    ptype(JSProperty.participants,
+    ptype(JSPropertyNames.participants,
           false, // valueList
           true, // propertyList
           JSTypes.typeParticipant, // elementType
           false, // object
           JSTypes.typeParticipants);
-    ptype(JSProperty.participationComment,
+    ptype(JSPropertyNames.participationComment,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.participationStatus,
+    ptype(JSPropertyNames.participationStatus,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.priority,
+    ptype(JSPropertyNames.priority,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeInt);
-    ptype(JSProperty.privacy,
+    ptype(JSPropertyNames.privacy,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.prodId,
+    ptype(JSPropertyNames.prodId,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.recurrenceId,
+    ptype(JSPropertyNames.recurrenceId,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeLocalDateTime);
-    ptype(JSProperty.recurrenceOverrides,
+    ptype(JSPropertyNames.recurrenceOverrides,
           false, // valueList
           true, // propertyList
           JSTypes.typePatchObject, // elementType
           false, // object
           JSTypes.typeRecurrenceOverrides);
-    ptype(JSProperty.recurrenceRule,
+    ptype(JSPropertyNames.recurrenceRule,
           false, // valueList
           false, // propertyList
           null, // elementType
           true, // object
           JSTypes.typeRecurrenceRule);
-    ptype(JSProperty.rel,
+    ptype(JSPropertyNames.rel,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.relatedTo,
+    ptype(JSPropertyNames.relatedTo,
           false, // valueList
           true, // propertyList
           JSTypes.typeRelation, // elementType
           false, // object
           JSTypes.typeRelations);
-    ptype(JSProperty.relation,
+    ptype(JSPropertyNames.relation,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.relativeTo,
+    ptype(JSPropertyNames.relativeTo,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.replyTo,
+    ptype(JSPropertyNames.replyTo,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStringStrings);
-    ptype(JSProperty.roles,
+    ptype(JSPropertyNames.roles,
           true, // valueList
           false, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStrings);
-    ptype(JSProperty.scheduleAgent,
+    ptype(JSPropertyNames.scheduleAgent,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.scheduleSequence,
+    ptype(JSPropertyNames.scheduleSequence,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUnsignedInt);
-    ptype(JSProperty.scheduleUpdated,
+    ptype(JSPropertyNames.scheduleUpdated,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUTCDateTime);
-    ptype(JSProperty.sendTo,
+    ptype(JSPropertyNames.sendTo,
           false, // valueList
           true, // propertyList
           JSTypes.typeString, // elementType
           false, // object
           JSTypes.typeStringStrings);
-    ptype(JSProperty.sequence,
+    ptype(JSPropertyNames.sequence,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUnsignedInt);
-    ptype(JSProperty.showWithoutTime,
+    ptype(JSPropertyNames.showWithoutTime,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeBoolean);
-    ptype(JSProperty.size,
+    ptype(JSPropertyNames.size,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUnsignedInt);
-    ptype(JSProperty.start,
+    ptype(JSPropertyNames.start,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeLocalDateTime);
-    ptype(JSProperty.source,
+    ptype(JSPropertyNames.source,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.status,
+    ptype(JSPropertyNames.status,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.statusUpdatedAt,
+    ptype(JSPropertyNames.statusUpdatedAt,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUTCDateTime);
-    ptype(JSProperty.timestamp,
+    ptype(JSPropertyNames.timestamp,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUTCDateTime);
-    ptype(JSProperty.timeZone,
+    ptype(JSPropertyNames.timeZone,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.timeZones,
+    ptype(JSPropertyNames.timeZones,
           false, // valueList
           true, // propertyList
           JSTypes.typeTimeZone, // elementType
           false, // object
           JSTypes.typeTimeZones);
-    ptype(JSProperty.title,
+    ptype(JSPropertyNames.title,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.trigger,
+    ptype(JSPropertyNames.trigger,
           false, // valueList
           false, // propertyList
           null, // elementType
           true, // object
           JSTypes.typeOffsetTrigger, JSTypes.typeAbsoluteTrigger,
           JSTypes.typeUnknownTrigger);
-    ptype(JSProperty.uid,
+    ptype(JSPropertyNames.uid,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeString);
-    ptype(JSProperty.updated,
+    ptype(JSPropertyNames.updated,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeUTCDateTime);
-    ptype(JSProperty.useDefaultAlerts,
+    ptype(JSPropertyNames.useDefaultAlerts,
           false, // valueList
           false, // propertyList
           null, // elementType
           false, // object
           JSTypes.typeBoolean);
-    ptype(JSProperty.virtualLocations,
+    ptype(JSPropertyNames.virtualLocations,
           false, // valueList
           true, // propertyList
           JSTypes.typeVirtualLocation, // elementType
           false, // object
           JSTypes.typeVirtualLocations);
-    ptype(JSProperty.when,
+    ptype(JSPropertyNames.when,
           false, // valueList
           false, // propertyList
           null, // elementType
@@ -500,7 +500,7 @@ public class JSPropertyAttributes {
 
     /* ===== valid for ============================== */
 
-    validFor(JSProperty.type, JSTypes.typeJSEvent, JSTypes.typeJSTask,
+    validFor(JSPropertyNames.type, JSTypes.typeJSEvent, JSTypes.typeJSTask,
              JSTypes.typeJSGroup, JSTypes.typeAbsoluteTrigger,
              JSTypes.typeAlert, JSTypes.typeLink,
              JSTypes.typeLocation, JSTypes.typeOffsetTrigger,
@@ -508,118 +508,118 @@ public class JSPropertyAttributes {
              JSTypes.typeRecurrenceRule, JSTypes.typeRelation,
              JSTypes.typeTimeZone, JSTypes.typeVirtualLocation);
 
-    validFor(JSProperty.acknowledged, JSTypes.typeAlert);
+    validFor(JSPropertyNames.acknowledged, JSTypes.typeAlert);
 
-    validFor(JSProperty.action, JSTypes.typeAlert);
+    validFor(JSPropertyNames.action, JSTypes.typeAlert);
 
-    validFor(JSProperty.alerts,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.alerts,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.categories,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.categories,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup,
              JSTypes.typeLocation);
-    validFor(JSProperty.cid, JSTypes.typeLink);
-    validFor(JSProperty.color,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.cid, JSTypes.typeLink);
+    validFor(JSPropertyNames.color,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSProperty.contentType, JSTypes.typeLink);
-    validFor(JSProperty.coordinates, JSTypes.typeLocation);
-    validFor(JSProperty.created ,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.contentType, JSTypes.typeLink);
+    validFor(JSPropertyNames.coordinates, JSTypes.typeLocation);
+    validFor(JSPropertyNames.created ,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSProperty.delegatedFrom, JSTypes.typeParticipant);
-    validFor(JSProperty.delegatedTo, JSTypes.typeParticipant);
-    validFor(JSProperty.description,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.delegatedFrom, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.delegatedTo, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.description,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeLocation,
              JSTypes.typeVirtualLocation);
-    validFor(JSProperty.descriptionContentType, JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.descriptionContentType, JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.display, JSTypes.typeLink);
-    validFor(JSProperty.due,  JSTypes.typeJSTask);
-    validFor(JSProperty.duration,  JSTypes.typeJSEvent);
-    validFor(JSProperty.email, JSTypes.typeParticipant);
-    validFor(JSProperty.entries, JSTypes.typeJSGroup);
-    validFor(JSProperty.estimatedDuration,  JSTypes.typeJSTask);
-    validFor(JSProperty.excluded,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.display, JSTypes.typeLink);
+    validFor(JSPropertyNames.due,  JSTypes.typeJSTask);
+    validFor(JSPropertyNames.duration,  JSTypes.typeJSEvent);
+    validFor(JSPropertyNames.email, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.entries, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.estimatedDuration,  JSTypes.typeJSTask);
+    validFor(JSPropertyNames.excluded,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.expectReply, JSTypes.typeParticipant);
-    validFor(JSProperty.freeBusyStatus,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.expectReply, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.freeBusyStatus,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.href, JSTypes.typeLink);
-    validFor(JSProperty.invitedBy, JSTypes.typeParticipant);
-    validFor(JSProperty.keywords,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.href, JSTypes.typeLink);
+    validFor(JSPropertyNames.invitedBy, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.keywords,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSProperty.kind, JSTypes.typeParticipant);
-    validFor(JSProperty.language, JSTypes.typeParticipant);
-    validFor(JSProperty.linkIds, JSTypes.typeLocation,
+    validFor(JSPropertyNames.kind, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.language, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.linkIds, JSTypes.typeLocation,
              JSTypes.typeParticipant);
-    validFor(JSProperty.localizations,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.localizations,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.locationId, JSTypes.typeParticipant);
-    validFor(JSProperty.locations,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.locationId, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.locations,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.memberOf, JSTypes.typeParticipant);
-    validFor(JSProperty.method,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.memberOf, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.method,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.name, JSTypes.typeLocation,
+    validFor(JSPropertyNames.name, JSTypes.typeLocation,
              JSTypes.typeParticipant);
-    validFor(JSProperty.offset, JSTypes.typeOffsetTrigger);
-    validFor(JSProperty.participants,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.offset, JSTypes.typeOffsetTrigger);
+    validFor(JSPropertyNames.participants,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.participationComment, JSTypes.typeParticipant);
-    validFor(JSProperty.participationStatus, JSTypes.typeParticipant);
-    validFor(JSProperty.priority,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.participationComment, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.participationStatus, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.priority,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.privacy,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.privacy,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.prodId,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.prodId,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSProperty.recurrenceId,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.recurrenceId,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.recurrenceOverrides,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.recurrenceOverrides,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.recurrenceRule,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.recurrenceRule,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.rel, JSTypes.typeLink);
-    validFor(JSProperty.relatedTo,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.rel, JSTypes.typeLink);
+    validFor(JSPropertyNames.relatedTo,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeAlert);
-    validFor(JSProperty.relation, JSTypes.typeRelation);
-    validFor(JSProperty.relativeTo, JSTypes.typeOffsetTrigger,
+    validFor(JSPropertyNames.relation, JSTypes.typeRelation);
+    validFor(JSPropertyNames.relativeTo, JSTypes.typeOffsetTrigger,
              JSTypes.typeLocation);
-    validFor(JSProperty.replyTo,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.replyTo,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.roles, JSTypes.typeParticipant);
-    validFor(JSProperty.scheduleAgent, JSTypes.typeParticipant);
-    validFor(JSProperty.scheduleSequence, JSTypes.typeParticipant);
-    validFor(JSProperty.scheduleUpdated, JSTypes.typeParticipant);
-    validFor(JSProperty.sendTo, JSTypes.typeParticipant);
-    validFor(JSProperty.sequence,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.roles, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.scheduleAgent, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.scheduleSequence, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.scheduleUpdated, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.sendTo, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.sequence,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.showWithoutTime,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.showWithoutTime,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.size, JSTypes.typeLink);
-    validFor(JSProperty.start,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.size, JSTypes.typeLink);
+    validFor(JSPropertyNames.start,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.source, JSTypes.typeJSGroup);
-    validFor(JSProperty.status,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.source, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.status,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeParticipantProgress);
-    validFor(JSProperty.statusUpdatedAt,  JSTypes.typeJSTask);
-    validFor(JSProperty.timestamp, JSTypes.typeParticipantProgress);
-    validFor(JSProperty.timeZone,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.statusUpdatedAt,  JSTypes.typeJSTask);
+    validFor(JSPropertyNames.timestamp, JSTypes.typeParticipantProgress);
+    validFor(JSPropertyNames.timeZone,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeLocation);
-    validFor(JSProperty.timeZones,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.timeZones,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.title,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.title,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup, JSTypes.typeLink);
-    validFor(JSProperty.trigger, JSTypes.typeOffsetTrigger,
+    validFor(JSPropertyNames.trigger, JSTypes.typeOffsetTrigger,
              JSTypes.typeAbsoluteTrigger, JSTypes.typeUnknownTrigger,
              JSTypes.typeAlert);
-    validFor(JSProperty.uid,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.uid,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSProperty.updated,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.updated,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSProperty.useDefaultAlerts,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.useDefaultAlerts,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.virtualLocations,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.virtualLocations,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSProperty.when, JSTypes.typeAbsoluteTrigger);
+    validFor(JSPropertyNames.when, JSTypes.typeAbsoluteTrigger);
 
     // Replace all contains values with immutable lists
     for (final var name: contains.keySet()) {

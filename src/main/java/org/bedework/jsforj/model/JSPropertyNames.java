@@ -47,6 +47,8 @@ public interface JSPropertyNames {
   //                                   JSTask, JSGroup
   String kind = "kind";        //  String    Valid for: Participant
   String language = "language";    //  String    Valid for: Participant
+  String links = "links";         //  Id[Link]    Valid for: JSEvent,
+  //                                   JSTask
   String linkIds = "linkIds";     //  Id[Boolean]    Valid for: Location,
   //                                   Participant
   String localizations = "localizations";//  String[PatchObject]   Valid for: JSEvent,

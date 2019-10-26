@@ -3,12 +3,12 @@
 */
 package org.bedework.jsforj.impl;
 
-import org.bedework.jsforj.impl.properties.JSPropertyFactory;
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
+import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
-import org.bedework.jsforj.model.JSValue;
+import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -27,7 +27,7 @@ public class JSFactory {
   private final static JsonNodeFactory nodeFactory =
           JsonNodeFactory.withExactBigDecimals(false);
 
-  private final static Map<String, JSPropertyFactory> proeprtyFactories =
+  private final static Map<Class, JSValueFactory> valueFactories =
           new HashMap<>();
 
   public static JSFactory getFactory() {
@@ -36,7 +36,7 @@ public class JSFactory {
 
   public JSValue makeValue(final String name,
                               final JsonNode nd) {
-    var typeInfo = JSPropertyAttributes.getTypeInfo(name);
+    var typeInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
 
     final String type;
     if (typeInfo == null) {
@@ -67,32 +67,10 @@ public class JSFactory {
 
   public JSProperty makeProperty(final String name,
                                  final JsonNode nd) {
-    final var typeInfo = JSPropertyAttributes.getTypeInfo(name);
+    //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makeValue(name, nd);
 
-    if (typeInfo == null) {
-      // Use generic class.
-      return new JSPropertyImpl(name, value);
-    }
-
-    final var factoryClass = typeInfo.getFactoryClass();
-
-    if (factoryClass == null) {
-      // Use generic class.
-      return new JSPropertyImpl(name, value);
-    }
-
-    final JSPropertyFactory pfactory;
-    try {
-      pfactory =
-              (JSPropertyFactory)factoryClass
-                      .getConstructor().newInstance();
-    } catch (final Throwable t) {
-      throw new RuntimeException(t);
-    }
-
-    return pfactory.newProperty(name, nd);
-
+    return new JSPropertyImpl(name, value);
   }
 
   public JSValue newValue(final String val) {
@@ -117,7 +95,34 @@ public class JSFactory {
 
   public JSValue newObjectValue(final String type,
                                 final JsonNode node) {
-    return new JSValueImpl(type, node);
+    final var typeInfo = JSPropertyAttributes.getTypeInfo(type);
+
+    if (typeInfo == null) {
+      return new JSValueImpl(type, node);
+    }
+
+    final var factoryClass = typeInfo.getFactoryClass();
+
+    if (factoryClass == null) {
+      // Use generic class.
+      return new JSValueImpl(type, node);
+    }
+
+    JSValueFactory vfactory = valueFactories.get(factoryClass);
+
+    if (vfactory == null) {
+      try {
+        vfactory =
+                (JSValueFactory)factoryClass
+                        .getConstructor().newInstance();
+      } catch (final Throwable t) {
+        throw new RuntimeException(t);
+      }
+
+      valueFactories.put(factoryClass, vfactory);
+    }
+
+    return vfactory.newValue(type, node);
   }
 
   public String getType(final JsonNode nd) {

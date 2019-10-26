@@ -5,7 +5,7 @@ package org.bedework.jsforj.impl.properties;
 
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.model.JSProperty;
-import org.bedework.jsforj.model.JSValue;
+import org.bedework.jsforj.model.values.JSValue;
 
 /**
  * User: mike Date: 10/23/19 Time: 23:36

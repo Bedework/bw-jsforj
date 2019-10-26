@@ -1,0 +1,32 @@
+{
+  "uid": "2a358cee-6489-4f14-a57f-c104db4d5555",
+  "title": "Live from Music Bowl: The Band",
+  "description": "Go see the biggest music event ever!",
+  "locale": "en",
+  "start": "2018-07-04T17:00:00",
+  "timeZone": "America/New_York",
+  "duration": "PT3H",
+  "locations": {
+    "c0503d30-8c50-4372-87b5-7657e8e0fedd": {
+      "@type": "Location",
+      "name": "The Music Bowl",
+      "description": "Music Bowl, Central Park, New York",
+      "coordinates": "geo:40.7829,73.9654"
+    }
+  },
+  "virtualLocations": {
+    "6f3696c6-1e07-47d0-9ce1-f50014b0041a": {
+      "@type": "VirtualLocation",
+      "name": "Free live Stream from Music Bowl",
+      "uri": "https://stream.example.com/the_band_2018"
+    }
+  },
+  "localizations": {
+    "de": {
+      "title": "Live von der Music Bowl: The Band!",
+      "description": "Schau dir das groesste Musikereignis an!",
+      "virtualLocations/6f3696c6-1e07-47d0-9ce1-f50014b0041a/name":
+      "Gratis Live-Stream aus der Music Bowl"
+    }
+  }
+}

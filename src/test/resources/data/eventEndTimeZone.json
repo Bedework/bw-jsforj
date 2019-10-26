@@ -1,0 +1,20 @@
+{
+  "uid": "2a358cee-6489-4f14-a57f-c104db4d3333",
+  "title": "Flight XY51 to Tokyo",
+  "start": "2018-04-01T09:00:00",
+  "timeZone": "Europe/Berlin",
+  "duration": "PT10H30M",
+  "locations": {
+    "2a358cee-6489-4f14-a57f-c104db4dc2f1": {
+      "@type": "Location",
+      "rel": "start",
+      "name": "Frankfurt Airport (FRA)"
+    },
+    "c2c7ac67-dc13-411e-a7d4-0780fb61fb08": {
+      "@type": "Location",
+      "rel": "end",
+      "name": "Narita International Airport (NRT)",
+      "timeZone": "Asia/Tokyo"
+    }
+  }
+}

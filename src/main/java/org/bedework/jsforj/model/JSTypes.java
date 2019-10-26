@@ -17,8 +17,9 @@ public interface JSTypes {
   String typeJSEvent = "jsevent";
   String typeJSGroup = "jsgroup";
   String typeJSTask = "jstask";
-  String typeLocalDateTime = "LocalDateTime";
   String typeLink = "Link";
+  String typeLinks = "Id[Link]";
+  String typeLocalDateTime = "LocalDateTime";
   String typeLocalizations = "String[PatchObject]";
   String typeLocation = "Location";
   String typeLocations = "Id[Location]";
@@ -27,8 +28,8 @@ public interface JSTypes {
   String typeParticipants = "Id[Participant]";
   String typeParticipantProgress = "ParticipantProgress";
   String typePatchObject = "PatchObject";
-  String typeRecurrenceRule = "RecurrenceRule";
   String typeRecurrenceOverrides = "LocalDateTime[PatchObject]";
+  String typeRecurrenceRule = "RecurrenceRule";
   String typeRelation = "Relation";
   String typeRelations = "String[Relation]";
   String typeSignedDuration = "SignedDuration";

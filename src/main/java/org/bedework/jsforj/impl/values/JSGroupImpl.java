@@ -5,10 +5,13 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSGroup;
+import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.model.values.JSEntries;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,8 +19,6 @@ import java.util.List;
  */
 public class JSGroupImpl extends JSCalendarObjectImpl
         implements JSGroup {
-  private List<JSCalendarObject> entries = new ArrayList<>();
-
   public JSGroupImpl(final String type,
                      final JsonNode node) {
     super(type, node);
@@ -25,11 +26,38 @@ public class JSGroupImpl extends JSCalendarObjectImpl
 
   @Override
   public List<JSCalendarObject> getEntries() {
-    return entries;
+    var entsVal = getEntsVal();
+
+    if (entsVal == null) {
+      return Collections.emptyList();
+    }
+
+    return entsVal.getEntries();
   }
 
   @Override
   public void addEntry(final JSCalendarObject val) {
-    entries.add(val);
+    var entsVal = getEntsVal();
+
+    if (entsVal == null) {
+      // Add new property
+      JSProperty entries = factory.makeProperty(JSPropertyNames.entries,
+                                                null);
+      addProperty(entries);
+
+      entsVal = getEntsVal();
+    }
+
+    entsVal.addEntry(val);
+  }
+
+  private JSEntries getEntsVal() {
+    var entries = getProperty(JSPropertyNames.entries);
+
+    if (entries == null) {
+      return null;
+    }
+
+    return (JSEntries)entries.getValue();
   }
 }

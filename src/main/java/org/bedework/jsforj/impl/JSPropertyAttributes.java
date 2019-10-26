@@ -8,6 +8,7 @@ import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
+import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantProgressFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
@@ -445,7 +446,7 @@ public class JSPropertyAttributes {
           true, // propertyList
           types(JSTypes.typeLocation), // elementType
           false, // object
-          JSLocationFactory.class); // factoryClass
+          JSLocationsFactory.class); // factoryClass
 
     type(JSTypes.typeOffsetTrigger,
          false, // valueList

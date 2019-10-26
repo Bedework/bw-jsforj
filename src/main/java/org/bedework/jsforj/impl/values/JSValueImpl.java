@@ -3,18 +3,24 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSPropertyAttributes;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * User: mike Date: 10/24/19 Time: 10:35
  */
 public class JSValueImpl implements JSValue {
+  final static JSFactory factory = JSFactory.getFactory();
+
   private final String type;
   private final JSPropertyAttributes.TypeInfo typeInfo;
 
@@ -68,7 +74,24 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public List<JSProperty> getPropertyList() {
-    return null;
+    if (!node.isObject()) {
+      throw new RuntimeException("Not array value. Type: "
+                                         + type);
+    }
+
+    // Exactly as get properties - except all the elements shoudl have same type
+
+    var props = new ArrayList<JSProperty>();
+    var nd = getNode();
+
+    for (var it = nd.fieldNames(); it.hasNext(); ) {
+      var fieldName = it.next();
+
+      props.add(factory.makeProperty(fieldName,
+                                     node.get(fieldName)));
+    }
+
+    return props;
   }
 
   @Override
@@ -81,7 +104,21 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public List<JSProperty> getProperties() {
-    return null;
+    if (!isObject()) {
+      return Collections.emptyList();
+    }
+
+    var props = new ArrayList<JSProperty>();
+    var nd = getNode();
+
+    for (var it = nd.fieldNames(); it.hasNext(); ) {
+      var fieldName = it.next();
+
+      props.add(factory.makeProperty(fieldName,
+                                     node.get(fieldName)));
+    }
+
+    return props;
   }
 
   @Override
@@ -90,7 +127,24 @@ public class JSValueImpl implements JSValue {
       throw new RuntimeException("Not Object value. Trying to add : "
                                          + name);
     }
-    return null;
+
+    var pnode = node.get(name);
+
+    if (pnode == null) {
+      return null;
+    }
+
+    return factory.makeProperty(name, pnode);
+  }
+
+  @Override
+  public void removeProperty(final String name) {
+    if (!node.isObject()) {
+      throw new RuntimeException("Not Object value. Trying to remove : "
+                                         + name);
+    }
+
+    ((ObjectNode)node).remove(name);
   }
 
   @Override
@@ -98,6 +152,18 @@ public class JSValueImpl implements JSValue {
     if (!node.isObject()) {
       throw new RuntimeException("Not Object value");
     }
+
+    var name = val.getName();
+    if (node.get(name) != null) {
+      throw new RuntimeException("Property " + name + "already present");
+    }
+    var value = (JSValueImpl)val.getValue();
+    ((ObjectNode)node).set(name, value.getNode());
+  }
+
+  @Override
+  public boolean isString() {
+    return node.isTextual();
   }
 
   @Override

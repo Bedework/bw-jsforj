@@ -4,8 +4,13 @@
 package org.bedework.jsforj.test;
 
 import org.bedework.jsforj.impl.JSMapper;
+import org.bedework.jsforj.model.JSCalendarObject;
+import org.bedework.jsforj.model.JSGroup;
+import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.values.JSValue;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,13 +21,14 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * User: mike Date: 10/25/19 Time: 16:39
  */
 public class JsForJTest {
   private final static String dataPath =
-          "/Users/mike/bedework/quickstart-dev/bw-jsforj/src/test/resources/data";
+          "/Users/mike/bedework/quickstart-dev/bw-jsforj/src/test/resources/data/";
   private String glob;
 
   protected Iterator<Path> files;
@@ -68,14 +74,59 @@ public class JsForJTest {
 
         final JSMapper mapper = new JSMapper();
 
-        mapper.parse(new FileReader(f));
+        final JSCalendarObject obj = mapper.parse(new FileReader(f));
+
+        dumpProperties(obj, "  ");
       }
     } catch (final Throwable t) {
-      throw new RuntimeException(t);
+      t.printStackTrace();
+      Assert.fail(t.getMessage());
+    }
+  }
+
+  @Test
+  public void testSimpleGroup() {
+    try {
+      final File jsonGroup = new File(dataPath + "simpleGroup.json");
+      final JSMapper mapper = new JSMapper();
+
+      var obj = mapper.parse(new FileReader(jsonGroup));
+
+      Assert.assertTrue("Not JSGroup", obj instanceof JSGroup);
+
+      var group = (JSGroup)obj;
+
+      var entries = group.getEntries();
+      Assert.assertTrue("Not 2 entries", entries.size() == 2);
+    } catch (final Throwable t) {
+      t.printStackTrace();
+      Assert.fail(t.getMessage());
     }
   }
 
   private void info(final String msg) {
     System.out.println(msg);
+  }
+
+  private void dumpProperties(final JSValue value,
+                              final String indent) {
+    final List<JSProperty> props;
+
+    if (value.isObject()) {
+      props = value.getProperties();
+    } else if (value.isPropertyList()) {
+      props = value.getPropertyList();
+    } else {
+      return;
+    }
+
+    for (final var prop: props) {
+      info(indent + prop.getName() + ": " + prop.getType());
+
+      var pval = prop.getValue();
+      if (pval.isObject() || pval.isPropertyList()) {
+        dumpProperties(pval, indent + "  ");
+      }
+    }
   }
 }

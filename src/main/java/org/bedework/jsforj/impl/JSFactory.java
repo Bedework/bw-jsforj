@@ -4,9 +4,16 @@
 package org.bedework.jsforj.impl;
 
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
+import org.bedework.jsforj.impl.values.JSEventImpl;
+import org.bedework.jsforj.impl.values.JSGroupImpl;
+import org.bedework.jsforj.impl.values.JSTaskImpl;
 import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.model.JSCalendarObject;
+import org.bedework.jsforj.model.JSEvent;
+import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.model.JSTask;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 
@@ -34,13 +41,34 @@ public class JSFactory {
     return factory;
   }
 
-  public JSValue makeValue(final String name,
-                              final JsonNode nd) {
-    var typeInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
+  public JSCalendarObject makeCalObj(final JsonNode nd) {
+    if (!nd.isObject()) {
+      throw new RuntimeException("Not a calendar object");
+    }
+
+    final String type = factory.getType(nd);
+
+    switch (type) {
+      case JSTypes.typeJSEvent:
+        return parseEvent(nd);
+      case JSTypes.typeJSTask:
+        return parseTask(nd);
+      case JSTypes.typeJSGroup:
+        return parseGroup(nd);
+      default:
+        throw new RuntimeException(
+                "Unknown or unsupported type: " +
+                        type);
+    }
+  }
+
+  public JSValue makePropertyValue(final String propertyName,
+                                   final JsonNode nd) {
+    var typeInfo = JSPropertyAttributes.getPropertyTypeInfo(propertyName);
 
     final String type;
     if (typeInfo == null) {
-      if (!nd.isObject()) {
+      if ((nd == null) || (!nd.isObject())) {
         type = JSTypes.typeUnknown;
       } else {
         type = getType(nd);
@@ -62,18 +90,18 @@ public class JSFactory {
       }
     }
 
-    return newObjectValue(type, nd);
+    return newValue(type, nd);
   }
 
-  public JSProperty makeProperty(final String name,
+  public JSProperty makeProperty(final String propertyName,
                                  final JsonNode nd) {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
-    final var value = makeValue(name, nd);
+    final var value = makePropertyValue(propertyName, nd);
 
-    return new JSPropertyImpl(name, value);
+    return new JSPropertyImpl(propertyName, value);
   }
 
-  public JSValue newValue(final String val) {
+  public JSValue newStringValue(final String val) {
     return new JSValueImpl(JSTypes.typeString,
                            nodeFactory.textNode(val));
   }
@@ -89,12 +117,12 @@ public class JSFactory {
     return new JSValueImpl(type, nd);
   }
 
-  public JSValue newObjectValue(final String type) {
-    return new JSValueImpl(type, nodeFactory.objectNode());
+  public JSValue newValue(final String type) {
+    return newValue(type, (JsonNode)null);
   }
 
-  public JSValue newObjectValue(final String type,
-                                final JsonNode node) {
+  public JSValue newValue(final String type,
+                          final JsonNode node) {
     final var typeInfo = JSPropertyAttributes.getTypeInfo(type);
 
     if (typeInfo == null) {
@@ -137,5 +165,44 @@ public class JSFactory {
     }
 
     return typeNode.asText();
+  }
+
+  private JSEvent parseEvent(final JsonNode nd) {
+    final JSEventImpl ent = new JSEventImpl(JSTypes.typeJSEvent,
+                                            nd);
+
+    //parseProperties(ent, nd);
+
+    return ent;
+  }
+
+  private JSTask parseTask(final JsonNode nd) {
+    final JSTaskImpl ent = new JSTaskImpl(JSTypes.typeJSTask,
+                                          nd);
+
+    //parseProperties(ent, nd);
+
+    return ent;
+  }
+
+  private JSGroup parseGroup(final JsonNode nd) {
+    final JSGroupImpl ent = new JSGroupImpl(JSTypes.typeJSGroup,
+                                            nd);
+
+    //parseProperties(ent, nd);
+
+    return ent;
+  }
+
+  void parseProperties(final JSValue val,
+                       final JsonNode nd) {
+    for (var it = nd.fieldNames(); it.hasNext(); ) {
+      var fieldName = it.next();
+
+      //TODO - check validity?
+
+      JsonNode fldNode = nd.findValue(fieldName);
+      val.addProperty(factory.makeProperty(fieldName, fldNode));
+    }
   }
 }

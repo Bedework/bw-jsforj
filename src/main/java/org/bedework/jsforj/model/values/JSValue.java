@@ -81,12 +81,24 @@ public interface JSValue {
    */
   JSProperty getProperty(String name);
 
+  /** Remove named property
+   *
+   * @throws RuntimeException if not an object
+   */
+  void removeProperty(String name);
+
   /**
    *
    * @param val the property - non null
    * @throws RuntimeException if not an object or property already exists
    */
   void addProperty(JSProperty val);
+
+  /**
+   *
+   * @return true if this is a string
+   */
+  boolean isString();
 
   /** Returns value as a String.
    *

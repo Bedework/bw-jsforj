@@ -33,11 +33,11 @@ public class JSValueImpl implements JSValue {
     this.type = type;
     this.node = node;
     typeInfo = JSPropertyAttributes.getTypeInfo(type);
-    if (typeInfo == null) {
-      throw new RuntimeException("Null value typeInfo for type"
-                                         + type
-                                         + " and node " + node);
-    }
+//    if (typeInfo == null) {
+//      throw new RuntimeException("Null value typeInfo for type"
+//                                         + type
+//                                         + " and node " + node);
+//    }
   }
 
   @Override
@@ -47,6 +47,9 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public boolean isValueList() {
+    if (typeInfo == null) {
+      return node.isArray();
+    }
     return typeInfo.getValueList();
   }
 
@@ -57,6 +60,9 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public boolean isPropertyList() {
+    if (typeInfo == null) {
+      return node.isArray();
+    }
     return typeInfo.getPropertyList();
   }
 
@@ -67,6 +73,9 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public boolean isObject() {
+    if (typeInfo == null) {
+      return node.isObject();
+    }
     return typeInfo.getObject();
   }
 

@@ -200,6 +200,9 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.links,
           JSTypes.typeLinks);
 
+    ptype(JSPropertyNames.locale,
+          JSTypes.typeString);
+
     ptype(JSPropertyNames.localizations,
           JSTypes.typeLocalizations);
 

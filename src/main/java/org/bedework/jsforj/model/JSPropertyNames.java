@@ -51,6 +51,8 @@ public interface JSPropertyNames {
   //                                   JSTask
   String linkIds = "linkIds";     //  Id[Boolean]    Valid for: Location,
   //                                   Participant
+  String locale = "locale";         //  Id[Link]    Valid for: JSEvent,
+  //                                   JSTask
   String localizations = "localizations";//  String[PatchObject]   Valid for: JSEvent,
   //                                   JSTask
   String locationId = "locationId";  //  String    Valid for: Participant

@@ -129,7 +129,7 @@ public class JSFactory {
     final JsonNode typeNode = nd.get(JSPropertyNames.type);
 
     if (typeNode == null) {
-      throw new RuntimeException("No @type for calendar object");
+      throw new RuntimeException("No @type for calendar object: " + nd);
     }
 
     if (!typeNode.isTextual()) {

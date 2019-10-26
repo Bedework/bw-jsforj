@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl;
 
 import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
+import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
@@ -367,7 +368,7 @@ public class JSPropertyAttributes {
           true, // propertyList
           types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
           false, // object
-          JSCalendarObjectFactory.class); // factoryClass
+          JSEntriesFactory.class); // factoryClass
 
     type(JSTypes.typeId,
          false, // valueList

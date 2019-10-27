@@ -14,9 +14,12 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JSAlertFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    return new JSAlertImpl(name,
-                           nd);
+    if (nd != null) {
+      return new JSAlertImpl(typeName, nd);
+    }
+
+    return new JSAlertImpl(typeName, newObject(typeName));
   }
 }

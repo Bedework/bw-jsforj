@@ -2,6 +2,8 @@ package org.bedework.jsforj.model.values;
 
 import org.bedework.jsforj.model.JSProperty;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
 
 /**
@@ -90,9 +92,27 @@ public interface JSValue {
   /**
    *
    * @param val the property - non null
+   * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  void addProperty(JSProperty val);
+  JSProperty addProperty(JSProperty val);
+
+  /** Add a string type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   * @throws RuntimeException if not an object or property already exists
+   */
+  JSProperty addProperty(final String name, final String val);
+
+  /** Returns value of named String property.
+   *
+   * @param name the property name - non null
+   * @return the value of the property
+   * @throws RuntimeException if not a String property
+   */
+  String getStringProperty(String name);
 
   /**
    *
@@ -107,4 +127,17 @@ public interface JSValue {
    */
   String getStringValue();
 
+  /** Convert to json with this as root
+   *
+   * @param mapper to convert
+   * @return Json
+   */
+  String writeValueAsString(ObjectMapper mapper);
+
+  /** Convert to formatted json with this as root
+   *
+   * @param mapper to convert
+   * @return Json
+   */
+  String writeValueAsStringFormatted(ObjectMapper mapper);
 }

@@ -58,6 +58,7 @@ public interface JSPropertyNames {
   String locationId = "locationId";  //  String    Valid for: Participant
   String locations = "locations";   //  Id[Location]   Valid for: JSEvent,
   //                                   JSTask
+  String locationType = "locationType";  //  String    Valid for: Locations
   String memberOf = "memberOf";    //  String[Boolean]Valid for: Participant
   String method = "method";      //  String    Valid for: JSEvent,
   //                                   JSTask

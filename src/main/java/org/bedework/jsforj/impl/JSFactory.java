@@ -20,6 +20,8 @@ import org.bedework.jsforj.model.values.JSValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -93,11 +95,33 @@ public class JSFactory {
     return newValue(type, nd);
   }
 
+  /** Create a string property
+   *
+   * @param propertyName of property
+   * @param value String
+   * @return the property
+   */
+  public JSProperty makeProperty(final String propertyName,
+                                 final String value) {
+    var node = new TextNode(value);
+
+    return makeProperty(propertyName, node);
+  }
+
+  public JSProperty makeProperty(final String propertyName) {
+    return makeProperty(propertyName, (JsonNode)null);
+  }
+
   public JSProperty makeProperty(final String propertyName,
                                  final JsonNode nd) {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makePropertyValue(propertyName, nd);
 
+    return new JSPropertyImpl(propertyName, value);
+  }
+
+  public JSProperty makeProperty(final String propertyName,
+                                 final JSValue value) {
     return new JSPropertyImpl(propertyName, value);
   }
 
@@ -124,16 +148,31 @@ public class JSFactory {
   public JSValue newValue(final String type,
                           final JsonNode node) {
     final var typeInfo = JSPropertyAttributes.getTypeInfo(type);
+    var theNode = node;
 
     if (typeInfo == null) {
-      return new JSValueImpl(type, node);
+      if (theNode == null) {
+        theNode = new ObjectNode(JsonNodeFactory.instance);
+      }
+      return new JSValueImpl(type, theNode);
     }
 
     final var factoryClass = typeInfo.getFactoryClass();
 
+    if (theNode == null) {
+      if (typeInfo.getObject() || typeInfo.getPropertyList()) {
+        theNode = new ObjectNode(JsonNodeFactory.instance);
+      } else if (typeInfo.getValueList()) {
+        theNode = new ArrayNode(JsonNodeFactory.instance);
+      }
+    }
+
     if (factoryClass == null) {
       // Use generic class.
-      return new JSValueImpl(type, node);
+      if (theNode == null) {
+        theNode = new ObjectNode(JsonNodeFactory.instance);
+      }
+      return new JSValueImpl(type, theNode);
     }
 
     JSValueFactory vfactory = valueFactories.get(factoryClass);
@@ -192,17 +231,5 @@ public class JSFactory {
     //parseProperties(ent, nd);
 
     return ent;
-  }
-
-  void parseProperties(final JSValue val,
-                       final JsonNode nd) {
-    for (var it = nd.fieldNames(); it.hasNext(); ) {
-      var fieldName = it.next();
-
-      //TODO - check validity?
-
-      JsonNode fldNode = nd.findValue(fieldName);
-      val.addProperty(factory.makeProperty(fieldName, fldNode));
-    }
   }
 }

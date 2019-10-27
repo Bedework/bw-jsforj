@@ -4,6 +4,7 @@
 package org.bedework.jsforj.impl.values.factories;
 
 import org.bedework.jsforj.impl.values.JSEventImpl;
+import org.bedework.jsforj.impl.values.JSGroupImpl;
 import org.bedework.jsforj.impl.values.JSTaskImpl;
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
 import org.bedework.jsforj.impl.values.JSValueImpl;
@@ -17,19 +18,26 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JSCalendarObjectFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    final String type = factory.getType(nd);
+    var theNode = nd;
 
-    switch (type) {
+    if (nd == null) {
+      theNode = newObject(typeName);
+    }
+
+    switch (typeName) {
       case JSTypes.typeJSEvent:
-        return new JSEventImpl(name, nd);
+        return new JSEventImpl(typeName, theNode);
 
       case JSTypes.typeJSTask:
-        return new JSTaskImpl(name, nd);
+        return new JSTaskImpl(typeName, theNode);
+
+      case JSTypes.typeJSGroup:
+        return new JSGroupImpl(typeName, theNode);
 
       default:
-        return new JSValueImpl(name, nd);
+        return new JSValueImpl(typeName, theNode);
     }
   }
 }

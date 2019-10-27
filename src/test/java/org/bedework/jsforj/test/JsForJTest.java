@@ -3,10 +3,16 @@
 */
 package org.bedework.jsforj.test;
 
+import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.model.JSCalendarObject;
+import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.model.JSTypes;
+import org.bedework.jsforj.model.values.JSLocation;
+import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSValue;
 
 import org.junit.AfterClass;
@@ -22,13 +28,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * User: mike Date: 10/25/19 Time: 16:39
  */
 public class JsForJTest {
+  final static JSFactory factory = JSFactory.getFactory();
+
   private final static String dataPath =
           "/Users/mike/bedework/quickstart-dev/bw-jsforj/src/test/resources/data/";
+
+  private static final JSMapper mapper = new JSMapper();
+
   private String glob;
 
   protected Iterator<Path> files;
@@ -72,8 +84,6 @@ public class JsForJTest {
           continue;
         }
 
-        final JSMapper mapper = new JSMapper();
-
         final JSCalendarObject obj = mapper.parse(new FileReader(f));
 
         dumpProperties(obj, "  ");
@@ -88,7 +98,6 @@ public class JsForJTest {
   public void testSimpleGroup() {
     try {
       final File jsonGroup = new File(dataPath + "simpleGroup.json");
-      final JSMapper mapper = new JSMapper();
 
       var obj = mapper.parse(new FileReader(jsonGroup));
 
@@ -97,7 +106,45 @@ public class JsForJTest {
       var group = (JSGroup)obj;
 
       var entries = group.getEntries();
-      Assert.assertTrue("Not 2 entries", entries.size() == 2);
+      Assert.assertEquals("Not 2 entries", 2, entries.size());
+    } catch (final Throwable t) {
+      t.printStackTrace();
+      Assert.fail(t.getMessage());
+    }
+  }
+
+  @Test
+  public void testBuildEvent() {
+    try {
+      final var event = factory.newValue(JSTypes.typeJSEvent);
+
+      Assert.assertTrue("Not JSEvent", event instanceof JSEvent);
+
+      event.addProperty(factory.makeProperty(JSPropertyNames.uid,
+                                             UUID.randomUUID().toString()));
+
+      var locations = event.addProperty(
+              factory.makeProperty(JSPropertyNames.locations));
+
+      JSLocation loc = (JSLocation)factory.newValue(JSTypes.typeLocation);
+      var uid = UUID.randomUUID().toString();
+
+      loc.setName("My new location");
+      //loc.addProperty(factory.makeProperty(JSPropertyNames.locationType,
+      //                                     "airport"));
+      loc.setCoordinates("geo:40.7654,73.9876");
+
+      locations.getValue().addProperty(factory.makeProperty(uid, loc));
+
+      var participants = event.addProperty(
+              factory.makeProperty(JSPropertyNames.participants));
+
+      JSParticipant part =
+              (JSParticipant)factory.newValue(JSTypes.typeParticipant);
+
+      info("Dump of created event");
+      dumpProperties(event, "  ");
+      info(event.writeValueAsStringFormatted(mapper));
     } catch (final Throwable t) {
       t.printStackTrace();
       Assert.fail(t.getMessage());

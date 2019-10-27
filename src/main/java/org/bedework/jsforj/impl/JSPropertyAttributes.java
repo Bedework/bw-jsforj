@@ -11,6 +11,7 @@ import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantProgressFactory;
+import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
@@ -81,6 +82,14 @@ public class JSPropertyAttributes {
 
     public boolean getPropertyList() {
       return propertyList;
+    }
+
+    public boolean getBoolean() {
+      return name.equals(JSTypes.typeBoolean);
+    }
+
+    public boolean getString() {
+      return name.equals(JSTypes.typeString);
     }
 
     public String[] getElementType() {
@@ -213,6 +222,9 @@ public class JSPropertyAttributes {
 
     ptype(JSPropertyNames.locations,
           JSTypes.typeLocations);
+
+    ptype(JSPropertyNames.locationType,
+          JSTypes.typeString);
 
     ptype(JSPropertyNames.memberOf,
           JSTypes.typeStrings);
@@ -474,7 +486,7 @@ public class JSPropertyAttributes {
           true, // propertyList
           types(JSTypes.typeParticipant), // elementType
           false, // object
-          JSParticipantFactory.class); // factoryClass
+          JSParticipantsFactory.class); // factoryClass
 
     type(JSTypes.typePatchObject,
          false, // valueList

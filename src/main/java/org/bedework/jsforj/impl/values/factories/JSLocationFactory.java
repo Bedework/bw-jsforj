@@ -14,9 +14,12 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JSLocationFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    return new JSLocationImpl(name,
-                              nd);
+    if (nd != null) {
+      return new JSLocationImpl(typeName, nd);
+    }
+
+    return new JSLocationImpl(typeName, newObject(typeName));
   }
 }

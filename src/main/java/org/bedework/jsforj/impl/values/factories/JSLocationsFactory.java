@@ -8,15 +8,21 @@ import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * User: mike Date: 10/25/19 Time: 14:59
  */
 public class JSLocationsFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    return new JSValueImpl(name,
-                           nd);
+    if (nd != null) {
+      return new JSValueImpl(typeName, nd);
+    }
+
+    return new JSValueImpl(typeName,
+                           new ObjectNode(JsonNodeFactory.instance));
   }
 }

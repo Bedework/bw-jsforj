@@ -42,7 +42,7 @@ public class JSGroupImpl extends JSCalendarObjectImpl
     if (entsVal == null) {
       // Add new property
       JSProperty entries = factory.makeProperty(JSPropertyNames.entries,
-                                                null);
+                                                (JsonNode)null);
       addProperty(entries);
 
       entsVal = getEntsVal();

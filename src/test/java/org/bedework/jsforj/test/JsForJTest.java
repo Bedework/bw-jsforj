@@ -141,6 +141,15 @@ public class JsForJTest {
 
       JSParticipant part =
               (JSParticipant)factory.newValue(JSTypes.typeParticipant);
+      uid = UUID.randomUUID().toString();
+
+      part.setName("Turkey Lurkey");
+      part.setEmail("tlurkey@turkeys.example.com");
+      part.setKind("turkey");
+      part.setLanguage("gobble");
+      part.setInvitedBy("thechicken@chickens.example.com");
+
+      participants.getValue().addProperty(factory.makeProperty(uid, part));
 
       info("Dump of created event");
       dumpProperties(event, "  ");

@@ -4,9 +4,12 @@
 package org.bedework.jsforj.impl;
 
 import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
+import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
+import org.bedework.jsforj.impl.values.factories.JSIdsFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
+import org.bedework.jsforj.impl.values.factories.JSLinksFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
@@ -14,6 +17,7 @@ import org.bedework.jsforj.impl.values.factories.JSParticipantProgressFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
+import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
@@ -356,11 +360,11 @@ public class JSPropertyAttributes {
          JSAlertFactory.class); // factoryClass
 
     type(JSTypes.typeAlerts,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typeAlert), // elementType
-          false, // object
-          JSAlertFactory.class); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeAlert), // elementType
+         false, // object
+         JSAlertsFactory.class); // factoryClass
 
     type(JSTypes.typeBoolean,
          false, // valueList
@@ -370,18 +374,18 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeDuration,
-          false, // valueList
-          false, // propertyList
-          null, // elementType
-          false, // object
-          null); // factoryClass
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         false, // object
+         null); // factoryClass
 
     type(JSTypes.typeEntries,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
-          false, // object
-          JSEntriesFactory.class); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
+         false, // object
+         JSEntriesFactory.class); // factoryClass
 
     type(JSTypes.typeId,
          false, // valueList
@@ -391,11 +395,11 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeIds,
-          true, // valueList
-          false, // propertyList
-          types(JSTypes.typeId), // elementType
-          false, // object
-          null); // factoryClass
+         true, // valueList
+         false, // propertyList
+         types(JSTypes.typeId), // elementType
+         false, // object
+         JSIdsFactory.class); // factoryClass
 
     type(JSTypes.typeInt,
          false, // valueList
@@ -430,7 +434,7 @@ public class JSPropertyAttributes {
          true, // propertyList
          types(JSTypes.typeLink), // elementType
          false, // object
-         null); // factoryClass
+         JSLinksFactory.class); // factoryClass
 
     type(JSTypes.typeLocalDateTime,
          false, // valueList
@@ -440,11 +444,11 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeLocalizations,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typePatchObject), // elementType
-          false, // object
-          null); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typePatchObject), // elementType
+         false, // object
+         null); // factoryClass
 
     type(JSTypes.typeLocation,
          false, // valueList
@@ -454,11 +458,11 @@ public class JSPropertyAttributes {
          JSLocationFactory.class); // factoryClass
 
     type(JSTypes.typeLocations,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typeLocation), // elementType
-          false, // object
-          JSLocationsFactory.class); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeLocation), // elementType
+         false, // object
+         JSLocationsFactory.class); // factoryClass
 
     type(JSTypes.typeOffsetTrigger,
          false, // valueList
@@ -482,11 +486,11 @@ public class JSPropertyAttributes {
          JSParticipantProgressFactory.class); // factoryClass
 
     type(JSTypes.typeParticipants,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typeParticipant), // elementType
-          false, // object
-          JSParticipantsFactory.class); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeParticipant), // elementType
+         false, // object
+         JSParticipantsFactory.class); // factoryClass
 
     type(JSTypes.typePatchObject,
          false, // valueList
@@ -496,18 +500,18 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeRecurrenceOverrides,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typePatchObject), // elementType
-          false, // object
-          null); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typePatchObject), // elementType
+         false, // object
+         null); // factoryClass
 
     type(JSTypes.typeRecurrenceRule,
-          false, // valueList
-          false, // propertyList
-          null, // elementType
-          true, // object
-          JSRecurrenceRuleFactory.class); // factoryClass
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         true, // object
+         JSRecurrenceRuleFactory.class); // factoryClass
 
     type(JSTypes.typeRelation,
          false, // valueList
@@ -517,11 +521,11 @@ public class JSPropertyAttributes {
          JSRelationFactory.class); // factoryClass
 
     type(JSTypes.typeRelations,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typeRelation), // elementType
-          false, // object
-          JSRelationFactory.class); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeRelation), // elementType
+         false, // object
+         JSRelationsFactory.class); // factoryClass
 
     type(JSTypes.typeSignedDuration,
          false, // valueList
@@ -545,11 +549,11 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeStringStrings,
-          true, // valueList
-          false, // propertyList
-          types(JSTypes.typeString), // elementType
-          false, // object
-          null); // factoryClass
+         true, // valueList
+         false, // propertyList
+         types(JSTypes.typeString), // elementType
+         false, // object
+         null); // factoryClass
 
     type(JSTypes.typeTimeZone,
          false, // valueList
@@ -580,18 +584,18 @@ public class JSPropertyAttributes {
          JSTriggerFactory.class); // factoryClass
 
     type(JSTypes.typeUnsignedInt,
-          false, // valueList
-          false, // propertyList
-          null, // elementType
-          false, // object
-          null); // factoryClass
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         false, // object
+         null); // factoryClass
 
     type(JSTypes.typeUTCDateTime,
-          false, // valueList
-          false, // propertyList
-          null, // elementType
-          false, // object
-          null); // factoryClass
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         false, // object
+         null); // factoryClass
 
     type(JSTypes.typeAbsoluteTrigger,
          false, // valueList
@@ -608,11 +612,11 @@ public class JSPropertyAttributes {
          JSVirtualLocationFactory.class); // factoryClass
 
     type(JSTypes.typeVirtualLocations,
-          false, // valueList
-          true, // propertyList
-          types(JSTypes.typeVirtualLocation), // elementType
-          false, // object
-          JSVirtualLocationFactory.class); // factoryClass
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeVirtualLocation), // elementType
+         false, // object
+         JSVirtualLocationFactory.class); // factoryClass
 
     /* ===== valid for ============================== */
 
@@ -758,7 +762,7 @@ public class JSPropertyAttributes {
                            final boolean object,
                            final Class<? extends JSValueFactory> factoryClass) {
     types.put(typeName, new TypeInfo(typeName, valueList, propertyList,
-                                      elementType, object, factoryClass));
+                                     elementType, object, factoryClass));
   }
 
   private static void validFor(final String name,
@@ -771,7 +775,7 @@ public class JSPropertyAttributes {
       contained.add(name);
     }
   }
-  
+
   private static String[] types(final String... types) {
     return types;
   }

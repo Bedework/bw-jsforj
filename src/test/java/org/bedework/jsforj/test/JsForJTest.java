@@ -11,6 +11,7 @@ import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
+import org.bedework.jsforj.model.values.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSValue;
@@ -130,8 +131,8 @@ public class JsForJTest {
       var uid = UUID.randomUUID().toString();
 
       loc.setName("My new location");
-      //loc.addProperty(factory.makeProperty(JSPropertyNames.locationType,
-      //                                     "airport"));
+      JSList<String> loctypes = loc.getLocationTypes();
+      loctypes.add("airport");
       loc.setCoordinates("geo:40.7654,73.9876");
 
       locations.getValue().addProperty(factory.makeProperty(uid, loc));

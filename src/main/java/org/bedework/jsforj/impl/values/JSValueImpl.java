@@ -76,10 +76,7 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public List<JSProperty> getPropertyList() {
-    if (!node.isObject()) {
-      throw new RuntimeException("Not array value. Type: "
-                                         + type);
-    }
+    assertObject("getPropertyList");
 
     // Exactly as get properties - except all the elements should have
     // constrained types
@@ -126,10 +123,7 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public JSProperty getProperty(final String name) {
-    if (!node.isObject()) {
-      throw new RuntimeException("Not Object value. Trying to add : "
-                                         + name);
-    }
+    assertObject("getProperty");
 
     var pnode = node.get(name);
 
@@ -142,19 +136,14 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public void removeProperty(final String name) {
-    if (!node.isObject()) {
-      throw new RuntimeException("Not Object value. Trying to remove : "
-                                         + name);
-    }
+    assertObject("removeProperty");
 
     ((ObjectNode)node).remove(name);
   }
 
   @Override
   public JSProperty addProperty(final JSProperty val) {
-    if (!node.isObject()) {
-      throw new RuntimeException("Not Object value");
-    }
+    assertObject("addProperty");
 
     var name = val.getName();
     if (node.get(name) != null) {
@@ -216,5 +205,18 @@ public class JSValueImpl implements JSValue {
 
   public JsonNode getNode() {
     return node;
+  }
+
+  protected void assertObject(final String action) {
+    if (node.isObject()) {
+      return;
+    }
+    if (action == null) {
+      throw new RuntimeException("Not object value. Type: "
+                                         + type);
+    }
+
+    throw new RuntimeException("Not object value. Type: "
+                                       + type + " action: " + action);
   }
 }

@@ -24,6 +24,9 @@ public interface JSLocation extends JSValue {
 
   String getCoordinates();
 
-  // locationTypes: "String[Boolean]"
+  void setLocationTypes(JSList<String> val);
+
+  JSList<String> getLocationTypes();
+
   // linkIds: "Id[Boolean]"
 }

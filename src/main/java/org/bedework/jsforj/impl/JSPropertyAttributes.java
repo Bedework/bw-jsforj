@@ -7,9 +7,7 @@ import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
-import org.bedework.jsforj.impl.values.factories.JSIdsFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
-import org.bedework.jsforj.impl.values.factories.JSLinksFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
@@ -18,6 +16,7 @@ import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
+import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
@@ -228,7 +227,7 @@ public class JSPropertyAttributes {
           JSTypes.typeLocations);
 
     ptype(JSPropertyNames.locationType,
-          JSTypes.typeString);
+          JSTypes.typeStrings);
 
     ptype(JSPropertyNames.memberOf,
           JSTypes.typeStrings);
@@ -399,7 +398,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          types(JSTypes.typeId), // elementType
          false, // object
-         JSIdsFactory.class); // factoryClass
+         JSStringListFactory.class); // factoryClass
 
     type(JSTypes.typeInt,
          false, // valueList
@@ -434,7 +433,7 @@ public class JSPropertyAttributes {
          true, // propertyList
          types(JSTypes.typeLink), // elementType
          false, // object
-         JSLinksFactory.class); // factoryClass
+         JSStringListFactory.class); // factoryClass
 
     type(JSTypes.typeLocalDateTime,
          false, // valueList
@@ -546,7 +545,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          types(JSTypes.typeString), // elementType
          false, // object
-         null); // factoryClass
+         JSStringListFactory.class); // factoryClass
 
     type(JSTypes.typeStringStrings,
          true, // valueList

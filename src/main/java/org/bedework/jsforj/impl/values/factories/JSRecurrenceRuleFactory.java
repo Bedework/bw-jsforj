@@ -14,9 +14,12 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JSRecurrenceRuleFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    return new JSRecurrenceRuleImpl(name,
-                                    nd);
+    if (nd != null) {
+      return new JSRecurrenceRuleImpl(typeName, nd);
+    }
+
+    return new JSRecurrenceRuleImpl(typeName, newObject(typeName));
   }
 }

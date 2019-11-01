@@ -8,14 +8,15 @@ import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
+import org.bedework.jsforj.impl.values.factories.JSLocalDateTimeFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
-import org.bedework.jsforj.impl.values.factories.JSParticipantProgressFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
+import org.bedework.jsforj.impl.values.factories.JSStringArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
@@ -136,6 +137,33 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.alerts,
           JSTypes.typeAlerts);
 
+    ptype(JSPropertyNames.byDay,
+          JSTypes.typeNDayArray);
+
+    ptype(JSPropertyNames.byHour,
+          JSTypes.typeUnsignedIntArray);
+
+    ptype(JSPropertyNames.byMinute,
+          JSTypes.typeUnsignedIntArray);
+
+    ptype(JSPropertyNames.byMonth,
+          JSTypes.typeStringArray);
+
+    ptype(JSPropertyNames.byMonthDay,
+          JSTypes.typeIntArray);
+
+    ptype(JSPropertyNames.bySecond,
+          JSTypes.typeUnsignedIntArray);
+
+    ptype(JSPropertyNames.bySetPosition,
+          JSTypes.typeIntArray);
+
+    ptype(JSPropertyNames.byWeekNo,
+          JSTypes.typeIntArray);
+
+    ptype(JSPropertyNames.byYearDay,
+          JSTypes.typeIntArray);
+
     ptype(JSPropertyNames.categories,
           JSTypes.typeStrings);
 
@@ -150,6 +178,9 @@ public class JSPropertyAttributes {
 
     ptype(JSPropertyNames.coordinates,
           JSTypes.typeString);
+
+    ptype(JSPropertyNames.count,
+          JSTypes.typeUnsignedInt);
 
     ptype(JSPropertyNames.created,
           JSTypes.typeUTCDateTime);
@@ -190,11 +221,20 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.expectReply,
           JSTypes.typeBoolean);
 
+    ptype(JSPropertyNames.firstDayOfWeek,
+          JSTypes.typeString);
+
     ptype(JSPropertyNames.freeBusyStatus,
+          JSTypes.typeString);
+
+    ptype(JSPropertyNames.frequency,
           JSTypes.typeString);
 
     ptype(JSPropertyNames.href,
           JSTypes.typeString);
+
+    ptype(JSPropertyNames.interval,
+          JSTypes.typeUnsignedInt);
 
     ptype(JSPropertyNames.invitedBy,
           JSTypes.typeString);
@@ -226,7 +266,7 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.locations,
           JSTypes.typeLocations);
 
-    ptype(JSPropertyNames.locationType,
+    ptype(JSPropertyNames.locationTypes,
           JSTypes.typeStrings);
 
     ptype(JSPropertyNames.memberOf,
@@ -259,6 +299,12 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.prodId,
           JSTypes.typeString);
 
+    ptype(JSPropertyNames.progress,
+          JSTypes.typeString);
+
+    ptype(JSPropertyNames.progressUpdated,
+          JSTypes.typeUTCDateTime);
+
     ptype(JSPropertyNames.recurrenceId,
           JSTypes.typeLocalDateTime);
 
@@ -286,6 +332,9 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.roles,
           JSTypes.typeStrings);
 
+    ptype(JSPropertyNames.rscale,
+          JSTypes.typeStrings);
+
     ptype(JSPropertyNames.scheduleAgent,
           JSTypes.typeString);
 
@@ -307,6 +356,9 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.size,
           JSTypes.typeUnsignedInt);
 
+    ptype(JSPropertyNames.skip,
+          JSTypes.typeString);
+
     ptype(JSPropertyNames.start,
           JSTypes.typeLocalDateTime);
 
@@ -317,9 +369,6 @@ public class JSPropertyAttributes {
           JSTypes.typeString);
 
     ptype(JSPropertyNames.statusUpdatedAt,
-          JSTypes.typeUTCDateTime);
-
-    ptype(JSPropertyNames.timestamp,
           JSTypes.typeUTCDateTime);
 
     ptype(JSPropertyNames.timeZone,
@@ -337,8 +386,14 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.uid,
           JSTypes.typeString);
 
+    ptype(JSPropertyNames.until,
+          JSTypes.typeLocalDateTime);
+
     ptype(JSPropertyNames.updated,
           JSTypes.typeUTCDateTime);
+
+    ptype(JSPropertyNames.uri,
+          JSTypes.typeString);
 
     ptype(JSPropertyNames.useDefaultAlerts,
           JSTypes.typeBoolean);
@@ -407,6 +462,13 @@ public class JSPropertyAttributes {
          false, // object
          null); // factoryClass
 
+    type(JSTypes.typeIntArray,
+         true, // valueList
+         false, // propertyList
+         null, // elementType
+         false, // object
+         null); // factoryClass
+
     type(JSTypes.typeJSEvent,
          false, // valueList
          false, // propertyList
@@ -440,7 +502,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSLocalDateTimeFactory.class); // factoryClass
 
     type(JSTypes.typeLocalizations,
          false, // valueList
@@ -476,13 +538,6 @@ public class JSPropertyAttributes {
          null, // elementType
          true, // object
          JSParticipantFactory.class); // factoryClass
-
-    type(JSTypes.typeParticipantProgress,
-         false, // valueList
-         false, // propertyList
-         null, // elementType
-         true, // object
-         JSParticipantProgressFactory.class); // factoryClass
 
     type(JSTypes.typeParticipants,
          false, // valueList
@@ -539,6 +594,13 @@ public class JSPropertyAttributes {
          null, // elementType
          false, // object
          null); // factoryClass
+
+    type(JSTypes.typeStringArray,
+         true, // valueList
+         false, // propertyList
+         types(JSTypes.typeString), // elementType
+         false, // object
+         JSStringArrayFactory.class); // factoryClass
 
     type(JSTypes.typeStrings,
          true, // valueList
@@ -623,7 +685,7 @@ public class JSPropertyAttributes {
              JSTypes.typeJSGroup, JSTypes.typeAbsoluteTrigger,
              JSTypes.typeAlert, JSTypes.typeLink,
              JSTypes.typeLocation, JSTypes.typeOffsetTrigger,
-             JSTypes.typeParticipant, JSTypes.typeParticipantProgress,
+             JSTypes.typeParticipant,
              JSTypes.typeRecurrenceRule, JSTypes.typeRelation,
              JSTypes.typeTimeZone, JSTypes.typeVirtualLocation);
 
@@ -631,8 +693,17 @@ public class JSPropertyAttributes {
 
     validFor(JSPropertyNames.action, JSTypes.typeAlert);
 
-    validFor(JSPropertyNames.alerts,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.alerts, JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
+    validFor(JSPropertyNames.byDay, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.byHour, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.byMinute, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.byMonth, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.byMonthDay, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.bySecond, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.bySetPosition, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.byWeekNo, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.byYearDay, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.categories,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup,
              JSTypes.typeLocation);
@@ -641,6 +712,7 @@ public class JSPropertyAttributes {
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.contentType, JSTypes.typeLink);
     validFor(JSPropertyNames.coordinates, JSTypes.typeLocation);
+    validFor(JSPropertyNames.count, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.created ,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.delegatedFrom, JSTypes.typeParticipant);
@@ -659,9 +731,12 @@ public class JSPropertyAttributes {
     validFor(JSPropertyNames.excluded,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.expectReply, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.firstDayOfWeek, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.freeBusyStatus,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
+    validFor(JSPropertyNames.frequency, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.href, JSTypes.typeLink);
+    validFor(JSPropertyNames.interval, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.invitedBy, JSTypes.typeParticipant);
     validFor(JSPropertyNames.keywords,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
@@ -669,11 +744,14 @@ public class JSPropertyAttributes {
     validFor(JSPropertyNames.language, JSTypes.typeParticipant);
     validFor(JSPropertyNames.linkIds, JSTypes.typeLocation,
              JSTypes.typeParticipant);
+    validFor(JSPropertyNames.locale,  JSTypes.typeJSEvent,
+             JSTypes.typeJSTask, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.localizations,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.locationId, JSTypes.typeParticipant);
     validFor(JSPropertyNames.locations,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
+    validFor(JSPropertyNames.locationTypes, JSTypes.typeLocation);
     validFor(JSPropertyNames.memberOf, JSTypes.typeParticipant);
     validFor(JSPropertyNames.method,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
@@ -690,6 +768,10 @@ public class JSPropertyAttributes {
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.prodId,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.progress,  JSTypes.typeJSTask,
+             JSTypes.typeParticipant);
+    validFor(JSPropertyNames.progressUpdated, JSTypes.typeJSTask,
+             JSTypes.typeParticipant);
     validFor(JSPropertyNames.recurrenceId,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.recurrenceOverrides,  JSTypes.typeJSEvent,
@@ -705,6 +787,7 @@ public class JSPropertyAttributes {
     validFor(JSPropertyNames.replyTo,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.roles, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.rscale, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.scheduleAgent, JSTypes.typeParticipant);
     validFor(JSPropertyNames.scheduleSequence, JSTypes.typeParticipant);
     validFor(JSPropertyNames.scheduleUpdated, JSTypes.typeParticipant);
@@ -714,13 +797,13 @@ public class JSPropertyAttributes {
     validFor(JSPropertyNames.showWithoutTime,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.size, JSTypes.typeLink);
+    validFor(JSPropertyNames.skip, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.source, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.start,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSPropertyNames.source, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.status,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeParticipantProgress);
+             JSTypes.typeJSTask);
     validFor(JSPropertyNames.statusUpdatedAt,  JSTypes.typeJSTask);
-    validFor(JSPropertyNames.timestamp, JSTypes.typeParticipantProgress);
     validFor(JSPropertyNames.timeZone,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeLocation);
     validFor(JSPropertyNames.timeZones,  JSTypes.typeJSEvent,
@@ -732,8 +815,10 @@ public class JSPropertyAttributes {
              JSTypes.typeAlert);
     validFor(JSPropertyNames.uid,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.until, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.updated,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.uri,  JSTypes.typeVirtualLocation);
     validFor(JSPropertyNames.useDefaultAlerts,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.virtualLocations,  JSTypes.typeJSEvent,

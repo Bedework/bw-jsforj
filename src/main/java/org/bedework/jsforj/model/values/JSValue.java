@@ -97,6 +97,28 @@ public interface JSValue {
    */
   JSProperty addProperty(JSProperty val);
 
+  /** Set the value for a string type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   */
+  JSProperty setProperty(final String name, final String val);
+
+  /** Get the value. Create the property if absent.
+   *
+   * @param name of property
+   * @return the value
+   */
+  JSValue getPropertyValueAlways(final String name);
+
+  /** Get the value. Return null if absent.
+   *
+   * @param name of property
+   * @return the value or null
+   */
+  JSValue getPropertyValue(final String name);
+
   /** Add a string type property
    *
    * @param name the property name - non null
@@ -119,6 +141,31 @@ public interface JSValue {
    * @return true if this is a string
    */
   boolean isString();
+
+  /** Set the value for an UnsignedInteger type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   */
+  JSProperty setProperty(final String name, final UnsignedInteger val);
+
+  /** Add an UnsignedInteger type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   * @throws RuntimeException if not an object or property already exists
+   */
+  JSProperty addProperty(final String name, final UnsignedInteger val);
+
+  /** Returns value of named UnsignedInteger property.
+   *
+   * @param name the property name - non null
+   * @return the value of the property
+   * @throws RuntimeException if not a String property
+   */
+  UnsignedInteger getUnsignedIntegerProperty(String name);
 
   /** Returns value as a String.
    *

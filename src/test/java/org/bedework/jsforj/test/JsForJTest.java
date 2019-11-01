@@ -14,7 +14,9 @@ import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.JSRecurrenceRule;
 import org.bedework.jsforj.model.values.JSValue;
+import org.bedework.jsforj.model.values.UnsignedInteger;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -136,6 +138,14 @@ public class JsForJTest {
       loc.setCoordinates("geo:40.7654,73.9876");
 
       locations.getValue().addProperty(factory.makeProperty(uid, loc));
+
+      var rruleP = event.addProperty(
+              factory.makeProperty(JSPropertyNames.recurrenceRule));
+
+      JSRecurrenceRule rrule = (JSRecurrenceRule)rruleP.getValue();
+
+      rrule.setFrequency(JSRecurrenceRule.freqWeekly);
+      rrule.setCount(new UnsignedInteger(10));
 
       var participants = event.addProperty(
               factory.makeProperty(JSPropertyNames.participants));

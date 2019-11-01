@@ -14,6 +14,7 @@ public interface JSTypes {
   String typeId = "Id";
   String typeIds = "Id[Boolean]";
   String typeInt = "Int";
+  String typeIntArray = "Int[]";
   String typeJSEvent = "jsevent";
   String typeJSGroup = "jsgroup";
   String typeJSTask = "jstask";
@@ -23,10 +24,11 @@ public interface JSTypes {
   String typeLocalizations = "String[PatchObject]";
   String typeLocation = "Location";
   String typeLocations = "Id[Location]";
+  String typeNDay = "NDay";
+  String typeNDayArray = "NDay[]";
   String typeNumber = "Number";
   String typeParticipant = "Participant";
   String typeParticipants = "Id[Participant]";
-  String typeParticipantProgress = "ParticipantProgress";
   String typePatchObject = "PatchObject";
   String typeRecurrenceOverrides = "LocalDateTime[PatchObject]";
   String typeRecurrenceRule = "RecurrenceRule";
@@ -34,6 +36,7 @@ public interface JSTypes {
   String typeRelations = "String[Relation]";
   String typeSignedDuration = "SignedDuration";
   String typeString = "String";
+  String typeStringArray = "String[]";
 
   /** e.g.
        "roles": {
@@ -54,6 +57,7 @@ public interface JSTypes {
   String typeTimeZones = "String[TimeZone]";
   String typeTimeZoneRule = "TimeZoneRule";
   String typeUnsignedInt = "UnsignedInt";
+  String typeUnsignedIntArray = "UnsignedInt[]";
   String typeUTCDateTime = "UTCDateTime";
   String typeVirtualLocation = "VirtualLocation";
   String typeVirtualLocations = "Id[VirtualLocation]";

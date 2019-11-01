@@ -21,7 +21,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setName(final String val) {
-    addProperty(JSPropertyNames.name, val);
+    setProperty(JSPropertyNames.name, val);
   }
 
   @Override
@@ -31,7 +31,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setDescription(final String val) {
-    addProperty(JSPropertyNames.description, val);
+    setProperty(JSPropertyNames.description, val);
   }
 
   @Override
@@ -41,7 +41,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setRelativeTo(final String val) {
-    addProperty(JSPropertyNames.relativeTo, val);
+    setProperty(JSPropertyNames.relativeTo, val);
   }
 
   @Override
@@ -51,7 +51,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setTimeZone(final String val) {
-    addProperty(JSPropertyNames.timeZone, val);
+    setProperty(JSPropertyNames.timeZone, val);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setCoordinates(final String val) {
-    addProperty(JSPropertyNames.coordinates, val);
+    setProperty(JSPropertyNames.coordinates, val);
   }
 
   @Override
@@ -71,19 +71,11 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setLocationTypes(final JSList<String> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.locationType, val));
+    addProperty(factory.makeProperty(JSPropertyNames.locationTypes, val));
   }
 
   @Override
   public JSList<String> getLocationTypes() {
-    var prop = getProperty(JSPropertyNames.locationType);
-
-    if (prop == null) {
-      return (JSList<String>)addProperty(
-              factory.makeProperty(
-                      JSPropertyNames.locationType)).getValue();
-    }
-
-    return (JSList<String>)prop.getValue();
+    return (JSList<String>)getPropertyValueAlways(JSPropertyNames.locationTypes);
   }
 }

@@ -16,9 +16,11 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTask;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
+import org.bedework.jsforj.model.values.UnsignedInteger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
@@ -104,6 +106,19 @@ public class JSFactory {
   public JSProperty makeProperty(final String propertyName,
                                  final String value) {
     var node = new TextNode(value);
+
+    return makeProperty(propertyName, node);
+  }
+
+  /** Create an UnsignedInteger property
+   *
+   * @param propertyName of property
+   * @param value UnsignedInteger
+   * @return the property
+   */
+  public JSProperty makeProperty(final String propertyName,
+                                 final UnsignedInteger value) {
+    var node = new IntNode(value.get());
 
     return makeProperty(propertyName, node);
   }

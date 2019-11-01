@@ -12,10 +12,19 @@ public interface JSPropertyNames {
 
   String acknowledged = "acknowledged";//  UTCDateTime    Valid for: Alert   Valid for:
 
-  String action = "action";      //  String    Valid for: Alert   Valid for:
+  String action = "action";     //  String    Valid for: Alert   Valid for:
 
-  String alerts = "alerts";      //  Id[Alert]      Valid for: JSEvent,
+  String alerts = "alerts";     //  Id[Alert]   Valid for: JSEvent,
   //                                   JSTask
+  String byDay = "byDay";       // NDay[]         Valid for: Recurrence Rule
+  String byHour = "byHour";     // UnsignedInt[]  Valid for: Recurrence Rule
+  String byMinute = "byMinute"; // UnsignedInt[]  Valid for: Recurrence Rule
+  String byMonth = "byMonth";   // String[]       Valid for: Recurrence Rule
+  String byMonthDay = "byMonthDay";  // Int[]     Valid for: Recurrence Rule
+  String bySecond = "bySecond"; // UnsignedInt[]  Valid for: Recurrence Rule
+  String bySetPosition = "bySetPosition"; // Int[] Valid for: Recurrence Rule
+  String byWeekNo = "byWeekNo"; // Int[]          Valid for: Recurrence Rule
+  String byYearDay = "byYearDay"; // Int[]        Valid for: Recurrence Rule
   String categories = "categories";  // String[Boolean]Valid for: JSEvent,
   //                                   JSTask, JSGroup Location
   String cid = "cid";         //  String    Valid for: Link
@@ -23,6 +32,7 @@ public interface JSPropertyNames {
   //                                   JSTask, JSGroup
   String contentType = "contentType"; //  String    Valid for: Link
   String coordinates = "coordinates"; //  String    Valid for: Location
+  String count = "count";       // UnsignedInt      Valid for: Recurrence
   String created  = "created ";    //  UTCDateTime    Valid for: JSEvent,
   //                                   JSTask, JSGroup
   String delegatedFrom = "delegatedFrom";//  String[Boolean]Valid for: Participant
@@ -36,12 +46,15 @@ public interface JSPropertyNames {
   String email = "email";       //  String    Valid for: Participant
   String entries = "entries";     //  String[JSTask|JSEvent]   Valid for: JSGroup
   String estimatedDuration = "estimatedDuration";//  Duration       Valid for: JSTask
-  String excluded = "excluded";       //  Boolean        Valid for: JSEvent,
+  String excluded = "excluded";       //  Boolean   Valid for: JSEvent,
   //                                   JSTask
-  String expectReply = "expectReply"; //  Boolean        Valid for: Participant
+  String expectReply = "expectReply"; //  Boolean   Valid for: Participant
+  String firstDayOfWeek = "firstDayOfWeek"; // String Valid for: Recurrence Rule
   String freeBusyStatus = "freeBusyStatus";//  String    Valid for: JSEvent,
   //                                   JSTask
+  String frequency = "frequency"; // String  Valid for: Recurrence Rule
   String href = "href";        //  String    Valid for: Link
+  String interval = "interval"; // UnsignedInt Valid for: Recurrence Rule
   String invitedBy = "invitedBy";   //  String    Valid for: Participant
   String keywords = "keywords";    //  String[Boolean]Valid for: JSEvent,
   //                                   JSTask, JSGroup
@@ -52,13 +65,13 @@ public interface JSPropertyNames {
   String linkIds = "linkIds";     //  Id[Boolean]    Valid for: Location,
   //                                   Participant
   String locale = "locale";         //  Id[Link]    Valid for: JSEvent,
-  //                                   JSTask
+  //                                   JSTask, JSGroup
   String localizations = "localizations";//  String[PatchObject]   Valid for: JSEvent,
   //                                   JSTask
   String locationId = "locationId";  //  String    Valid for: Participant
   String locations = "locations";   //  Id[Location]   Valid for: JSEvent,
   //                                   JSTask
-  String locationType = "locationType";  //  String    Valid for: Locations
+  String locationTypes = "locationTypes";  //  String    Valid for: Locations
   String memberOf = "memberOf";    //  String[Boolean]Valid for: Participant
   String method = "method";      //  String    Valid for: JSEvent,
   //                                   JSTask
@@ -75,6 +88,10 @@ public interface JSPropertyNames {
   //                                   JSTask
   String prodId = "prodId";      //  String    Valid for: JSEvent,
   //                                   JSTask, JSGroup
+  String progress = "progress";  //  String    Valid for: JSTask,
+  //                                   Participant
+  String progressUpdated = "progressUpdated";  //  String    Valid for: JSTask,
+  //                                   Participant
   String recurrenceId = "recurrenceId";//  LocalDateTime  Valid for: JSEvent,
   //                                   JSTask
   String recurrenceOverrides = "recurrenceOverrides";//  LocalDateTime[PatchObject]   Valid for: JSEvent,
@@ -89,6 +106,7 @@ public interface JSPropertyNames {
   String replyTo = "replyTo";     //  String[String] Valid for: JSEvent,
   //                                   JSTask
   String roles = "roles";       //  String[Boolean]Valid for: Participant
+  String rscale = "rscale"; // String  Valid for: Recurrence Rule
   String scheduleAgent = "scheduleAgent";//  String    Valid for: Participant
   String scheduleSequence = "scheduleSequence";//  UnsignedInt    Valid for: Participant
   String scheduleUpdated = "scheduleUpdated";//  UTCDateTime    Valid for: Participant
@@ -98,13 +116,13 @@ public interface JSPropertyNames {
   String showWithoutTime = "showWithoutTime";//  Boolean        Valid for: JSEvent,
   //                                   JSTask
   String size = "size";        //  UnsignedInt    Valid for: Link
+  String skip = "skip";        //  String         Valid for: Recurrence Rule
   String start = "start";       //  LocalDateTime  Valid for: JSEvent,
   //                                   JSTask
   String source = "source";      //  String    Valid for: JSGroup
   String status = "status";      //  String    Valid for: JSEvent,
   //                                   JSTask, ParticipantProgress
   String statusUpdatedAt = "statusUpdatedAt";//  UTCDateTime    Valid for: JSTask
-  String timestamp = "timestamp";   //  UTCDateTime    Valid for: ParticipantProgress
   String timeZone = "timeZone";    //  String|null    Valid for: JSEvent,
   //                                   JSTask, Location
   String timeZones = "timeZones";   //  String[TimeZone]      Valid for: JSEvent,
@@ -114,8 +132,10 @@ public interface JSPropertyNames {
   String trigger = "trigger";     //  OffsetTrigger|AbsoluteTrigger|UnknownTrigger   Valid for: Alert
   String uid = "uid";         //  String    Valid for: JSEvent,
   //                                   JSTask, JSGroup
+  String until = "until"; // LocalDateTime  Valid for: Recurrence Rule
   String updated = "updated";     //  UTCDateTime    Valid for: JSEvent,
   //                                   JSTask, JSGroup
+  String uri = "uri";        //  String    Valid for: VirtualLocation
   String useDefaultAlerts = "useDefaultAlerts";//  Boolean        Valid for: JSEvent,
   //                                   JSTask
   String virtualLocations = "virtualLocations";//  Id[VirtualLocation]   Valid for: JSEvent,

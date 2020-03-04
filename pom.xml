@@ -18,7 +18,7 @@
     <bw-util-logging.version>4.0.4</bw-util-logging.version>
 
     <!-- Third Party Library Versions -->
-    <jackson.version>2.9.10</jackson.version>
+    <jackson.version>2.10.3</jackson.version>
 
     <!-- test only -->
     <junit.version>4.8.2</junit.version>

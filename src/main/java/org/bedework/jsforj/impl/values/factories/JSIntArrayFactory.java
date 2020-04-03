@@ -3,7 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.factories;
 
-import org.bedework.jsforj.impl.values.JSArrayImpl;
+import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
 import org.bedework.jsforj.model.values.JSValue;
 

@@ -9,6 +9,7 @@ public interface JSTypes {
   String typeAlert = "Alert";
   String typeAlerts = "Id[Alert]";
   String typeBoolean = "Boolean";
+  String typeComments = "String[]";
   String typeDuration = "Duration";
   String typeEntries = "String[JSTask|JSEvent]";
   String typeId = "Id";

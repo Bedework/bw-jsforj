@@ -11,6 +11,7 @@ import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocalDateTimeFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
+import org.bedework.jsforj.impl.values.factories.JSOverrideFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
@@ -109,7 +110,7 @@ public class JSPropertyAttributes {
      * @return class used to create objects - maybe the class represented here
      *               or elements of the property list.
      */
-    public Class getFactoryClass() {
+    public Class<?> getFactoryClass() {
       return factoryClass;
     }
   }
@@ -172,6 +173,9 @@ public class JSPropertyAttributes {
 
     ptype(JSPropertyNames.color,
           JSTypes.typeString);
+
+    ptype(JSPropertyNames.comments,
+          JSTypes.typeStringArray);
 
     ptype(JSPropertyNames.contentType,
           JSTypes.typeString);
@@ -333,7 +337,7 @@ public class JSPropertyAttributes {
           JSTypes.typeStrings);
 
     ptype(JSPropertyNames.rscale,
-          JSTypes.typeStrings);
+          JSTypes.typeString);
 
     ptype(JSPropertyNames.scheduleAgent,
           JSTypes.typeString);
@@ -426,6 +430,13 @@ public class JSPropertyAttributes {
          null, // elementType
          false, // object
          null); // factoryClass
+
+    type(JSTypes.typeComments,
+         true, // valueList
+         false, // propertyList
+         types(JSTypes.typeString), // elementType
+         false, // object
+         JSStringArrayFactory.class); // factoryClass
 
     type(JSTypes.typeDuration,
          false, // valueList
@@ -558,10 +569,10 @@ public class JSPropertyAttributes {
          true, // propertyList
          types(JSTypes.typePatchObject), // elementType
          false, // object
-         null); // factoryClass
+         JSOverrideFactory.class); // factoryClass
 
     type(JSTypes.typeRecurrenceRule,
-         false, // valueList
+         true, // valueList
          false, // propertyList
          null, // elementType
          true, // object
@@ -710,6 +721,8 @@ public class JSPropertyAttributes {
     validFor(JSPropertyNames.cid, JSTypes.typeLink);
     validFor(JSPropertyNames.color,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.comments,  JSTypes.typeJSEvent,
+             JSTypes.typeJSTask);
     validFor(JSPropertyNames.contentType, JSTypes.typeLink);
     validFor(JSPropertyNames.coordinates, JSTypes.typeLocation);
     validFor(JSPropertyNames.count, JSTypes.typeRecurrenceRule);

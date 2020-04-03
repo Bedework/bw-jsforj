@@ -8,14 +8,12 @@ import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
-import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
-import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.UnsignedInteger;
 
 import org.junit.AfterClass;
@@ -30,7 +28,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -89,7 +86,7 @@ public class JsForJTest {
 
         final JSCalendarObject obj = mapper.parse(new FileReader(f));
 
-        dumpProperties(obj, "  ");
+        info(obj.writeValueAsStringFormatted(mapper));
       }
     } catch (final Throwable t) {
       t.printStackTrace();
@@ -119,12 +116,15 @@ public class JsForJTest {
   @Test
   public void testBuildEvent() {
     try {
-      final var event = factory.newValue(JSTypes.typeJSEvent);
+      final JSCalendarObject event =
+              (JSCalendarObject)factory.newValue(JSTypes.typeJSEvent);
 
       Assert.assertTrue("Not JSEvent", event instanceof JSEvent);
 
-      event.addProperty(factory.makeProperty(JSPropertyNames.uid,
-                                             UUID.randomUUID().toString()));
+      event.setUid(UUID.randomUUID().toString());
+
+      event.addComment("comment 1");
+      event.addComment("comment 2");
 
       var locations = event.addProperty(
               factory.makeProperty(JSPropertyNames.locations));
@@ -147,9 +147,6 @@ public class JsForJTest {
       rrule.setFrequency(JSRecurrenceRule.freqWeekly);
       rrule.setCount(new UnsignedInteger(10));
 
-      var participants = event.addProperty(
-              factory.makeProperty(JSPropertyNames.participants));
-
       JSParticipant part =
               (JSParticipant)factory.newValue(JSTypes.typeParticipant);
       uid = UUID.randomUUID().toString();
@@ -160,10 +157,9 @@ public class JsForJTest {
       part.setLanguage("gobble");
       part.setInvitedBy("thechicken@chickens.example.com");
 
-      participants.getValue().addProperty(factory.makeProperty(uid, part));
+      event.addParticipant(uid, part);
 
       info("Dump of created event");
-      dumpProperties(event, "  ");
       info(event.writeValueAsStringFormatted(mapper));
     } catch (final Throwable t) {
       t.printStackTrace();
@@ -173,27 +169,5 @@ public class JsForJTest {
 
   private void info(final String msg) {
     System.out.println(msg);
-  }
-
-  private void dumpProperties(final JSValue value,
-                              final String indent) {
-    final List<JSProperty> props;
-
-    if (value.isObject()) {
-      props = value.getProperties();
-    } else if (value.isPropertyList()) {
-      props = value.getPropertyList();
-    } else {
-      return;
-    }
-
-    for (final var prop: props) {
-      info(indent + prop.getName() + ": " + prop.getType());
-
-      var pval = prop.getValue();
-      if (pval.isObject() || pval.isPropertyList()) {
-        dumpProperties(pval, indent + "  ");
-      }
-    }
   }
 }

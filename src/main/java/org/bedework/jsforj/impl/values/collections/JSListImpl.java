@@ -1,8 +1,9 @@
 /* ********************************************************************
     Appropriate copyright notice
 */
-package org.bedework.jsforj.impl.values;
+package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.values.JSList;
 
 import com.fasterxml.jackson.databind.JsonNode;

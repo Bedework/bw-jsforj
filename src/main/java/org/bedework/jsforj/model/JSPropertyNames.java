@@ -30,6 +30,7 @@ public interface JSPropertyNames {
   String cid = "cid";         //  String    Valid for: Link
   String color = "color";       //  String    Valid for: JSEvent,
   //                                   JSTask, JSGroup
+  String comments = "comments";       //  String[]    Valid for: JSEvent,
   String contentType = "contentType"; //  String    Valid for: Link
   String coordinates = "coordinates"; //  String    Valid for: Location
   String count = "count";       // UnsignedInt      Valid for: Recurrence
@@ -117,9 +118,9 @@ public interface JSPropertyNames {
   //                                   JSTask
   String size = "size";        //  UnsignedInt    Valid for: Link
   String skip = "skip";        //  String         Valid for: Recurrence Rule
+  String source = "source";      //  String    Valid for: JSGroup
   String start = "start";       //  LocalDateTime  Valid for: JSEvent,
   //                                   JSTask
-  String source = "source";      //  String    Valid for: JSGroup
   String status = "status";      //  String    Valid for: JSEvent,
   //                                   JSTask, ParticipantProgress
   String statusUpdatedAt = "statusUpdatedAt";//  UTCDateTime    Valid for: JSTask

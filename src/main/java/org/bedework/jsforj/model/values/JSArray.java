@@ -38,8 +38,20 @@ public interface JSArray<T> extends JSValue {
 
   /**
    *
-   * @param val to remove
+   * @param index of element to remove
    * @throws RuntimeException if index out of bounds
    */
-  void remove(T val);
+  void remove(int index);
+
+  /**
+   *
+   * @param val to remove
+   * @return  false if not found
+   */
+  boolean remove(T val);
+
+  /** Remove all values
+   *
+   */
+  void clear();
 }

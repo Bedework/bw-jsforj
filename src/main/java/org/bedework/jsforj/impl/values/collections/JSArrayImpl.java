@@ -1,12 +1,13 @@
 /* ********************************************************************
     Appropriate copyright notice
 */
-package org.bedework.jsforj.impl.values;
+package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.values.JSArray;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +38,14 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
 
   @Override
   public int size() {
-    assertObject("size");
+    assertArray("size");
 
     return getNode().size();
   }
 
   @Override
   public List<T> get() {
-    assertObject("get");
+    assertArray("get");
 
     final var res = new ArrayList<T>(getNode().size());
 
@@ -57,7 +58,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
 
   @Override
   public T get(final int index) {
-    assertObject("get(i)");
+    assertArray("get(i)");
 
     if ((index < 0) || (index >= getNode().size())) {
       throw new RuntimeException("Index " + index +
@@ -68,31 +69,53 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
        list
      */
 
-    var it = getNode().fieldNames();
-    String fld = null;
-    for (int i = 0; i <= index; i++) {
-      fld = it.next();
-    }
-
-    return convertToT(fld);
+    var node = (ArrayNode)getNode();
+    return convertToT(node.get(index).asText());
   }
 
   @Override
   public void add(final T val) {
-    assertObject("add");
+    assertArray("add");
 
-    var node = (ObjectNode)getNode();
+    var node = (ArrayNode)getNode();
 
-    node.put(convertToString(val), true);
+    node.add(convertToString(val));
   }
 
   @Override
-  public void remove(final T val) {
-    assertObject("remove");
+  public void remove(final int index) {
+    assertArray("remove");
 
-    String fldName = convertToString(val);
+    if ((index < 0) || (index >= getNode().size())) {
+      throw new RuntimeException("Index " + index +
+                                         " out of bounds for " + getType());
+    }
 
-    var node = (ObjectNode)getNode();
-    node.remove(fldName);
+    var node = (ArrayNode)getNode();
+
+    node.remove(index);
+  }
+
+    @Override
+  public boolean remove(final T val) {
+    assertArray("remove");
+
+    var node = (ArrayNode)getNode();
+    for (int i = 0; i <= node.size(); i++) {
+      var elval = get(i);
+      if (elval.equals(val)) {
+        remove(i);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public void clear() {
+    assertArray("clear");
+
+    var node = (ArrayNode)getNode();
+    node.removeAll();
   }
 }

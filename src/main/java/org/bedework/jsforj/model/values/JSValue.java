@@ -16,22 +16,31 @@ public interface JSValue {
    */
   String getType();
 
-  /** For example
-   * <pre>
-   *          "roles": {
-   *            "owner": true,
-   *            "attendee": true,
-   *            "chair": true
-   *          }
-   * </pre>
+  /** Will return true if getValueList will return an array of values
+   * and the external representation is an array.
+   *
+   * @return true if this is an array of values
+   */
+  boolean isArray();
+
+  /** Will return true if getValueList will return an array of values.
    *
    * @return true if this is a list of values
    */
   boolean isValueList();
 
-  /**
+  /** Will return conceptual arrays of properties as a value list,
+   * for example
+   * <pre>
+   *          "comments": {
+   *            "owner": true,
+   *            "attendee": true,
+   *            "chair": true
+   *          }
+   * </pre>
+   * will return ["owner", "attendee", "chair"]
    *
-   * @return values if this is a value list
+   * @return unmodifiable list of values if this is a value list
    * @throws RuntimeException if not a value list
    */
   List<JSValue> getValueList();
@@ -52,13 +61,13 @@ public interface JSValue {
    *        }
    *      }
    * </pre>
-   * @return true if this is a list of properties, e.g.
+   * @return true if this is a list of properties, e.g. locations
    */
   boolean isPropertyList();
 
-  /** Properties will al have the same type, e.g. location
+  /** Properties will all have the same type, e.g. location
    *
-   * @return properties if this is a properties list
+   * @return unmodifiable list of properties if this is a properties list
    * @throws RuntimeException if not a properties list
    */
   List<JSProperty> getPropertyList();
@@ -97,6 +106,22 @@ public interface JSValue {
    */
   JSProperty addProperty(JSProperty val);
 
+  /** Add a string type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   * @throws RuntimeException if not an object or property already exists
+   */
+  JSProperty addProperty(final String name, final String val);
+
+  /** Add or replace the named property
+   *
+   * @param val the property - non null
+   * @return the property
+   */
+  JSProperty setProperty(final JSProperty val);
+
   /** Set the value for a string type property
    *
    * @param name the property name - non null
@@ -118,15 +143,6 @@ public interface JSValue {
    * @return the value or null
    */
   JSValue getPropertyValue(final String name);
-
-  /** Add a string type property
-   *
-   * @param name the property name - non null
-   * @param val the property value - non null
-   * @return the property
-   * @throws RuntimeException if not an object or property already exists
-   */
-  JSProperty addProperty(final String name, final String val);
 
   /** Returns value of named String property.
    *

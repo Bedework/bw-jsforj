@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSPropertyAttributes;
+import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.UnsignedInteger;
@@ -55,6 +56,15 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public boolean isArray() {
+    if (typeInfo == null) {
+      return node.isArray();
+    }
+
+    return this instanceof JSArrayImpl;
+  }
+
+  @Override
   public boolean isValueList() {
     if (typeInfo == null) {
       return node.isArray();
@@ -92,7 +102,7 @@ public class JSValueImpl implements JSValue {
                                      node.get(fieldName)));
     }
 
-    return props;
+    return Collections.unmodifiableList(props);
   }
 
   @Override
@@ -157,6 +167,25 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public JSProperty addProperty(final String name, final String val) {
+    return addProperty(factory.makeProperty(name, val));
+  }
+
+  @Override
+  public JSProperty setProperty(final JSProperty val) {
+    var name = val.getName();
+
+    var prop = getProperty(name);
+
+    if (prop != null) {
+      // Remove then add
+      removeProperty(name);
+    }
+
+    return addProperty(val);
+  }
+
+  @Override
   public JSProperty setProperty(final String name,
                                 final String val) {
     var prop = getProperty(name);
@@ -190,11 +219,6 @@ public class JSValueImpl implements JSValue {
     }
 
     return prop.getValue();
-  }
-
-  @Override
-  public JSProperty addProperty(final String name, final String val) {
-    return addProperty(factory.makeProperty(name, val));
   }
 
   @Override
@@ -303,6 +327,19 @@ public class JSValueImpl implements JSValue {
     }
 
     throw new RuntimeException("Not object value. Type: "
+                                       + type + " action: " + action);
+  }
+
+  protected void assertArray(final String action) {
+    if (node.isArray()) {
+      return;
+    }
+    if (action == null) {
+      throw new RuntimeException("Not array value. Type: "
+                                         + type);
+    }
+
+    throw new RuntimeException("Not array value. Type: "
                                        + type + " action: " + action);
   }
 }

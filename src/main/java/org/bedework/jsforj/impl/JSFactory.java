@@ -38,7 +38,7 @@ public class JSFactory {
   private final static JsonNodeFactory nodeFactory =
           JsonNodeFactory.withExactBigDecimals(false);
 
-  private final static Map<Class, JSValueFactory> valueFactories =
+  private final static Map<Class<?>, JSValueFactory> valueFactories =
           new HashMap<>();
 
   public static JSFactory getFactory() {

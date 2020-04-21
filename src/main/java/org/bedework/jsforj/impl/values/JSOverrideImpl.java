@@ -4,6 +4,8 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSCalendarObject;
+import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.model.values.JSLocalDateTime;
 import org.bedework.jsforj.model.values.JSOverride;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,7 +15,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JSOverrideImpl extends JSCalendarObjectImpl
         implements JSOverride {
-  private String recurrenceId;
   private JSCalendarObject master;
 
   public JSOverrideImpl(final String typeName,
@@ -22,13 +23,16 @@ public class JSOverrideImpl extends JSCalendarObjectImpl
   }
 
   @Override
-  public void setRecurrenceId(final String val) {
-    recurrenceId = val;
+  public void setRecurrenceId(final JSLocalDateTime val) {
+    if (getRecurrenceId() != null) {
+      throw new RuntimeException("recurrenceId is immutable");
+    }
+    addProperty(factory.makeProperty(JSPropertyNames.recurrenceId, val));
   }
 
   @Override
-  public String getRecurrenceId() {
-    return recurrenceId;
+  public JSLocalDateTime getRecurrenceId() {
+    return (JSLocalDateTime)getPropertyValue(JSPropertyNames.recurrenceId);
   }
 
   @Override

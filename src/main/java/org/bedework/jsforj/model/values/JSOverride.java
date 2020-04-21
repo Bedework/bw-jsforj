@@ -6,9 +6,13 @@ import org.bedework.jsforj.model.JSCalendarObject;
  * User: mike Date: 10/25/19 Time: 12:46
  */
 public interface JSOverride extends JSCalendarObject {
-  void setRecurrenceId(final String val);
+  /** Once set cannot be changed
+   *
+   * @param val
+   */
+  void setRecurrenceId(final JSLocalDateTime val);
 
-  String getRecurrenceId();
+  JSLocalDateTime getRecurrenceId();
 
   void setMaster(final JSCalendarObject val);
 

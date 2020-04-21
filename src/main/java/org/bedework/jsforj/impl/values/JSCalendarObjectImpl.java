@@ -7,7 +7,7 @@ import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSArray;
-import org.bedework.jsforj.model.values.JSLink;
+import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 
@@ -70,42 +70,19 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
-  public void addLink(final JSLink link) {
-    final String href = link.getStringProperty(JSPropertyNames.href);
-    if (href == null) {
-      throw new RuntimeException("Href must be set for a link");
+  public JSLinks getLinks(final boolean create) {
+    final JSProperty links = getProperty(JSPropertyNames.links);
+
+    if (links != null) {
+      return (JSLinks)links.getValue();
     }
 
-    JSProperty links = getProperty(JSPropertyNames.links);
-
-    if (links == null) {
-      links = addProperty(
-              factory.makeProperty(JSPropertyNames.links));
+    if (!create) {
+      return null;
     }
 
-    links.getValue().setProperty(factory.makeProperty(href, link));
-  }
-
-  @Override
-  public List<JSLink> getLinks() {
-    JSProperty links = getProperty(JSPropertyNames.links);
-
-    final List<JSLink> res = new ArrayList<>();
-
-    if (links == null) {
-      return res;
-    }
-
-    for (final JSProperty prop: links.getValue().getPropertyList()) {
-      res.add((JSLink)prop.getValue());
-    }
-
-    return res;
-  }
-
-  @Override
-  public void clearLinks() {
-    removeProperty(JSPropertyNames.links);
+    return (JSLinks)addProperty(
+            factory.makeProperty(JSPropertyNames.links)).getValue();
   }
 
   @Override

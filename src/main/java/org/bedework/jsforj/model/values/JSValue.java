@@ -99,6 +99,11 @@ public interface JSValue {
   void removeProperty(String name);
 
   /**
+   * Remove all contained properties and values
+   */
+  void clear();
+
+  /**
    *
    * @param val the property - non null
    * @return the property

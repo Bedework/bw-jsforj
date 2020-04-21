@@ -8,6 +8,7 @@ import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
+import org.bedework.jsforj.impl.values.factories.JSLinksFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocalDateTimeFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
@@ -506,7 +507,7 @@ public class JSPropertyAttributes {
          true, // propertyList
          types(JSTypes.typeLink), // elementType
          false, // object
-         JSStringListFactory.class); // factoryClass
+         JSLinksFactory.class); // factoryClass
 
     type(JSTypes.typeLocalDateTime,
          false, // valueList

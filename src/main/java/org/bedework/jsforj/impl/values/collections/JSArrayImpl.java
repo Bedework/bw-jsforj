@@ -96,7 +96,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
     node.remove(index);
   }
 
-    @Override
+  @Override
   public boolean remove(final T val) {
     assertArray("remove");
 
@@ -112,6 +112,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
     return false;
   }
 
+  @Override
   public void clear() {
     assertArray("clear");
 

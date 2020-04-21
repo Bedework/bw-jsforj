@@ -153,6 +153,13 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public void clear() {
+    assertObject("clear");
+
+    ((ObjectNode)node).removeAll();
+  }
+
+  @Override
   public JSProperty addProperty(final JSProperty val) {
     assertObject("addProperty");
 

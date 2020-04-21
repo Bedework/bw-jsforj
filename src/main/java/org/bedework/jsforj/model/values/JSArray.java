@@ -49,9 +49,4 @@ public interface JSArray<T> extends JSValue {
    * @return  false if not found
    */
   boolean remove(T val);
-
-  /** Remove all values
-   *
-   */
-  void clear();
 }

@@ -16,7 +16,10 @@ public class JSLinkFactory extends JSValueFactoryImpl {
   @Override
   public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    return new JSLinkImpl(typeName,
-                          nd);
+    if (nd != null) {
+      return new JSLinkImpl(typeName, nd);
+    }
+
+    return new JSLinkImpl(typeName, newObject(typeName));
   }
 }

@@ -1,7 +1,7 @@
 package org.bedework.jsforj.model;
 
 import org.bedework.jsforj.model.values.JSArray;
-import org.bedework.jsforj.model.values.JSLink;
+import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSValue;
@@ -41,18 +41,11 @@ public interface JSCalendarObject extends JSValue {
    */
   void clearComments();
 
-  void addLink(JSLink link);
-
   /**
    *
-   * @return list of JSLink - never null
+   * @return JSLinks object - never null if create true
    */
-  List<JSLink> getLinks();
-
-  /** Remove all links
-   *
-   */
-  void clearLinks();
+  JSLinks getLinks(boolean create);
 
   void addOverride(JSOverride val);
 

@@ -10,6 +10,8 @@ import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
+import org.bedework.jsforj.model.values.JSLink;
+import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
@@ -158,6 +160,14 @@ public class JsForJTest {
       part.setInvitedBy("thechicken@chickens.example.com");
 
       event.addParticipant(uid, part);
+
+      JSLink link =
+              (JSLink)factory.newValue(JSTypes.typeLink);
+      link.setHref("http://example.org/something.ics");
+      link.setRel("alternate");
+
+      JSLinks links = event.getLinks(true);
+      links.add(link);
 
       info("Dump of created event");
       info(event.writeValueAsStringFormatted(mapper));

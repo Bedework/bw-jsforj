@@ -6,10 +6,10 @@ package org.bedework.jsforj.impl.values;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.JSArray;
+import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSParticipant;
-import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

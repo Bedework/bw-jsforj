@@ -1,24 +1,21 @@
 /* ********************************************************************
     Appropriate copyright notice
 */
-package org.bedework.jsforj.impl.values;
+package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.impl.values.collections.JSListImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSOverride;
-import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
-public class JSRecurrenceOverridesImpl extends JSValueImpl
+public class JSRecurrenceOverridesImpl extends JSListImpl<JSProperty>
         implements JSRecurrenceOverrides {
   private JSCalendarObject master;
 
@@ -38,28 +35,7 @@ public class JSRecurrenceOverridesImpl extends JSValueImpl
   }
 
   @Override
-  public List<JSProperty> getOverrides() {
-    assertObject("getOverrides");
-
-    final List<JSProperty> res = new ArrayList<>();
-    var nd = getNode();
-
-    for (var it = nd.fieldNames(); it.hasNext(); ) {
-      var fieldName = it.next();
-
-      final JSProperty ov =
-              factory.makeProperty(fieldName,
-                                   JSTypes.typeOverride,
-                                   nd.get(fieldName));
-      ((JSOverride)ov.getValue()).setMaster(master);
-      res.add(ov);
-    }
-
-    return Collections.unmodifiableList(res);
-  }
-
-  @Override
-  public void addOverride(final JSProperty val) {
+  protected void store(final JSProperty val) {
     final String rid = val.getName();
     if (rid == null) {
       throw new RuntimeException(
@@ -72,13 +48,27 @@ public class JSRecurrenceOverridesImpl extends JSValueImpl
   }
 
   @Override
-  public JSProperty addOverride(final String rid) {
+  protected String fieldName(final JSProperty val) {
+    return val.getName();
+  }
+
+  @Override
+  protected JSProperty convertToT(final String val) {
     final JSProperty ov =
-            factory.makeProperty(rid,
-                                 JSTypes.typeOverride,
-                                 null);
-    addProperty(ov);
+            getFactory().makeProperty(val,
+                                      JSTypes.typeOverride,
+                                      getNode().get(val));
     ((JSOverride)ov.getValue()).setMaster(master);
+    return ov;
+  }
+
+  @Override
+  public JSProperty makeOverride(final String rid) {
+    final JSProperty ov =
+            getFactory().makeProperty(rid,
+                                      JSTypes.typeOverride,
+                                      null);
+    add(ov);
 
     return ov;
   }

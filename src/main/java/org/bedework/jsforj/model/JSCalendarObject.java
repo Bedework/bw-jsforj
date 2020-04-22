@@ -1,9 +1,9 @@
 package org.bedework.jsforj.model;
 
-import org.bedework.jsforj.model.values.JSArray;
+import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSParticipant;
-import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSValue;
 
 /** Top level objects

@@ -1,22 +1,24 @@
-package org.bedework.jsforj.model.values;
+package org.bedework.jsforj.model.values.collections;
+
+import org.bedework.jsforj.model.values.JSValue;
 
 import java.util.List;
 
-/** Have type xxx[Boolean]
+/** Have type xxx[]
  *
  * User: mike Date: 10/25/19 Time: 12:46
  */
-public interface JSList<T> extends JSValue {
+public interface JSArray<T> extends JSValue {
   /**
-   * Returns the number of elements in this list.  If this list contains
+   * Returns the number of elements in this array.  If this array contains
    * more than {@code Integer.MAX_VALUE} elements, returns
    * {@code Integer.MAX_VALUE}.
    *
-   * @return the number of elements in this list
+   * @return the number of elements in this array
    */
   int size();
 
-  /**
+  /** Returns a list even though it's an array in json
    *
    * @return all the values or empty list
    */
@@ -38,8 +40,15 @@ public interface JSList<T> extends JSValue {
 
   /**
    *
-   * @param val to remove
+   * @param index of element to remove
    * @throws RuntimeException if index out of bounds
    */
-  void remove(T val);
+  void remove(int index);
+
+  /**
+   *
+   * @param val to remove
+   * @return  false if not found
+   */
+  boolean remove(T val);
 }

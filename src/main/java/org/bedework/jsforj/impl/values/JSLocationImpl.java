@@ -4,7 +4,7 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.JSList;
+import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 
 import com.fasterxml.jackson.databind.JsonNode;

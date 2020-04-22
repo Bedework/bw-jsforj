@@ -4,12 +4,13 @@
 package org.bedework.jsforj.impl.values.collections;
 
 import org.bedework.jsforj.impl.values.JSValueImpl;
-import org.bedework.jsforj.model.values.JSList;
+import org.bedework.jsforj.model.values.collections.JSList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,13 +26,19 @@ public abstract class JSListImpl<T> extends JSValueImpl
   /**
    *
    * @param val external representation
-   * @return internal representation (json field name)
    */
-  protected abstract String convertToString(final T val);
+  protected abstract void store(final T val);
 
   /**
    *
-   * @param val internal representation (json field name)
+   * @param val external representation
+   * @return field name
+   */
+  protected abstract String fieldName(final T val);
+
+  /**
+   *
+   * @param val json field name
    * @return external representation
    */
   protected abstract T convertToT(final String val);
@@ -48,12 +55,13 @@ public abstract class JSListImpl<T> extends JSValueImpl
     assertObject("get");
 
     final var res = new ArrayList<T>(getNode().size());
+    final var node = (ObjectNode)getNode();
 
-    for (var it = getNode().fieldNames(); it.hasNext(); ) {
+    for (var it = node.fieldNames(); it.hasNext(); ) {
       res.add(convertToT(it.next()));
     }
 
-    return res;
+    return Collections.unmodifiableList(res);
   }
 
   @Override
@@ -69,7 +77,9 @@ public abstract class JSListImpl<T> extends JSValueImpl
        list
      */
 
-    var it = getNode().fieldNames();
+    final var node = (ObjectNode)getNode();
+    final var it = node.fieldNames();
+
     String fld = null;
     for (int i = 0; i <= index; i++) {
       fld = it.next();
@@ -82,18 +92,14 @@ public abstract class JSListImpl<T> extends JSValueImpl
   public void add(final T val) {
     assertObject("add");
 
-    var node = (ObjectNode)getNode();
-
-    node.put(convertToString(val), true);
+    store(val);
   }
 
   @Override
   public void remove(final T val) {
     assertObject("remove");
 
-    String fldName = convertToString(val);
-
     var node = (ObjectNode)getNode();
-    node.remove(fldName);
+    node.remove(fieldName(val));
   }
 }

@@ -4,7 +4,7 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.JSArray;
+import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.JSLocalDateTime;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
 import org.bedework.jsforj.model.values.UnsignedInteger;

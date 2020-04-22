@@ -50,6 +50,10 @@ public class JSValueImpl implements JSValue {
 //    }
   }
 
+  protected JSFactory getFactory() {
+    return factory;
+  }
+
   @Override
   public String getType() {
     return type;

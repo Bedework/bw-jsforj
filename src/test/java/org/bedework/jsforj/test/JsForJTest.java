@@ -14,10 +14,10 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.JSLinks;
-import org.bedework.jsforj.model.values.JSList;
+import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
-import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.UnsignedInteger;
@@ -99,7 +99,7 @@ public class JsForJTest {
         final JSRecurrenceOverrides ovs = obj.getOverrides(false);
 
         if (ovs != null) {
-          final List<JSProperty> ovsl = ovs.getOverrides();
+          final List<JSProperty> ovsl = ovs.get();
           if (!Util.isEmpty(ovsl)) {
             final JSValue ovVal = ovsl.get(0).getValue();
 

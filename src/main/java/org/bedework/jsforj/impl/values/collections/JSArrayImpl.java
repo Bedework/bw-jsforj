@@ -4,7 +4,7 @@
 package org.bedework.jsforj.impl.values.collections;
 
 import org.bedework.jsforj.impl.values.JSValueImpl;
-import org.bedework.jsforj.model.values.JSArray;
+import org.bedework.jsforj.model.values.collections.JSArray;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

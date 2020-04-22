@@ -96,7 +96,7 @@ public class JsForJTest {
 
         info(obj.writeValueAsStringFormatted(mapper));
 
-        final JSRecurrenceOverrides ovs = obj.getOverrides();
+        final JSRecurrenceOverrides ovs = obj.getOverrides(false);
 
         if (ovs != null) {
           final List<JSProperty> ovsl = ovs.getOverrides();

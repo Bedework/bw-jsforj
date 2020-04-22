@@ -70,4 +70,16 @@ public class JSRecurrenceOverridesImpl extends JSValueImpl
 
     addProperty(val);
   }
+
+  @Override
+  public JSProperty addOverride(final String rid) {
+    final JSProperty ov =
+            factory.makeProperty(rid,
+                                 JSTypes.typeOverride,
+                                 null);
+    addProperty(ov);
+    ((JSOverride)ov.getValue()).setMaster(master);
+
+    return ov;
+  }
 }

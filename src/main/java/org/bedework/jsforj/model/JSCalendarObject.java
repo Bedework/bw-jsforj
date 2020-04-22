@@ -2,7 +2,6 @@ package org.bedework.jsforj.model;
 
 import org.bedework.jsforj.model.values.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
-import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSValue;
@@ -42,15 +41,17 @@ public interface JSCalendarObject extends JSValue {
 
   /**
    *
+   * @param create true if we create proeprty if it doesn't exist
    * @return JSLinks object - never null if create true
    */
   JSLinks getLinks(boolean create);
 
   /**
    *
-   * @return list of JSOverride - never null
+   * @param create true if we create property if it doesn't exist
+   * @return recurrences object
    */
-  JSRecurrenceOverrides getOverrides();
+  JSRecurrenceOverrides getOverrides(boolean create);
 
   /** Remove all overrides
    *

@@ -18,5 +18,15 @@ public interface JSRecurrenceOverrides extends JSValue {
 
   List<JSProperty> getOverrides();
 
+  /** Adds an already existing override object
+   *
+   * @param val property with name as recurrenceId
+   */
   void addOverride(JSProperty val);
+
+  /** Create a new override object
+   *
+   * @param rid - the recurrenceId
+   */
+  JSProperty addOverride(String rid);
 }

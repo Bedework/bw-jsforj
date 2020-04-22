@@ -83,20 +83,21 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
-  public JSRecurrenceOverrides getOverrides() {
-    final JSProperty ovsp =
+  public JSRecurrenceOverrides getOverrides(final boolean create) {
+    JSProperty ovsp =
             getProperty(JSPropertyNames.recurrenceOverrides);
 
     if (ovsp == null) {
-      return null;
+      if (!create) {
+        return null;
+      }
+
+      ovsp = addProperty(
+              factory.makeProperty(JSPropertyNames.links));
     }
 
     final JSRecurrenceOverrides ovs =
             (JSRecurrenceOverrides)ovsp.getValue();
-
-    if (ovs == null) {
-      return null;
-    }
 
     ovs.setMaster(this);
     return ovs;

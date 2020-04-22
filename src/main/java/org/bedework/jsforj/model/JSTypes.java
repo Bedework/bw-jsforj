@@ -66,4 +66,7 @@ public interface JSTypes {
   String typeOffsetTrigger = "OffsetTrigger";
   String typeAbsoluteTrigger = "AbsoluteTrigger";
   String typeUnknownTrigger = "UnknownTrigger";
+
+  // Internally used types
+  String typeOverride = "override";
 }

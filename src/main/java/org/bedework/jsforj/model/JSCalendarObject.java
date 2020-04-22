@@ -4,9 +4,8 @@ import org.bedework.jsforj.model.values.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSValue;
-
-import java.util.List;
 
 /** Top level objects
  *
@@ -47,13 +46,11 @@ public interface JSCalendarObject extends JSValue {
    */
   JSLinks getLinks(boolean create);
 
-  void addOverride(JSOverride val);
-
   /**
    *
    * @return list of JSOverride - never null
    */
-  List<JSOverride> getOverrides();
+  JSRecurrenceOverrides getOverrides();
 
   /** Remove all overrides
    *

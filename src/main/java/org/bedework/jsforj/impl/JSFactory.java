@@ -97,6 +97,11 @@ public class JSFactory {
     return newValue(type, nd);
   }
 
+  public JSValue makePropertyValueWithType(final String type,
+                                           final JsonNode nd) {
+    return newValue(type, nd);
+  }
+
   /** Create a string property
    *
    * @param propertyName of property
@@ -131,6 +136,23 @@ public class JSFactory {
                                  final JsonNode nd) {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makePropertyValue(propertyName, nd);
+
+    return new JSPropertyImpl(propertyName, value);
+  }
+
+  /** Used for the situations where we have no @type - path objects.
+   * These are used for overrides and localizations.
+   *
+   * @param propertyName the name of the property
+   * @param type the type the value it needs to be
+   * @param nd the node with the value
+   * @return a new property
+   */
+  public JSProperty makeProperty(final String propertyName,
+                                 final String type,
+                                 final JsonNode nd) {
+    //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
+    final var value = makePropertyValueWithType(type, nd);
 
     return new JSPropertyImpl(propertyName, value);
   }

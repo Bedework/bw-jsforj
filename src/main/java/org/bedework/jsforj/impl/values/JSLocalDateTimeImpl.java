@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLocalDateTime;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,9 +21,8 @@ public class JSLocalDateTimeImpl extends JSValueImpl
   //Build formatter
   static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
-  public JSLocalDateTimeImpl(final String type,
-                             final String value) {
-    super(type, new TextNode(value));
+  public JSLocalDateTimeImpl(final String value) {
+    super(JSTypes.typeLocalDateTime, new TextNode(value));
 
     // validate it
     LocalDateTime.parse(value, formatter);

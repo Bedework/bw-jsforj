@@ -9,7 +9,7 @@ import java.util.List;
  *
  * User: mike Date: 4/3/20 Time: 21:50
  */
-public interface JSLinks {
+public interface JSLinks extends JSValue {
   /**
    *
    * @param link to add to collection
@@ -27,9 +27,4 @@ public interface JSLinks {
    * @return list of JSLink with given rel - never null
    */
   List<JSLink> getAll(final String rel);
-
-  /** Remove all links
-   *
-   */
-  void clear();
 }

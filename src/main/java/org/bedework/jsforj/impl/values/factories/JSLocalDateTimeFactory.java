@@ -14,8 +14,8 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class JSLocalDateTimeFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String type,
                           final JsonNode nd) {
-    return new JSLocalDateTimeImpl(name, nd);
+    return new JSLocalDateTimeImpl(type, nd);
   }
 }

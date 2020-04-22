@@ -8,13 +8,10 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
-import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: mike Date: 10/24/19 Time: 17:09
@@ -86,41 +83,23 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
-  public void addOverride(final JSOverride val) {
-    final String rid = val.getRecurrenceId();
-    if (rid == null) {
-      throw new RuntimeException("Recurrenceid must be set for an override");
+  public JSRecurrenceOverrides getOverrides() {
+    final JSProperty ovsp =
+            getProperty(JSPropertyNames.recurrenceOverrides);
+
+    if (ovsp == null) {
+      return null;
     }
 
-    val.setMaster(this);
-
-    JSProperty ovs = getProperty(JSPropertyNames.recurrenceOverrides);
+    final JSRecurrenceOverrides ovs =
+            (JSRecurrenceOverrides)ovsp.getValue();
 
     if (ovs == null) {
-      ovs = addProperty(
-              factory.makeProperty(JSPropertyNames.recurrenceOverrides));
+      return null;
     }
 
-    ovs.getValue().setProperty(factory.makeProperty(rid, val));
-  }
-
-  @Override
-  public List<JSOverride> getOverrides() {
-    JSProperty ovs = getProperty(JSPropertyNames.recurrenceOverrides);
-
-    final List<JSOverride> res = new ArrayList<>();
-
-    if (ovs == null) {
-      return res;
-    }
-
-    for (final JSProperty prop: ovs.getValue().getPropertyList()) {
-      final JSOverride ov = (JSOverride)prop.getValue();
-      ov.setMaster(this);
-      res.add(ov);
-    }
-
-    return res;
+    ovs.setMaster(this);
+    return ovs;
   }
 
   @Override

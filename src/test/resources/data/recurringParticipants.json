@@ -49,7 +49,6 @@
   },
   "recurrenceOverrides": {
     "2018-03-08T09:00:00": {
-      "@type": "PatchObject",
       "participants/dG9tQGZvb2Jhci5xlLmNvbQ/participationStatus":
       "declined"
     }

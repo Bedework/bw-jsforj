@@ -99,7 +99,7 @@ public class JSValueImpl implements JSValue {
       var fieldName = it.next();
 
       props.add(factory.makeProperty(fieldName,
-                                     node.get(fieldName)));
+                                     nd.get(fieldName)));
     }
 
     return Collections.unmodifiableList(props);

@@ -7,6 +7,7 @@ import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
+import org.bedework.jsforj.impl.values.factories.JSIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinksFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocalDateTimeFactory;
@@ -15,6 +16,7 @@ import org.bedework.jsforj.impl.values.factories.JSLocationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSOverrideFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
+import org.bedework.jsforj.impl.values.factories.JSRecurrenceOverridesFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
@@ -479,7 +481,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSIntArrayFactory.class); // factoryClass
 
     type(JSTypes.typeJSEvent,
          false, // valueList
@@ -544,6 +546,13 @@ public class JSPropertyAttributes {
          true, // object
          JSTriggerFactory.class); // factoryClass
 
+    type(JSTypes.typeOverride,
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         true, // object
+         JSOverrideFactory.class); // factoryClass
+
     type(JSTypes.typeParticipant,
          false, // valueList
          false, // propertyList
@@ -570,7 +579,7 @@ public class JSPropertyAttributes {
          true, // propertyList
          types(JSTypes.typePatchObject), // elementType
          false, // object
-         JSOverrideFactory.class); // factoryClass
+         JSRecurrenceOverridesFactory.class); // factoryClass
 
     type(JSTypes.typeRecurrenceRule,
          true, // valueList

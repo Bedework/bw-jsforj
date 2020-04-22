@@ -5,9 +5,11 @@ package org.bedework.jsforj.test;
 
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSMapper;
+import org.bedework.jsforj.impl.values.JSOverrideImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
+import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
@@ -15,8 +17,11 @@ import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
+import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.UnsignedInteger;
+import org.bedework.util.misc.Util;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -30,6 +35,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -89,6 +95,19 @@ public class JsForJTest {
         final JSCalendarObject obj = mapper.parse(new FileReader(f));
 
         info(obj.writeValueAsStringFormatted(mapper));
+
+        final JSRecurrenceOverrides ovs = obj.getOverrides();
+
+        if (ovs != null) {
+          final List<JSProperty> ovsl = ovs.getOverrides();
+          if (!Util.isEmpty(ovsl)) {
+            final JSValue ovVal = ovsl.get(0).getValue();
+
+            Assert.assertEquals("Must be JSOverrideImpl:",
+                                JSOverrideImpl.class,
+                                ovVal.getClass());
+          }
+        }
       }
     } catch (final Throwable t) {
       t.printStackTrace();

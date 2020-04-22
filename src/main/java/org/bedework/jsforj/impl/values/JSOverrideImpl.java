@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * User: mike Date: 10/24/19 Time: 17:18
  */
-public class JSOverrideImpl extends JSCalendarObjectImpl
+public class JSOverrideImpl extends JSPatchObjectImpl
         implements JSOverride {
   private JSCalendarObject master;
 

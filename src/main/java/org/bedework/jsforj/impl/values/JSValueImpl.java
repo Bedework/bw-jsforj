@@ -13,6 +13,7 @@ import org.bedework.jsforj.model.values.UnsignedInteger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -244,6 +245,18 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public void setNull(final String name) {
+    var prop = getProperty(name);
+
+    if (prop != null) {
+      // Remove then add
+      removeProperty(name);
+    }
+
+    ((ObjectNode)node).set(name, NullNode.getInstance());
+  }
+
+  @Override
   public boolean isString() {
     return node.isTextual();
   }
@@ -264,6 +277,12 @@ public class JSValueImpl implements JSValue {
   @Override
   public JSProperty addProperty(final String name,
                                 final UnsignedInteger val) {
+    return addProperty(factory.makeProperty(name, val));
+  }
+
+  @Override
+  public JSProperty addProperty(final String name,
+                                final boolean val) {
     return addProperty(factory.makeProperty(name, val));
   }
 

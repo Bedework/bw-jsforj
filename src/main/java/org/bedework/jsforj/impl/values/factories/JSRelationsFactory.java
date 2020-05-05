@@ -4,7 +4,7 @@
 package org.bedework.jsforj.impl.values.factories;
 
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
-import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.impl.values.collections.JSRelationsImpl;
 import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,6 +24,6 @@ public class JSRelationsFactory extends JSValueFactoryImpl {
             Objects.requireNonNullElseGet(nd,
                                           () -> new ObjectNode(
                                                   JsonNodeFactory.instance));
-    return new JSValueImpl(typeName, theNode);
+    return new JSRelationsImpl(typeName, theNode);
   }
 }

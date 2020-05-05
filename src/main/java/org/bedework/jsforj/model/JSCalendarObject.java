@@ -1,10 +1,12 @@
 package org.bedework.jsforj.model;
 
-import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSParticipant;
-import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSValue;
+import org.bedework.jsforj.model.values.collections.JSArray;
+import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRelations;
 
 /** Top level objects
  *
@@ -41,7 +43,14 @@ public interface JSCalendarObject extends JSValue {
 
   /**
    *
-   * @param create true if we create proeprty if it doesn't exist
+   * @param create true if we create property if it doesn't exist
+   * @return JSList<String> object - never null if create true
+   */
+  JSList<String> getKeywords(boolean create);
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
    * @return JSLinks object - never null if create true
    */
   JSLinks getLinks(boolean create);
@@ -57,4 +66,11 @@ public interface JSCalendarObject extends JSValue {
    *
    */
   void clearOverrides();
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return relations object
+   */
+  JSRelations getRelations(boolean create);
 }

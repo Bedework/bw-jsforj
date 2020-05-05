@@ -1,5 +1,7 @@
 package org.bedework.jsforj.model.values;
 
+import org.bedework.jsforj.model.values.collections.JSList;
+
 /**
  * User: mike Date: 10/25/19 Time: 12:46
  */
@@ -39,4 +41,11 @@ public interface JSParticipant extends JSValue {
   void setInvitedBy(String val);
 
   String getInvitedBy();
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return JSList<String> object - never null if create true
+   */
+  JSList<String> getRoles(boolean create);
 }

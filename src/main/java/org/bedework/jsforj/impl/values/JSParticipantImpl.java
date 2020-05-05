@@ -3,8 +3,10 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.collections.JSList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -106,5 +108,21 @@ public class JSParticipantImpl extends JSValueImpl
   @Override
   public String getInvitedBy() {
     return getStringProperty(JSPropertyNames.invitedBy);
+  }
+
+  @Override
+  public JSList<String> getRoles(final boolean create) {
+    final JSProperty val = getProperty(JSPropertyNames.roles);
+
+    if (val != null) {
+      return (JSList<String>)val.getValue();
+    }
+
+    if (!create) {
+      return null;
+    }
+
+    return (JSList<String>)addProperty(
+            factory.makeProperty(JSPropertyNames.roles)).getValue();
   }
 }

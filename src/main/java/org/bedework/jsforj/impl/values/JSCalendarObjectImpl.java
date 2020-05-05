@@ -9,7 +9,9 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRelations;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -67,6 +69,22 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
+  public JSList<String> getKeywords(final boolean create) {
+    final JSProperty keywords = getProperty(JSPropertyNames.keywords);
+
+    if (keywords != null) {
+      return (JSList<String>)keywords.getValue();
+    }
+
+    if (!create) {
+      return null;
+    }
+
+    return (JSList<String>)addProperty(
+            factory.makeProperty(JSPropertyNames.keywords)).getValue();
+  }
+
+  @Override
   public JSLinks getLinks(final boolean create) {
     final JSProperty links = getProperty(JSPropertyNames.links);
 
@@ -93,7 +111,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
       }
 
       ovsp = addProperty(
-              factory.makeProperty(JSPropertyNames.links));
+              factory.makeProperty(JSPropertyNames.recurrenceOverrides));
     }
 
     final JSRecurrenceOverrides ovs =
@@ -106,5 +124,22 @@ public class JSCalendarObjectImpl extends JSValueImpl
   @Override
   public void clearOverrides() {
     removeProperty(JSPropertyNames.recurrenceOverrides);
+  }
+
+  @Override
+  public JSRelations getRelations(final boolean create) {
+    JSProperty relsp =
+            getProperty(JSPropertyNames.relatedTo);
+
+    if (relsp == null) {
+      if (!create) {
+        return null;
+      }
+
+      relsp = addProperty(
+              factory.makeProperty(JSPropertyNames.relatedTo));
+    }
+
+    return (JSRelations)relsp.getValue();
   }
 }

@@ -5,7 +5,6 @@ package org.bedework.jsforj.model.values.collections;
 
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
-import org.bedework.jsforj.model.values.collections.JSList;
 
 /**
  * User: mike Date: 4/21/20 Time: 13:45

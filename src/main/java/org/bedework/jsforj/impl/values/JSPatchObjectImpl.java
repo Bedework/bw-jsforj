@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * User: mike Date: 4/21/20 Time: 18:36
  */
-public class JSPatchObjectImpl extends JSValueImpl
+public class JSPatchObjectImpl extends JSCalendarObjectImpl
         implements JSPatchObject {
   public JSPatchObjectImpl(final String type,
                            final JsonNode node) {

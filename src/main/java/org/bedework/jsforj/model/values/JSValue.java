@@ -157,6 +157,13 @@ public interface JSValue {
    */
   String getStringProperty(String name);
 
+  /** Sets teh named property to have a value of null.
+   * This is only used for patch objects to signify the removal of a
+   * property by an override.
+   *
+   * @param name of property
+   */
+  void setNull(String name);
   /**
    *
    * @return true if this is a string
@@ -179,6 +186,15 @@ public interface JSValue {
    * @throws RuntimeException if not an object or property already exists
    */
   JSProperty addProperty(final String name, final UnsignedInteger val);
+
+  /** Add a boolean type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - true/false
+   * @return the property
+   * @throws RuntimeException if not an object or property already exists
+   */
+  JSProperty addProperty(final String name, final boolean val);
 
   /** Returns value of named UnsignedInteger property.
    *

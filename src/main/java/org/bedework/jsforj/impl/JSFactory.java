@@ -20,6 +20,7 @@ import org.bedework.jsforj.model.values.UnsignedInteger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -124,6 +125,25 @@ public class JSFactory {
   public JSProperty makeProperty(final String propertyName,
                                  final UnsignedInteger value) {
     var node = new IntNode(value.get());
+
+    return makeProperty(propertyName, node);
+  }
+
+  /** Create a boolean property
+   *
+   * @param propertyName of property
+   * @param value true/false
+   * @return the property
+   */
+  public JSProperty makeProperty(final String propertyName,
+                                 final boolean value) {
+    JsonNode node;
+
+    if (value) {
+      node = BooleanNode.getTrue();
+    } else {
+      node = BooleanNode.getFalse();
+    }
 
     return makeProperty(propertyName, node);
   }

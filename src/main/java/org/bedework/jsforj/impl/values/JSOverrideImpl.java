@@ -44,4 +44,14 @@ public class JSOverrideImpl extends JSPatchObjectImpl
   public JSCalendarObject getMaster() {
     return master;
   }
+
+  @Override
+  public void setUid(final String val) {
+    throw new RuntimeException("Cannot set uid in patch object");
+  }
+
+  @Override
+  public String getUid() {
+    return null;
+  }
 }

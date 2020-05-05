@@ -177,6 +177,9 @@ public class JsForJTest {
       part.setKind("turkey");
       part.setLanguage("gobble");
       part.setInvitedBy("thechicken@chickens.example.com");
+      var roles = part.getRoles(true);
+      roles.add("owner");
+      roles.add("chair");
 
       event.addParticipant(uid, part);
 

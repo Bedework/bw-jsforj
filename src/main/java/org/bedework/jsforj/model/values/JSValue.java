@@ -4,6 +4,7 @@ import org.bedework.jsforj.model.JSProperty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Writer;
 import java.util.List;
 
 /**
@@ -210,6 +211,14 @@ public interface JSValue {
    * @throws RuntimeException if not a String property
    */
   String getStringValue();
+
+  /** Convert to json with this as root
+   *
+   * @param wtr to write to
+   * @param mapper to convert
+   */
+  void writeValue(Writer wtr,
+                  ObjectMapper mapper);
 
   /** Convert to json with this as root
    *

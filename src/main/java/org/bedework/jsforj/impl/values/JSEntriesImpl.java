@@ -3,8 +3,10 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.impl.properties.JSPropertyImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.values.JSEntries;
+import org.bedework.jsforj.model.values.JSLocalDateTime;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -39,6 +41,15 @@ public class JSEntriesImpl extends JSValueImpl
 
   @Override
   public void addEntry(final JSCalendarObject val) {
-    throw new RuntimeException("Not implemented");
+    final JSLocalDateTime rid = val.getRecurrenceId();
+    final String id;
+
+    if (rid != null) {
+      id = val.getUid() + "#" + rid.getDt().toString();
+    } else {
+      id = val.getUid();
+    }
+
+    addProperty(new JSPropertyImpl(id, val));
   }
 }

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -305,6 +306,16 @@ public class JSValueImpl implements JSValue {
     }
 
     throw new RuntimeException("Not String value");
+  }
+
+  @Override
+  public void writeValue(final Writer wtr,
+                           final ObjectMapper mapper) {
+    try {
+      mapper.writeValue(wtr, node);
+    } catch (final Throwable t) {
+      throw new RuntimeException(t);
+    }
   }
 
   @Override

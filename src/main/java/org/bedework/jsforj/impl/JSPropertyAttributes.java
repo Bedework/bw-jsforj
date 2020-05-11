@@ -490,6 +490,13 @@ public class JSPropertyAttributes {
          true, // object
          JSCalendarObjectFactory.class); // factoryClass
 
+    type(JSTypes.typeJSGroup,
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         true, // object
+         JSCalendarObjectFactory.class); // factoryClass
+
     type(JSTypes.typeJSTask,
          false, // valueList
          false, // propertyList
@@ -624,8 +631,8 @@ public class JSPropertyAttributes {
          JSStringArrayFactory.class); // factoryClass
 
     type(JSTypes.typeStrings,
-         true, // valueList
-         false, // propertyList
+         false, // valueList
+         true, // propertyList
          types(JSTypes.typeString), // elementType
          false, // object
          JSStringListFactory.class); // factoryClass

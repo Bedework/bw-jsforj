@@ -6,10 +6,12 @@ package org.bedework.jsforj.impl.values;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.JSLinks;
+import org.bedework.jsforj.model.values.JSLocalDateTime;
 import org.bedework.jsforj.model.values.JSParticipant;
+import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.collections.JSLocations;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRelations;
 
@@ -38,6 +40,19 @@ public class JSCalendarObjectImpl extends JSValueImpl
   @Override
   public String getUid() {
     return getStringProperty(JSPropertyNames.uid);
+  }
+
+  @Override
+  public void setRecurrenceId(final JSLocalDateTime val) {
+    if (getRecurrenceId() != null) {
+      throw new RuntimeException("recurrenceId is immutable");
+    }
+    addProperty(factory.makeProperty(JSPropertyNames.recurrenceId, val));
+  }
+
+  @Override
+  public JSLocalDateTime getRecurrenceId() {
+    return (JSLocalDateTime)getPropertyValue(JSPropertyNames.recurrenceId);
   }
 
   @Override
@@ -98,6 +113,22 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
     return (JSLinks)addProperty(
             factory.makeProperty(JSPropertyNames.links)).getValue();
+  }
+
+  @Override
+  public JSLocations getLocations(final boolean create) {
+    final JSProperty p = getProperty(JSPropertyNames.locations);
+
+    if (p != null) {
+      return (JSLocations)p.getValue();
+    }
+
+    if (!create) {
+      return null;
+    }
+
+    return (JSLocations)addProperty(
+            factory.makeProperty(JSPropertyNames.locations)).getValue();
   }
 
   @Override

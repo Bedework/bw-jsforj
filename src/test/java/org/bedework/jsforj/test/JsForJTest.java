@@ -14,6 +14,7 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.JSLinks;
+import org.bedework.jsforj.model.values.JSRelation;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
@@ -182,6 +183,13 @@ public class JsForJTest {
       roles.add("chair");
 
       event.addParticipant(uid, part);
+
+      var relations = event.getRelations(true);
+
+      var rel = relations.makeRelation("this.is.a.uid");
+      JSRelation relVal = (JSRelation)rel.getValue();
+
+      relVal.getRelations(true).add("parent");
 
       JSLink link =
               (JSLink)factory.newValue(JSTypes.typeLink);

@@ -29,4 +29,18 @@ public abstract class JSValueFactoryImpl extends JSValueFactory {
 
     return node;
   }
+
+  /**
+   *
+   * @param typeName to be added as property
+   * @return ObjectNode
+   */
+  protected JsonNode ensureType(final String typeName,
+                                final ObjectNode node) {
+    if (node.get(JSPropertyNames.type) == null) {
+      node.put(JSPropertyNames.type, typeName);
+    }
+
+    return node;
+  }
 }

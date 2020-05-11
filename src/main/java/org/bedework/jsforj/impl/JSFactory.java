@@ -246,7 +246,7 @@ public class JSFactory {
       valueFactories.put(factoryClass, vfactory);
     }
 
-    return vfactory.newValue(type, node);
+    return vfactory.newValue(type, theNode);
   }
 
   public String getType(final JsonNode nd) {

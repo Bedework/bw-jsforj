@@ -328,6 +328,15 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public boolean getBooleanValue() {
+    if (node.isBoolean()) {
+      return node.asBoolean();
+    }
+
+    throw new RuntimeException("Not boolean value");
+  }
+
+  @Override
   public void writeValue(final Writer wtr,
                            final ObjectMapper mapper) {
     try {

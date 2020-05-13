@@ -229,6 +229,13 @@ public interface JSValue {
    */
   String getStringValue();
 
+  /** Returns value as a boolean.
+   *
+   * @return the value of the property
+   * @throws RuntimeException if not a boolean property
+   */
+  boolean getBooleanValue();
+
   /** Convert to json with this as root
    *
    * @param wtr to write to

@@ -8,6 +8,7 @@ import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSLocations;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
 
 /** Top level objects
@@ -83,6 +84,13 @@ public interface JSCalendarObject extends JSValue {
    * @return recurrences object
    */
   JSRecurrenceOverrides getOverrides(boolean create);
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return recurrence rules object
+   */
+  JSRecurrenceRules getRecurrenceRules(boolean create);
 
   /** Remove all overrides
    *

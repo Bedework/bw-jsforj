@@ -25,7 +25,7 @@ import java.util.List;
  * User: mike Date: 10/24/19 Time: 10:35
  */
 public class JSValueImpl implements JSValue {
-  final static JSFactory factory = JSFactory.getFactory();
+  protected final static JSFactory factory = JSFactory.getFactory();
 
   private final String type;
   private final JSPropertyAttributes.TypeInfo typeInfo;
@@ -282,6 +282,25 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public JSProperty setProperty(final String name,
+                                final Integer val) {
+    var prop = getProperty(name);
+
+    if (prop != null) {
+      // Remove then add
+      removeProperty(name);
+    }
+
+    return addProperty(name, val);
+  }
+
+  @Override
+  public JSProperty addProperty(final String name,
+                                final Integer val) {
+    return addProperty(factory.makeProperty(name, val));
+  }
+
+  @Override
   public JSProperty addProperty(final String name,
                                 final boolean val) {
     return addProperty(factory.makeProperty(name, val));
@@ -338,6 +357,22 @@ public class JSValueImpl implements JSValue {
 
   public JsonNode getNode() {
     return node;
+  }
+
+  protected <T> T getValue(final Class<T> type,
+                           final String pname,
+                           final boolean create) {
+    JSProperty p = getProperty(pname);
+
+    if (p == null) {
+      if (!create) {
+        return null;
+      }
+
+      p = addProperty(factory.makeProperty(pname));
+    }
+
+    return (T)p.getValue();
   }
 
   protected void assertStringNode() {

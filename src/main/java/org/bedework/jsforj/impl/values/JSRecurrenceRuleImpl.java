@@ -4,10 +4,12 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.collections.JSArray;
+import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLocalDateTime;
+import org.bedework.jsforj.model.values.JSNDay;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
 import org.bedework.jsforj.model.values.UnsignedInteger;
+import org.bedework.jsforj.model.values.collections.JSArray;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -27,8 +29,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public String getFrequency() {
-    return getStringProperty(JSPropertyNames.frequency);
+  public String getFrequency(final boolean create) {
+    return getValue(String.class, JSPropertyNames.frequency, create);
   }
 
   @Override
@@ -37,8 +39,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public UnsignedInteger getInterval() {
-    return getUnsignedIntegerProperty(JSPropertyNames.interval);
+  public UnsignedInteger getInterval(final boolean create) {
+    return getValue(UnsignedInteger.class, JSPropertyNames.interval, create);
   }
 
   @Override
@@ -47,8 +49,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public String getRscale() {
-    return getStringProperty(JSPropertyNames.rscale);
+  public String getRscale(final boolean create) {
+    return getValue(String.class, JSPropertyNames.rscale, create);
   }
 
   @Override
@@ -57,8 +59,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public String getSkip() {
-    return getStringProperty(JSPropertyNames.skip);
+  public String getSkip(final boolean create) {
+    return getValue(String.class, JSPropertyNames.skip, create);
   }
 
   @Override
@@ -67,8 +69,26 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public String getFirstDayOfWeek() {
-    return getStringProperty(JSPropertyNames.firstDayOfWeek);
+  public String getFirstDayOfWeek(final boolean create) {
+    return getValue(String.class, JSPropertyNames.firstDayOfWeek, create);
+  }
+
+  @Override
+  public JSArray<JSNDay> getByDay(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byDay, create);
+  }
+
+  @Override
+  public void addByDayValue(final String day,
+                            final Integer nthOfPeriod) {
+    final JSNDay nday = (JSNDay)factory.newValue(JSTypes.typeNDay);
+
+    nday.setProperty(JSPropertyNames.day, day);
+    if ((nthOfPeriod != null) && (nthOfPeriod != 0)) {
+      nday.setProperty(JSPropertyNames.nthOfPeriod, nthOfPeriod);
+    }
+
+    getByDay(true).add(nday);
   }
 
   @Override
@@ -77,8 +97,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<Integer> getByMonthDay() {
-    return (JSArray<Integer>)getPropertyValueAlways(JSPropertyNames.byMonthDay);
+  public JSArray<Integer> getByMonthDay(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byMonthDay, create);
   }
 
   @Override
@@ -87,8 +107,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<String> getByMonth() {
-    return (JSArray<String>)getPropertyValueAlways(JSPropertyNames.byMonth);
+  public JSArray<String> getByMonth(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byMonth, create);
   }
 
   @Override
@@ -97,8 +117,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<Integer> getByYearDay() {
-    return (JSArray<Integer>)getPropertyValueAlways(JSPropertyNames.byYearDay);
+  public JSArray<Integer> getByYearDay(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byYearDay, create);
   }
 
   @Override
@@ -107,8 +127,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<Integer> getByWeekNo() {
-    return (JSArray<Integer>)getPropertyValueAlways(JSPropertyNames.byWeekNo);
+  public JSArray<Integer> getByWeekNo(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byWeekNo, create);
   }
 
   @Override
@@ -117,8 +137,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<UnsignedInteger> getByHour() {
-    return (JSArray<UnsignedInteger>)getPropertyValueAlways(JSPropertyNames.byHour);
+  public JSArray<UnsignedInteger> getByHour(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byHour, create);
   }
 
   @Override
@@ -127,8 +147,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<UnsignedInteger> getByMinute() {
-    return (JSArray<UnsignedInteger>)getPropertyValueAlways(JSPropertyNames.byMinute);
+  public JSArray<UnsignedInteger> getByMinute(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.byMinute, create);
   }
 
   @Override
@@ -137,8 +157,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<UnsignedInteger> getBySecond() {
-    return (JSArray<UnsignedInteger>)getPropertyValueAlways(JSPropertyNames.bySecond);
+  public JSArray<UnsignedInteger> getBySecond(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.bySecond, create);
   }
 
   @Override
@@ -147,8 +167,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSArray<Integer> getBySetPosition() {
-    return (JSArray<Integer>)getPropertyValueAlways(JSPropertyNames.bySetPosition);
+  public JSArray<Integer> getBySetPosition(final boolean create) {
+    return getValue(JSArray.class, JSPropertyNames.bySetPosition, create);
   }
 
   @Override
@@ -157,8 +177,8 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public UnsignedInteger getCount() {
-    return getUnsignedIntegerProperty(JSPropertyNames.count);
+  public UnsignedInteger getCount(final boolean create) {
+    return getValue(UnsignedInteger.class, JSPropertyNames.count, create);
   }
 
   @Override
@@ -167,7 +187,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
   }
 
   @Override
-  public JSLocalDateTime getUntil() {
-    return (JSLocalDateTime)getPropertyValue(JSPropertyNames.until);
+  public JSLocalDateTime getUntil(final boolean create) {
+    return getValue(JSLocalDateTime.class, JSPropertyNames.until, create);
   }
 }

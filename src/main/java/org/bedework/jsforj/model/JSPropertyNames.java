@@ -17,6 +17,8 @@ public interface JSPropertyNames {
   String alerts = "alerts";     //  Id[Alert]   Valid for: JSEvent,
   //                                   JSTask
   String byDay = "byDay";       // NDay[]         Valid for: Recurrence Rule
+  String day = "day";           // String         Valid for: NDay
+  String nthOfPeriod = "nthOfPeriod"; // Int      Valid for: NDay
   String byHour = "byHour";     // UnsignedInt[]  Valid for: Recurrence Rule
   String byMinute = "byMinute"; // UnsignedInt[]  Valid for: Recurrence Rule
   String byMonth = "byMonth";   // String[]       Valid for: Recurrence Rule
@@ -97,7 +99,7 @@ public interface JSPropertyNames {
   //                                   JSTask
   String recurrenceOverrides = "recurrenceOverrides";//  LocalDateTime[PatchObject]   Valid for: JSEvent,
   //                                   JSTask
-  String recurrenceRule = "recurrenceRule";//  RecurrenceRule Valid for: JSEvent,
+  String recurrenceRules = "recurrenceRules";//  RecurrenceRule Valid for: JSEvent,
   //                                   JSTask
   String rel = "rel";         //  String    Valid for: Link
   String relatedTo = "relatedTo";   //  String[Relation]   Valid for: JSEvent,

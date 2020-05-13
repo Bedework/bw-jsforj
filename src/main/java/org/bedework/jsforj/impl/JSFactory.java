@@ -129,6 +129,19 @@ public class JSFactory {
     return makeProperty(propertyName, node);
   }
 
+  /** Create an Integer property
+   *
+   * @param propertyName of property
+   * @param value Integer
+   * @return the property
+   */
+  public JSProperty makeProperty(final String propertyName,
+                                 final Integer value) {
+    var node = new IntNode(value);
+
+    return makeProperty(propertyName, node);
+  }
+
   /** Create a boolean property
    *
    * @param propertyName of property

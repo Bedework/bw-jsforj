@@ -188,6 +188,23 @@ public interface JSValue {
    */
   JSProperty addProperty(final String name, final UnsignedInteger val);
 
+  /** Set the value for an UnsignedInteger type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   */
+  JSProperty setProperty(final String name, final Integer val);
+
+  /** Add an UnsignedInteger type property
+   *
+   * @param name the property name - non null
+   * @param val the property value - non null
+   * @return the property
+   * @throws RuntimeException if not an object or property already exists
+   */
+  JSProperty addProperty(final String name, final Integer val);
+
   /** Add a boolean type property
    *
    * @param name the property name - non null

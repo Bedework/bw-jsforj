@@ -161,10 +161,9 @@ public class JsForJTest {
 
       locations.getValue().addProperty(factory.makeProperty(uid, loc));
 
-      var rruleP = event.addProperty(
-              factory.makeProperty(JSPropertyNames.recurrenceRule));
+      var rrules = event.getRecurrenceRules(true);
 
-      JSRecurrenceRule rrule = (JSRecurrenceRule)rruleP.getValue();
+      JSRecurrenceRule rrule = rrules.makeRecurrenceRule();
 
       rrule.setFrequency(JSRecurrenceRule.freqWeekly);
       rrule.setCount(new UnsignedInteger(10));

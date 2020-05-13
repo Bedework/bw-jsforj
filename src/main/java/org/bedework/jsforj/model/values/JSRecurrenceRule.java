@@ -16,63 +16,68 @@ public interface JSRecurrenceRule extends JSValue {
 
   void setFrequency(String val);
 
-  String getFrequency();
+  String getFrequency(boolean create);
 
   void setInterval(UnsignedInteger val);
 
-  UnsignedInteger getInterval();
+  UnsignedInteger getInterval(boolean create);
 
   void setRscale(String val);
 
-  String getRscale();
+  String getRscale(boolean create);
 
   void setSkip(String val);
 
-  String getSkip();
+  String getSkip(boolean create);
 
   void setFirstDayOfWeek(String val);
 
-  String getFirstDayOfWeek();
+  String getFirstDayOfWeek(boolean create);
 
   // byDay: "NDay[]"
 
+  JSArray<JSNDay> getByDay(boolean create);
+
+  void addByDayValue(String day,
+                     Integer nthOfPeriod);
+
   void setByMonthDay(JSArray<Integer> val);
 
-  JSArray<Integer> getByMonthDay();
+  JSArray<Integer> getByMonthDay(boolean create);
 
   void setByMonth(JSArray<String> val);
 
-  JSArray<String> getByMonth();
+  JSArray<String> getByMonth(boolean create);
 
   void setByYearDay(JSArray<Integer> val);
 
-  JSArray<Integer> getByYearDay();
+  JSArray<Integer> getByYearDay(boolean create);
 
   void setByWeekNo(JSArray<Integer> val);
 
-  JSArray<Integer> getByWeekNo();
+  JSArray<Integer> getByWeekNo(boolean create);
 
   void setByHour(JSArray<UnsignedInteger> val);
 
-  JSArray<UnsignedInteger> getByHour();
+  JSArray<UnsignedInteger> getByHour(boolean create);
 
   void setByMinute(JSArray<UnsignedInteger> val);
 
-  JSArray<UnsignedInteger> getByMinute();
+  JSArray<UnsignedInteger> getByMinute(boolean create);
 
   void setBySecond(JSArray<UnsignedInteger> val);
 
-  JSArray<UnsignedInteger> getBySecond();
+  JSArray<UnsignedInteger> getBySecond(boolean create);
 
   void setBySetPosition(JSArray<Integer> val);
 
-  JSArray<Integer> getBySetPosition();
+  JSArray<Integer> getBySetPosition(boolean create);
 
   void setCount(UnsignedInteger val);
 
-  UnsignedInteger getCount();
+  UnsignedInteger getCount(boolean create);
 
   void setUntil(JSLocalDateTime val);
 
-  JSLocalDateTime getUntil();
+  JSLocalDateTime getUntil(boolean create);
 }

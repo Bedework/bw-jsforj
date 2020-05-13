@@ -4,8 +4,8 @@
   "title": "Yoga",
   "start": "2018-01-01T07:00:00",
   "duration": "PT30M",
-  "recurrenceRule": {
+  "recurrenceRules": [{
     "@type": "RecurrenceRule",
     "frequency": "daily"
-  }
+  }]
 }

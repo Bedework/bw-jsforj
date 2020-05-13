@@ -27,14 +27,14 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
    * @param val external representation
    * @return internal representation (json field name)
    */
-  protected abstract String convertToString(final T val);
+  protected abstract JsonNode convertToElement(final T val);
 
   /**
    *
-   * @param val internal representation (json field name)
+   * @param node representing the object
    * @return external representation
    */
-  protected abstract T convertToT(final String val);
+  protected abstract T convertToT(final JsonNode node);
 
   @Override
   public int size() {
@@ -49,7 +49,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
 
     final var res = new ArrayList<T>(getNode().size());
 
-    for (var it = getNode().fieldNames(); it.hasNext(); ) {
+    for (var it = getNode().elements(); it.hasNext(); ) {
       res.add(convertToT(it.next()));
     }
 
@@ -70,7 +70,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
      */
 
     var node = (ArrayNode)getNode();
-    return convertToT(node.get(index).asText());
+    return convertToT(node.get(index));
   }
 
   @Override
@@ -79,7 +79,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
 
     var node = (ArrayNode)getNode();
 
-    node.add(convertToString(val));
+    node.add(convertToElement(val));
   }
 
   @Override

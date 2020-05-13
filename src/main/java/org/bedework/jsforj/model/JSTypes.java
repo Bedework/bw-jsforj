@@ -11,7 +11,7 @@ public interface JSTypes {
   String typeBoolean = "Boolean";
   String typeComments = "String[]";
   String typeDuration = "Duration";
-  String typeEntries = "String[JSTask|JSEvent]";
+  String typeEntries = "(JSTask|JSEvent)[]";
   String typeId = "Id";
   String typeIds = "Id[Boolean]";
   String typeInt = "Int";
@@ -33,6 +33,7 @@ public interface JSTypes {
   String typePatchObject = "PatchObject";
   String typeRecurrenceOverrides = "LocalDateTime[PatchObject]";
   String typeRecurrenceRule = "RecurrenceRule";
+  String typeRecurrenceRules = "RecurrenceRule[]";
   String typeRelation = "Relation";
   String typeRelations = "String[Relation]";
   String typeSignedDuration = "SignedDuration";

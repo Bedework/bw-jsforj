@@ -13,6 +13,7 @@ import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSLocations;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -85,71 +86,33 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSList<String> getKeywords(final boolean create) {
-    final JSProperty keywords = getProperty(JSPropertyNames.keywords);
-
-    if (keywords != null) {
-      return (JSList<String>)keywords.getValue();
-    }
-
-    if (!create) {
-      return null;
-    }
-
-    return (JSList<String>)addProperty(
-            factory.makeProperty(JSPropertyNames.keywords)).getValue();
+    return getValue(JSList.class, JSPropertyNames.keywords, create);
   }
 
   @Override
   public JSLinks getLinks(final boolean create) {
-    final JSProperty links = getProperty(JSPropertyNames.links);
-
-    if (links != null) {
-      return (JSLinks)links.getValue();
-    }
-
-    if (!create) {
-      return null;
-    }
-
-    return (JSLinks)addProperty(
-            factory.makeProperty(JSPropertyNames.links)).getValue();
+    return getValue(JSLinks.class, JSPropertyNames.links, create);
   }
 
   @Override
   public JSLocations getLocations(final boolean create) {
-    final JSProperty p = getProperty(JSPropertyNames.locations);
-
-    if (p != null) {
-      return (JSLocations)p.getValue();
-    }
-
-    if (!create) {
-      return null;
-    }
-
-    return (JSLocations)addProperty(
-            factory.makeProperty(JSPropertyNames.locations)).getValue();
+    return getValue(JSLocations.class, JSPropertyNames.locations, create);
   }
 
   @Override
   public JSRecurrenceOverrides getOverrides(final boolean create) {
-    JSProperty ovsp =
-            getProperty(JSPropertyNames.recurrenceOverrides);
-
-    if (ovsp == null) {
-      if (!create) {
-        return null;
-      }
-
-      ovsp = addProperty(
-              factory.makeProperty(JSPropertyNames.recurrenceOverrides));
-    }
-
     final JSRecurrenceOverrides ovs =
-            (JSRecurrenceOverrides)ovsp.getValue();
+            getValue(JSRecurrenceOverrides.class,
+                     JSPropertyNames.recurrenceOverrides, create);
 
     ovs.setMaster(this);
     return ovs;
+  }
+
+  @Override
+  public JSRecurrenceRules getRecurrenceRules(final boolean create) {
+    return getValue(JSRecurrenceRules.class,
+                    JSPropertyNames.recurrenceRules, create);
   }
 
   @Override
@@ -159,18 +122,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSRelations getRelations(final boolean create) {
-    JSProperty relsp =
-            getProperty(JSPropertyNames.relatedTo);
-
-    if (relsp == null) {
-      if (!create) {
-        return null;
-      }
-
-      relsp = addProperty(
-              factory.makeProperty(JSPropertyNames.relatedTo));
-    }
-
-    return (JSRelations)relsp.getValue();
+    return getValue(JSRelations.class,
+                    JSPropertyNames.relatedTo, create);
   }
 }

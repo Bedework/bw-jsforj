@@ -5,8 +5,8 @@
   "showWithoutTime": true,
   "start": "1900-04-01T00:00:00",
   "duration": "P1D",
-  "recurrenceRule": {
+  "recurrenceRules": [{
     "@type": "RecurrenceRule",
     "frequency": "yearly"
-  }
+  }]
 }

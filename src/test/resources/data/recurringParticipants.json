@@ -12,10 +12,10 @@
       "uri": "https://chatme.example.com?id=1234567"
     }
   },
-  "recurrenceRule": {
+  "recurrenceRules": [{
     "@type": "RecurrenceRule",
     "frequency": "weekly"
-  },
+  }],
   "replyTo": {
     "imip": "mailto:6489-4f14-a57f-c1@schedule.example.com"
   },

@@ -7,7 +7,7 @@ import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.JSEntries;
+import org.bedework.jsforj.model.values.collections.JSEntries;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -32,7 +32,7 @@ public class JSGroupImpl extends JSCalendarObjectImpl
       return Collections.emptyList();
     }
 
-    return entsVal.getEntries();
+    return entsVal.get();
   }
 
   @Override
@@ -48,7 +48,7 @@ public class JSGroupImpl extends JSCalendarObjectImpl
       entsVal = getEntsVal();
     }
 
-    entsVal.addEntry(val);
+    entsVal.add(val);
   }
 
   private JSEntries getEntsVal() {

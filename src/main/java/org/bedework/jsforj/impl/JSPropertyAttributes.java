@@ -18,6 +18,7 @@ import org.bedework.jsforj.impl.values.factories.JSParticipantFactory;
 import org.bedework.jsforj.impl.values.factories.JSParticipantsFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceOverridesFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
+import org.bedework.jsforj.impl.values.factories.JSRecurrenceRulesFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringArrayFactory;
@@ -192,6 +193,9 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.created,
           JSTypes.typeUTCDateTime);
 
+    ptype(JSPropertyNames.day,
+          JSTypes.typeString);
+
     ptype(JSPropertyNames.delegatedFrom,
           JSTypes.typeStrings);
 
@@ -282,7 +286,10 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.method,
           JSTypes.typeString);
 
-    ptype(JSPropertyNames.name,
+    ptype(JSPropertyNames.nthOfPeriod,
+          JSTypes.typeInt);
+
+    ptype(JSPropertyNames.uid,
           JSTypes.typeString);
 
     ptype(JSPropertyNames.offset,
@@ -318,8 +325,8 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.recurrenceOverrides,
           JSTypes.typeRecurrenceOverrides);
 
-    ptype(JSPropertyNames.recurrenceRule,
-          JSTypes.typeRecurrenceRule);
+    ptype(JSPropertyNames.recurrenceRules,
+          JSTypes.typeRecurrenceRules);
 
     ptype(JSPropertyNames.rel,
           JSTypes.typeString);
@@ -449,8 +456,8 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeEntries,
-         false, // valueList
-         true, // propertyList
+         true, // valueList
+         false, // propertyList
          types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
          false, // object
          JSEntriesFactory.class); // factoryClass
@@ -594,6 +601,13 @@ public class JSPropertyAttributes {
          null, // elementType
          true, // object
          JSRecurrenceRuleFactory.class); // factoryClass
+
+    type(JSTypes.typeRecurrenceRules,
+         true, // valueList
+         false, // propertyList
+         types(JSTypes.typeRecurrenceRule),// elementType
+         false, // object
+         JSRecurrenceRulesFactory.class); // factoryClass
 
     type(JSTypes.typeRelation,
          false, // valueList
@@ -806,7 +820,8 @@ public class JSPropertyAttributes {
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.recurrenceOverrides,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSPropertyNames.recurrenceRule,  JSTypes.typeJSEvent,
+    validFor(JSPropertyNames.recurrenceRules,
+             JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.rel, JSTypes.typeLink);
     validFor(JSPropertyNames.relatedTo,  JSTypes.typeJSEvent,

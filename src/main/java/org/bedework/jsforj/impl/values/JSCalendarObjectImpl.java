@@ -4,14 +4,13 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSCalendarObject;
-import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSLocalDateTime;
-import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.collections.JSArray;
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSLocations;
+import org.bedework.jsforj.model.values.collections.JSParticipants;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
@@ -57,19 +56,6 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
-  public void addParticipant(final String uid,
-                             final JSParticipant part) {
-    JSProperty participants = getProperty(JSPropertyNames.participants);
-
-    if (participants == null) {
-      participants = addProperty(
-              factory.makeProperty(JSPropertyNames.participants));
-    }
-
-    participants.getValue().addProperty(factory.makeProperty(uid, part));
-  }
-
-  @Override
   public void addComment(final String val) {
     getComments().add(val);
   }
@@ -100,19 +86,30 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
-  public JSRecurrenceOverrides getOverrides(final boolean create) {
-    final JSRecurrenceOverrides ovs =
-            getValue(JSRecurrenceOverrides.class,
-                     JSPropertyNames.recurrenceOverrides, create);
+  public JSParticipants getParticipants(final boolean create) {
+    final JSParticipants ps =
+            getValue(JSParticipants.class,
+                     JSPropertyNames.participants, create);
 
-    ovs.setMaster(this);
-    return ovs;
+    return ps;
   }
 
   @Override
   public JSRecurrenceRules getRecurrenceRules(final boolean create) {
     return getValue(JSRecurrenceRules.class,
                     JSPropertyNames.recurrenceRules, create);
+  }
+
+  @Override
+  public JSRecurrenceOverrides getOverrides(final boolean create) {
+    final JSRecurrenceOverrides ovs =
+            getValue(JSRecurrenceOverrides.class,
+                     JSPropertyNames.recurrenceOverrides, create);
+    if (!create) {
+      return ovs;
+    }
+    ovs.setMaster(this);
+    return ovs;
   }
 
   @Override

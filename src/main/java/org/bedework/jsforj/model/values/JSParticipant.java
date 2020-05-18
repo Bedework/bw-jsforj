@@ -10,6 +10,10 @@ public interface JSParticipant extends JSValue {
 
   String getName();
 
+  void setDescription(String val);
+
+  String getDescription();
+
   void setEmail(String val);
 
   String getEmail();

@@ -4,7 +4,7 @@
 package org.bedework.jsforj.impl.values.factories;
 
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
-import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.impl.values.collections.JSParticipantsImpl;
 import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,10 +19,10 @@ public class JSParticipantsFactory extends JSValueFactoryImpl {
   public JSValue newValue(final String typeName,
                           final JsonNode nd) {
     if (nd != null) {
-      return new JSValueImpl(typeName, nd);
+      return new JSParticipantsImpl(typeName, nd);
     }
 
-    return new JSValueImpl(typeName,
-                           new ObjectNode(JsonNodeFactory.instance));
+    return new JSParticipantsImpl(typeName,
+                                  new ObjectNode(JsonNodeFactory.instance));
   }
 }

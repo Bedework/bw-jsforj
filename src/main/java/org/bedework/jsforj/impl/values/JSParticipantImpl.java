@@ -31,6 +31,16 @@ public class JSParticipantImpl extends JSValueImpl
   }
 
   @Override
+  public void setDescription(final String val) {
+    addProperty(JSPropertyNames.description, val);
+  }
+
+  @Override
+  public String getDescription() {
+    return getStringProperty(JSPropertyNames.description);
+  }
+
+  @Override
   public void setEmail(final String val) {
     addProperty(JSPropertyNames.email, val);
   }

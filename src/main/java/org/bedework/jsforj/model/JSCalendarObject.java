@@ -1,12 +1,12 @@
 package org.bedework.jsforj.model;
 
-import org.bedework.jsforj.model.values.JSLinks;
 import org.bedework.jsforj.model.values.JSLocalDateTime;
-import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.collections.JSArray;
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSLocations;
+import org.bedework.jsforj.model.values.collections.JSParticipants;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
@@ -41,8 +41,6 @@ public interface JSCalendarObject extends JSValue {
    * @return Recurrence id or null if none set
    */
   JSLocalDateTime getRecurrenceId();
-
-  void addParticipant(String uid, JSParticipant part);
 
   void addComment(String val);
 
@@ -84,6 +82,13 @@ public interface JSCalendarObject extends JSValue {
    * @return recurrences object
    */
   JSRecurrenceOverrides getOverrides(boolean create);
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return participants object
+   */
+  JSParticipants getParticipants(boolean create);
 
   /**
    *

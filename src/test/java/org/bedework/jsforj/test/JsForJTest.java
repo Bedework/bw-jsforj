@@ -10,18 +10,17 @@ import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSProperty;
-import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
-import org.bedework.jsforj.model.values.JSLinks;
-import org.bedework.jsforj.model.values.JSRelation;
-import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSParticipant;
-import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
+import org.bedework.jsforj.model.values.JSRelation;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.UnsignedInteger;
+import org.bedework.jsforj.model.values.collections.JSLinks;
+import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.util.misc.Util;
 
 import org.junit.AfterClass;
@@ -148,18 +147,14 @@ public class JsForJTest {
       event.addComment("comment 1");
       event.addComment("comment 2");
 
-      var locations = event.addProperty(
-              factory.makeProperty(JSPropertyNames.locations));
+      var locations = event.getLocations(true);
 
-      JSLocation loc = (JSLocation)factory.newValue(JSTypes.typeLocation);
-      var uid = UUID.randomUUID().toString();
+      JSLocation loc = (JSLocation)locations.makeLocation().getValue();
 
       loc.setName("My new location");
       JSList<String> loctypes = loc.getLocationTypes();
       loctypes.add("airport");
       loc.setCoordinates("geo:40.7654,73.9876");
-
-      locations.getValue().addProperty(factory.makeProperty(uid, loc));
 
       var rrules = event.getRecurrenceRules(true);
 
@@ -168,9 +163,8 @@ public class JsForJTest {
       rrule.setFrequency(JSRecurrenceRule.freqWeekly);
       rrule.setCount(new UnsignedInteger(10));
 
-      JSParticipant part =
-              (JSParticipant)factory.newValue(JSTypes.typeParticipant);
-      uid = UUID.randomUUID().toString();
+      var participants = event.getParticipants(true);
+      JSParticipant part = (JSParticipant)participants.makeParticipant().getValue();
 
       part.setName("Turkey Lurkey");
       part.setEmail("tlurkey@turkeys.example.com");
@@ -181,8 +175,6 @@ public class JsForJTest {
       roles.add("owner");
       roles.add("chair");
 
-      event.addParticipant(uid, part);
-
       var relations = event.getRelations(true);
 
       var rel = relations.makeRelation("this.is.a.uid");
@@ -190,13 +182,9 @@ public class JsForJTest {
 
       relVal.getRelations(true).add("parent");
 
-      JSLink link =
-              (JSLink)factory.newValue(JSTypes.typeLink);
-      link.setHref("http://example.org/something.ics");
-      link.setRel("alternate");
-
       JSLinks links = event.getLinks(true);
-      links.add(link);
+      JSProperty link = links.makeLink("http://example.org/something.ics");
+      ((JSLink)link.getValue()).setRel("alternate");
 
       info("Dump of created event");
       info(event.writeValueAsStringFormatted(mapper));

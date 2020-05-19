@@ -8,6 +8,7 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSRelation;
 import org.bedework.jsforj.model.values.collections.JSList;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -22,10 +23,12 @@ public class JSRelationImpl extends JSValueImpl
 
   @Override
   public JSList<String> getRelations(final boolean create) {
-    final JSProperty val = getProperty(JSPropertyNames.relation);
+    final JSProperty<JSList<String>> val =
+            getProperty(new TypeReference<>() {},
+                        JSPropertyNames.relation);
 
     if (val != null) {
-      return (JSList<String>)val.getValue();
+      return val.getValue();
     }
 
     if (!create) {

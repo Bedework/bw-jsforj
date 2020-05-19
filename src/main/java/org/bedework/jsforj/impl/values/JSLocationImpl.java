@@ -4,9 +4,10 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.JSLocation;
+import org.bedework.jsforj.model.values.collections.JSList;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -76,6 +77,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public JSList<String> getLocationTypes() {
-    return (JSList<String>)getPropertyValueAlways(JSPropertyNames.locationTypes);
+    return getPropertyValueAlways(new TypeReference<>() {},
+                                  JSPropertyNames.locationTypes);
   }
 }

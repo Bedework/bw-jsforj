@@ -1,4 +1,6 @@
-package org.bedework.jsforj.model.values;
+package org.bedework.jsforj.model.values.dataTypes;
+
+import org.bedework.jsforj.model.values.JSValue;
 
 import java.time.LocalDateTime;
 

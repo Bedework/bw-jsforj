@@ -6,6 +6,13 @@ package org.bedework.jsforj.model;
 public interface JSTypes {
   String typeUnknown = "Unknown";
 
+  // Top level objects
+  String typeJSEvent = "jsevent";
+  String typeJSGroup = "jsgroup";
+  String typeJSTask = "jstask";
+
+  String typeJSVPoll = "jsvpoll";
+
   String typeAlert = "Alert";
   String typeAlerts = "Id[Alert]";
   String typeBoolean = "Boolean";
@@ -16,9 +23,6 @@ public interface JSTypes {
   String typeIds = "Id[Boolean]";
   String typeInt = "Int";
   String typeIntArray = "Int[]";
-  String typeJSEvent = "jsevent";
-  String typeJSGroup = "jsgroup";
-  String typeJSTask = "jstask";
   String typeLink = "Link";
   String typeLinks = "Id[Link]";
   String typeLocalDateTime = "LocalDateTime";

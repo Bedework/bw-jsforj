@@ -1,20 +1,15 @@
 /* ********************************************************************
     Appropriate copyright notice
 */
-package org.bedework.jsforj.model.values;
+package org.bedework.jsforj.model.values.dataTypes;
+
+import org.bedework.jsforj.model.values.JSValue;
 
 /**
  * User: mike Date: 10/28/19 Time: 12:09
  */
-public class UnsignedInteger {
-  final int value;
-  public UnsignedInteger(final int value) {
-    this.value = value;
-  }
-
-  public int get() {
-    return value;
-  }
+public interface JSUnsignedInteger extends JSValue {
+  int get();
 
   /**
    * Compares with an int value numerically. The value returned is
@@ -25,9 +20,7 @@ public class UnsignedInteger {
    * @param that the int to compare
    * @return the value 0 if this == that; a value less than 0 if this < that; and a value greater than 0 if this > that
    */
-  public int compare(final int that) {
-    return Integer.compareUnsigned(value, that);
-  }
+  int compare(final int that);
 
   /**
    * Compares with an int value numerically. The value returned is
@@ -38,11 +31,5 @@ public class UnsignedInteger {
    * @param that the int to compare
    * @return the value 0 if this == that; a value less than 0 if this < that; and a value greater than 0 if this > that
    */
-  public int compare(final UnsignedInteger that) {
-    return Integer.compareUnsigned(value, that.value);
-  }
-
-  public String toString() {
-    return String.valueOf(value);
-  }
+  int compare(final JSUnsignedInteger that);
 }

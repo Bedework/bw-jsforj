@@ -1,6 +1,6 @@
 package org.bedework.jsforj.model;
 
-import org.bedework.jsforj.model.values.JSLocalDateTime;
+import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;

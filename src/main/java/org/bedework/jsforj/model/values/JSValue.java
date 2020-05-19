@@ -1,7 +1,9 @@
 package org.bedework.jsforj.model.values;
 
 import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Writer;
@@ -91,7 +93,9 @@ public interface JSValue {
    * @return property or null
    * @throws RuntimeException if not an object
    */
-  JSProperty getProperty(String name);
+  <T extends JSValue> JSProperty<T> getProperty(
+          final TypeReference<T> type,
+          String name);
 
   /** Remove named property
    *
@@ -110,7 +114,8 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty addProperty(JSProperty val);
+  <ValType extends JSValue> JSProperty<ValType> addProperty(
+          JSProperty<ValType> val);
 
   /** Add a string type property
    *
@@ -126,7 +131,7 @@ public interface JSValue {
    * @param val the property - non null
    * @return the property
    */
-  JSProperty setProperty(final JSProperty val);
+  JSProperty<?> setProperty(final JSProperty<?> val);
 
   /** Set the value for a string type property
    *
@@ -134,14 +139,16 @@ public interface JSValue {
    * @param val the property value - non null
    * @return the property
    */
-  JSProperty setProperty(final String name, final String val);
+  JSProperty<?> setProperty(final String name, final String val);
 
   /** Get the value. Create the property if absent.
    *
    * @param name of property
    * @return the value
    */
-  JSValue getPropertyValueAlways(final String name);
+  <T extends JSValue> T getPropertyValueAlways(
+          TypeReference<T> typeRef,
+          String name);
 
   /** Get the value. Return null if absent.
    *
@@ -158,7 +165,7 @@ public interface JSValue {
    */
   String getStringProperty(String name);
 
-  /** Sets teh named property to have a value of null.
+  /** Sets the named property to have a value of null.
    * This is only used for patch objects to signify the removal of a
    * property by an override.
    *
@@ -177,7 +184,7 @@ public interface JSValue {
    * @param val the property value - non null
    * @return the property
    */
-  JSProperty setProperty(final String name, final UnsignedInteger val);
+  JSProperty setProperty(final String name, final JSUnsignedInteger val);
 
   /** Add an UnsignedInteger type property
    *
@@ -186,7 +193,7 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty addProperty(final String name, final UnsignedInteger val);
+  JSProperty addProperty(final String name, final JSUnsignedInteger val);
 
   /** Set the value for an UnsignedInteger type property
    *
@@ -220,7 +227,7 @@ public interface JSValue {
    * @return the value of the property
    * @throws RuntimeException if not a String property
    */
-  UnsignedInteger getUnsignedIntegerProperty(String name);
+  JSUnsignedInteger getUnsignedIntegerProperty(String name);
 
   /** Returns value as a String.
    *

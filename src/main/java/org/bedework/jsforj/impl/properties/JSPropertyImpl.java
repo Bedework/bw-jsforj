@@ -10,14 +10,15 @@ import org.bedework.jsforj.model.values.JSValue;
 /**
  * User: mike Date: 10/23/19 Time: 23:36
  */
-public class JSPropertyImpl implements JSProperty {
+public class JSPropertyImpl<T extends JSValue>
+        implements JSProperty<T> {
   final static JSFactory factory = JSFactory.getFactory();
 
-  private String name;
-  private JSValue value;
+  private final String name;
+  private final T value;
 
   public JSPropertyImpl(final String name,
-                        JSValue value) {
+                        T value) {
     this.name = name;
     this.value = value;
   }
@@ -36,7 +37,7 @@ public class JSPropertyImpl implements JSProperty {
   }
 
   @Override
-  public JSValue getValue() {
+  public T getValue() {
     return value;
   }
 }

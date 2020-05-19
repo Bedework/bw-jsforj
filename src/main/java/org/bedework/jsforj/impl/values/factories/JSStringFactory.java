@@ -3,8 +3,8 @@
 */
 package org.bedework.jsforj.impl.values.factories;
 
-import org.bedework.jsforj.impl.values.dataTypes.JSLocalDateTimeImpl;
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
+import org.bedework.jsforj.impl.values.dataTypes.JSStringImpl;
 import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,10 +12,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * User: mike Date: 10/25/19 Time: 14:59
  */
-public class JSLocalDateTimeFactory extends JSValueFactoryImpl {
+public class JSStringFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String type,
+  public JSValue newValue(final String typeName,
                           final JsonNode nd) {
-    return new JSLocalDateTimeImpl(type, nd);
+    return new JSStringImpl(typeName, nd);
   }
 }

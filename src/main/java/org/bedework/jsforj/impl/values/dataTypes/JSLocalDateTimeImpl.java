@@ -1,10 +1,11 @@
 /* ********************************************************************
     Appropriate copyright notice
 */
-package org.bedework.jsforj.impl.values;
+package org.bedework.jsforj.impl.values.dataTypes;
 
+import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSTypes;
-import org.bedework.jsforj.model.values.JSLocalDateTime;
+import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.TextNode;

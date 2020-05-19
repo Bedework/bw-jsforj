@@ -17,33 +17,34 @@ import java.util.List;
 /**
  * User: mike Date: 5/4/20 Time: 23:30
  */
-public class JSLinksImpl extends JSListImpl<JSProperty> implements
-        JSLinks {
+public class JSLinksImpl
+        extends JSListImpl<JSProperty<JSLink>>
+        implements JSLinks {
   public JSLinksImpl(final String type,
                      final JsonNode node) {
     super(type, node);
   }
 
   @Override
-  protected void store(final JSProperty val) {
+  protected void store(final JSProperty<JSLink> val) {
     addProperty(val);
   }
 
   @Override
-  protected String fieldName(final JSProperty val) {
+  protected String fieldName(final JSProperty<JSLink> val) {
     return val.getName();
   }
 
   @Override
-  protected JSProperty convertToT(final String val) {
+  protected JSProperty<JSLink> convertToT(final String val) {
     return getFactory().makeProperty(val,
                                      JSTypes.typeLink,
                                      getNode().get(val));
   }
 
   @Override
-  public JSProperty makeLink(final String href) {
-    final JSProperty p =
+  public JSProperty<JSLink> makeLink(final String href) {
+    final JSProperty<JSLink> p =
             getFactory().makeProperty(href,
                                       JSTypes.typeLink,
                                       null);
@@ -59,7 +60,7 @@ public class JSLinksImpl extends JSListImpl<JSProperty> implements
   public List<JSLink> getAll(final String rel) {
     final List<JSLink> res = new ArrayList<>();
 
-    for (final JSProperty prop: get()) {
+    for (final JSProperty<JSLink> prop: get()) {
       final String prel = prop.getValue()
                               .getStringProperty(JSPropertyNames.rel);
       if (rel.equals(prel)) {

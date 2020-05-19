@@ -8,6 +8,7 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.collections.JSList;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -122,10 +123,12 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public JSList<String> getRoles(final boolean create) {
-    final JSProperty val = getProperty(JSPropertyNames.roles);
+    final JSProperty<JSList<String>> val =
+            getProperty(new TypeReference<>() {},
+                        JSPropertyNames.roles);
 
     if (val != null) {
-      return (JSList<String>)val.getValue();
+      return val.getValue();
     }
 
     if (!create) {

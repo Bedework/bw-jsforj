@@ -22,10 +22,12 @@ import org.bedework.jsforj.impl.values.factories.JSRecurrenceRulesFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringArrayFactory;
+import org.bedework.jsforj.impl.values.factories.JSStringFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
+import org.bedework.jsforj.impl.values.factories.JSUnsignedIntFactory;
 import org.bedework.jsforj.impl.values.factories.JSVirtualLocationFactory;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
@@ -93,10 +95,27 @@ public class JSPropertyAttributes {
       return propertyList;
     }
 
+    /**
+     *
+     * @return true if we need a boolean node
+     */
     public boolean getBoolean() {
       return name.equals(JSTypes.typeBoolean);
     }
 
+    /**
+     *
+     * @return true if we need an integer node
+     */
+    public boolean getInteger() {
+      return name.equals(JSTypes.typeInt) ||
+              name.equals(JSTypes.typeUnsignedInt);
+    }
+
+    /**
+     *
+     * @return true if we need a String node
+     */
     public boolean getString() {
       return name.equals(JSTypes.typeString);
     }
@@ -635,7 +654,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSStringFactory.class); // factoryClass
 
     type(JSTypes.typeStringArray,
          true, // valueList
@@ -691,7 +710,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSUnsignedIntFactory.class); // factoryClass
 
     type(JSTypes.typeUTCDateTime,
          false, // valueList

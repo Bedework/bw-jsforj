@@ -1,6 +1,8 @@
 package org.bedework.jsforj.model.values;
 
 import org.bedework.jsforj.model.values.collections.JSArray;
+import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
+import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
@@ -18,9 +20,9 @@ public interface JSRecurrenceRule extends JSValue {
 
   String getFrequency(boolean create);
 
-  void setInterval(UnsignedInteger val);
+  void setInterval(JSUnsignedInteger val);
 
-  UnsignedInteger getInterval(boolean create);
+  JSUnsignedInteger getInterval(boolean create);
 
   void setRscale(String val);
 
@@ -57,25 +59,25 @@ public interface JSRecurrenceRule extends JSValue {
 
   JSArray<Integer> getByWeekNo(boolean create);
 
-  void setByHour(JSArray<UnsignedInteger> val);
+  void setByHour(JSArray<JSUnsignedInteger> val);
 
-  JSArray<UnsignedInteger> getByHour(boolean create);
+  JSArray<JSUnsignedInteger> getByHour(boolean create);
 
-  void setByMinute(JSArray<UnsignedInteger> val);
+  void setByMinute(JSArray<JSUnsignedInteger> val);
 
-  JSArray<UnsignedInteger> getByMinute(boolean create);
+  JSArray<JSUnsignedInteger> getByMinute(boolean create);
 
-  void setBySecond(JSArray<UnsignedInteger> val);
+  void setBySecond(JSArray<JSUnsignedInteger> val);
 
-  JSArray<UnsignedInteger> getBySecond(boolean create);
+  JSArray<JSUnsignedInteger> getBySecond(boolean create);
 
   void setBySetPosition(JSArray<Integer> val);
 
   JSArray<Integer> getBySetPosition(boolean create);
 
-  void setCount(UnsignedInteger val);
+  void setCount(JSUnsignedInteger val);
 
-  UnsignedInteger getCount(boolean create);
+  JSUnsignedInteger getCount(boolean create);
 
   void setUntil(JSLocalDateTime val);
 

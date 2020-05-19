@@ -5,7 +5,7 @@ import org.bedework.jsforj.model.values.JSValue;
 /**
  * User: mike Date: 10/23/19 Time: 13:25
  */
-public interface JSProperty {
+public interface JSProperty<T extends JSValue> {
   /**
    *
    * @return String name of the property
@@ -23,5 +23,5 @@ public interface JSProperty {
    *
    * @return the value of the property
    */
-  JSValue getValue();
+  T getValue();
 }

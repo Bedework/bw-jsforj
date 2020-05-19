@@ -6,6 +6,7 @@ package org.bedework.jsforj.test;
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.impl.values.JSOverrideImpl;
+import org.bedework.jsforj.impl.values.dataTypes.JSUnsignedIntegerImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
 import org.bedework.jsforj.model.JSGroup;
@@ -13,11 +14,10 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.JSLocation;
+import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
 import org.bedework.jsforj.model.values.JSRelation;
-import org.bedework.jsforj.model.values.JSValue;
-import org.bedework.jsforj.model.values.UnsignedInteger;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
@@ -99,9 +99,9 @@ public class JsForJTest {
         final JSRecurrenceOverrides ovs = obj.getOverrides(false);
 
         if (ovs != null) {
-          final List<JSProperty> ovsl = ovs.get();
+          final List<JSProperty<JSOverride>> ovsl = ovs.get();
           if (!Util.isEmpty(ovsl)) {
-            final JSValue ovVal = ovsl.get(0).getValue();
+            final JSOverride ovVal = ovsl.get(0).getValue();
 
             Assert.assertEquals("Must be JSOverrideImpl:",
                                 JSOverrideImpl.class,
@@ -149,7 +149,7 @@ public class JsForJTest {
 
       var locations = event.getLocations(true);
 
-      JSLocation loc = (JSLocation)locations.makeLocation().getValue();
+      JSLocation loc = locations.makeLocation().getValue();
 
       loc.setName("My new location");
       JSList<String> loctypes = loc.getLocationTypes();
@@ -161,10 +161,10 @@ public class JsForJTest {
       JSRecurrenceRule rrule = rrules.makeRecurrenceRule();
 
       rrule.setFrequency(JSRecurrenceRule.freqWeekly);
-      rrule.setCount(new UnsignedInteger(10));
+      rrule.setCount(new JSUnsignedIntegerImpl(10));
 
       var participants = event.getParticipants(true);
-      JSParticipant part = (JSParticipant)participants.makeParticipant().getValue();
+      JSParticipant part = participants.makeParticipant().getValue();
 
       part.setName("Turkey Lurkey");
       part.setEmail("tlurkey@turkeys.example.com");
@@ -183,8 +183,9 @@ public class JsForJTest {
       relVal.getRelations(true).add("parent");
 
       JSLinks links = event.getLinks(true);
-      JSProperty link = links.makeLink("http://example.org/something.ics");
-      ((JSLink)link.getValue()).setRel("alternate");
+      JSProperty<JSLink> link =
+              links.makeLink("http://example.org/something.ics");
+      link.getValue().setRel("alternate");
 
       info("Dump of created event");
       info(event.writeValueAsStringFormatted(mapper));

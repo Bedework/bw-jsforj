@@ -9,6 +9,7 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.collections.JSEntries;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Collections;
@@ -52,12 +53,14 @@ public class JSGroupImpl extends JSCalendarObjectImpl
   }
 
   private JSEntries getEntsVal() {
-    var entries = getProperty(JSPropertyNames.entries);
+    JSProperty<JSEntries> entries = getProperty(
+            new TypeReference<>() {},
+            JSPropertyNames.entries);
 
     if (entries == null) {
       return null;
     }
 
-    return (JSEntries)entries.getValue();
+    return entries.getValue();
   }
 }

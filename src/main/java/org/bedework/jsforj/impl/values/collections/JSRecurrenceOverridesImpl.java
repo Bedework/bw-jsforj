@@ -3,7 +3,6 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
-import org.bedework.jsforj.impl.values.collections.JSListImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
@@ -15,7 +14,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
-public class JSRecurrenceOverridesImpl extends JSListImpl<JSProperty>
+public class JSRecurrenceOverridesImpl
+        extends JSListImpl<JSProperty<JSOverride>>
         implements JSRecurrenceOverrides {
   private JSCalendarObject master;
 
@@ -35,7 +35,7 @@ public class JSRecurrenceOverridesImpl extends JSListImpl<JSProperty>
   }
 
   @Override
-  protected void store(final JSProperty val) {
+  protected void store(final JSProperty<JSOverride> val) {
     final String rid = val.getName();
     if (rid == null) {
       throw new RuntimeException(
@@ -48,13 +48,13 @@ public class JSRecurrenceOverridesImpl extends JSListImpl<JSProperty>
   }
 
   @Override
-  protected String fieldName(final JSProperty val) {
+  protected String fieldName(final JSProperty<JSOverride> val) {
     return val.getName();
   }
 
   @Override
-  protected JSProperty convertToT(final String val) {
-    final JSProperty ov =
+  protected JSProperty<JSOverride> convertToT(final String val) {
+    final JSProperty<JSOverride> ov =
             getFactory().makeProperty(val,
                                       JSTypes.typeOverride,
                                       getNode().get(val));
@@ -63,8 +63,8 @@ public class JSRecurrenceOverridesImpl extends JSListImpl<JSProperty>
   }
 
   @Override
-  public JSProperty makeOverride(final String rid) {
-    final JSProperty ov =
+  public JSProperty<JSOverride> makeOverride(final String rid) {
+    final JSProperty<JSOverride> ov =
             getFactory().makeProperty(rid,
                                       JSTypes.typeOverride,
                                       null);

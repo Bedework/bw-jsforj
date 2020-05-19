@@ -4,8 +4,10 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSCalendarObject;
+import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSOverride;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -28,6 +30,21 @@ public class JSOverrideImpl extends JSPatchObjectImpl
   @Override
   public JSCalendarObject getMaster() {
     return master;
+  }
+
+  @Override
+  public void markExcluded() {
+
+  }
+
+  @Override
+  public boolean getExcluded() {
+    final var excluded = getProperty(new TypeReference<>() {}, JSPropertyNames.excluded);
+    if (excluded == null) {
+      return false;
+    }
+
+    return excluded.getValue().getBooleanValue();
   }
 
   @Override

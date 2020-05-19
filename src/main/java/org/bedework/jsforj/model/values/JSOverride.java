@@ -9,4 +9,13 @@ public interface JSOverride extends JSPatchObject, JSCalendarObject {
   void setMaster(final JSCalendarObject val);
 
   JSCalendarObject getMaster();
+
+  /** Mark this override as an exclusion.
+   */
+  void markExcluded();
+
+  /**
+   * @return true if this is an exclusion
+   */
+  boolean getExcluded();
 }

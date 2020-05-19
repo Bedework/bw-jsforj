@@ -16,7 +16,8 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTask;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
-import org.bedework.jsforj.model.values.UnsignedInteger;
+import org.bedework.jsforj.model.values.dataTypes.JSString;
+import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -109,11 +110,11 @@ public class JSFactory {
    * @param value String
    * @return the property
    */
-  public JSProperty makeProperty(final String propertyName,
-                                 final String value) {
+  public JSProperty<JSString> makeProperty(final String propertyName,
+                                           final String value) {
     var node = new TextNode(value);
 
-    return makeProperty(propertyName, node);
+    return (JSProperty<JSString>)makeProperty(propertyName, node);
   }
 
   /** Create an UnsignedInteger property
@@ -123,7 +124,7 @@ public class JSFactory {
    * @return the property
    */
   public JSProperty makeProperty(final String propertyName,
-                                 final UnsignedInteger value) {
+                                 final JSUnsignedInteger value) {
     var node = new IntNode(value.get());
 
     return makeProperty(propertyName, node);
@@ -165,8 +166,8 @@ public class JSFactory {
     return makeProperty(propertyName, (JsonNode)null);
   }
 
-  public JSProperty makeProperty(final String propertyName,
-                                 final JsonNode nd) {
+  public JSProperty<?> makeProperty(final String propertyName,
+                                    final JsonNode nd) {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makePropertyValue(propertyName, nd);
 
@@ -181,16 +182,17 @@ public class JSFactory {
    * @param nd the node with the value
    * @return a new property
    */
-  public JSProperty makeProperty(final String propertyName,
-                                 final String type,
-                                 final JsonNode nd) {
+  public <ValClass extends JSValue> JSProperty<ValClass> makeProperty(
+          final String propertyName,
+          final String type,
+          final JsonNode nd) {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makePropertyValueWithType(type, nd);
 
-    return new JSPropertyImpl(propertyName, value);
+    return new JSPropertyImpl<ValClass>(propertyName, (ValClass)value);
   }
 
-  public JSProperty makeProperty(final String propertyName,
+  public JSProperty<?> makeProperty(final String propertyName,
                                  final JSValue value) {
     return new JSPropertyImpl(propertyName, value);
   }
@@ -234,14 +236,14 @@ public class JSFactory {
         theNode = new ObjectNode(JsonNodeFactory.instance);
       } else if (typeInfo.getValueList()) {
         theNode = new ArrayNode(JsonNodeFactory.instance);
+      } else {
+        throw new RuntimeException("Unable to create node for " +
+                                           type);
       }
     }
 
     if (factoryClass == null) {
       // Use generic class.
-      if (theNode == null) {
-        theNode = new ObjectNode(JsonNodeFactory.instance);
-      }
       return new JSValueImpl(type, theNode);
     }
 

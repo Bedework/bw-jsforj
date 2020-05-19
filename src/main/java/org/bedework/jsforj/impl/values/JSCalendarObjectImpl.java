@@ -5,7 +5,6 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.values.JSLocalDateTime;
 import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
@@ -14,7 +13,9 @@ import org.bedework.jsforj.model.values.collections.JSParticipants;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
+import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -62,7 +63,8 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSArray<String> getComments() {
-    return (JSArray<String>)getPropertyValueAlways(JSPropertyNames.comments);
+    return getPropertyValueAlways(new TypeReference<>() {},
+                                  JSPropertyNames.comments);
   }
 
   @Override
@@ -72,23 +74,26 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSList<String> getKeywords(final boolean create) {
-    return getValue(JSList.class, JSPropertyNames.keywords, create);
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.keywords, create);
   }
 
   @Override
   public JSLinks getLinks(final boolean create) {
-    return getValue(JSLinks.class, JSPropertyNames.links, create);
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.links, create);
   }
 
   @Override
   public JSLocations getLocations(final boolean create) {
-    return getValue(JSLocations.class, JSPropertyNames.locations, create);
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.locations, create);
   }
 
   @Override
   public JSParticipants getParticipants(final boolean create) {
     final JSParticipants ps =
-            getValue(JSParticipants.class,
+            getValue(new TypeReference<>() {},
                      JSPropertyNames.participants, create);
 
     return ps;
@@ -96,14 +101,14 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSRecurrenceRules getRecurrenceRules(final boolean create) {
-    return getValue(JSRecurrenceRules.class,
+    return getValue(new TypeReference<>() {},
                     JSPropertyNames.recurrenceRules, create);
   }
 
   @Override
   public JSRecurrenceOverrides getOverrides(final boolean create) {
     final JSRecurrenceOverrides ovs =
-            getValue(JSRecurrenceOverrides.class,
+            getValue(new TypeReference<>() {},
                      JSPropertyNames.recurrenceOverrides, create);
     if (!create) {
       return ovs;
@@ -119,7 +124,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSRelations getRelations(final boolean create) {
-    return getValue(JSRelations.class,
+    return getValue(new TypeReference<>() {},
                     JSPropertyNames.relatedTo, create);
   }
 }

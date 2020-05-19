@@ -1,0 +1,14 @@
+{
+  "@type": "jsevent",
+  "uid": "2a358cee-6489-4f14-a57f-c104db4d4444",
+  "title": "Every 20 minutes from 9:00 AM to 4:40 PM every day",
+  "start": "1997-09-02T09:00:00",
+  "timeZone": "America/New_York",
+  "duration": "PT30M",
+  "recurrenceRules": [{
+    "@type": "RecurrenceRule",
+    "frequency": "daily",
+    "byHour": [9,10,11,12,13,14,15,16],
+    "byMinute": [0,20,40]
+  }]
+}

@@ -8,6 +8,7 @@ import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
 import org.bedework.jsforj.impl.values.factories.JSIntArrayFactory;
+import org.bedework.jsforj.impl.values.factories.JSIntegerFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinkFactory;
 import org.bedework.jsforj.impl.values.factories.JSLinksFactory;
 import org.bedework.jsforj.impl.values.factories.JSLocalDateTimeFactory;
@@ -27,6 +28,7 @@ import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
+import org.bedework.jsforj.impl.values.factories.JSUnsignedIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntFactory;
 import org.bedework.jsforj.impl.values.factories.JSVirtualLocationFactory;
 import org.bedework.jsforj.model.JSPropertyNames;
@@ -500,7 +502,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSIntegerFactory.class); // factoryClass
 
     type(JSTypes.typeIntArray,
          true, // valueList
@@ -711,6 +713,13 @@ public class JSPropertyAttributes {
          null, // elementType
          false, // object
          JSUnsignedIntFactory.class); // factoryClass
+
+    type(JSTypes.typeUnsignedIntArray,
+         true, // valueList
+         false, // propertyList
+         types(JSTypes.typeUnsignedInt), // elementType
+         false, // object
+         JSUnsignedIntArrayFactory.class); // factoryClass
 
     type(JSTypes.typeUTCDateTime,
          false, // valueList

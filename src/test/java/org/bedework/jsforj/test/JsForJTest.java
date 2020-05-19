@@ -6,6 +6,7 @@ package org.bedework.jsforj.test;
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.impl.values.JSOverrideImpl;
+import org.bedework.jsforj.impl.values.collections.JSUnsignedIntArrayImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSUnsignedIntegerImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
@@ -18,9 +19,12 @@ import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
 import org.bedework.jsforj.model.values.JSRelation;
+import org.bedework.jsforj.model.values.JSValue;
+import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
+import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.util.misc.Util;
 
 import org.junit.AfterClass;
@@ -96,6 +100,15 @@ public class JsForJTest {
 
         info(obj.writeValueAsStringFormatted(mapper));
 
+        final JSRecurrenceRules rrules =
+                obj.getRecurrenceRules(false);
+
+        if (rrules != null) {
+          for (final var rule: rrules.get()) {
+            checkRecurrenceRule(rule);
+          }
+        }
+
         final JSRecurrenceOverrides ovs = obj.getOverrides(false);
 
         if (ovs != null) {
@@ -112,6 +125,36 @@ public class JsForJTest {
     } catch (final Throwable t) {
       t.printStackTrace();
       Assert.fail(t.getMessage());
+    }
+  }
+
+  private void checkRecurrenceRule(final JSRecurrenceRule rule) {
+    mustBeUnsignedInt(rule.getCount(false));
+    mustBeUnsignedInts(rule.getByHour(false));
+    mustBeUnsignedInts(rule.getByMinute(false));
+  }
+
+  private void mustBeUnsignedInt(final JSValue val) {
+    if (val == null) {
+      return;
+    }
+
+    Assert.assertEquals("Must be JSUnsignedInteger:",
+                        JSUnsignedIntegerImpl.class,
+                        val.getClass());
+  }
+
+  private void mustBeUnsignedInts(final JSValue val) {
+    if (val == null) {
+      return;
+    }
+
+    Assert.assertEquals("Must be JSArray<JSUnsignedInteger>:",
+                        JSUnsignedIntArrayImpl.class,
+                        val.getClass());
+
+    for (final var el: ((JSArray<?>)val).get()) {
+      mustBeUnsignedInt((JSValue)el);
     }
   }
 

@@ -14,7 +14,8 @@
   },
   "recurrenceRules": [{
     "@type": "RecurrenceRule",
-    "frequency": "weekly"
+    "frequency": "weekly",
+    "count": 10
   }],
   "replyTo": {
     "imip": "mailto:6489-4f14-a57f-c1@schedule.example.com"

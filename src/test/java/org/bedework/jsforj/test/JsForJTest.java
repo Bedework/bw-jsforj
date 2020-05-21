@@ -195,7 +195,7 @@ public class JsForJTest {
       JSLocation loc = locations.makeLocation().getValue();
 
       loc.setName("My new location");
-      JSList<String> loctypes = loc.getLocationTypes();
+      JSList<String> loctypes = loc.getLocationTypes(true);
       loctypes.add("airport");
       loc.setCoordinates("geo:40.7654,73.9876");
 
@@ -218,16 +218,16 @@ public class JsForJTest {
       roles.add("owner");
       roles.add("chair");
 
-      var relations = event.getRelations(true);
+      var relations = event.getRelatedTo(true);
 
-      var rel = relations.makeRelation("this.is.a.uid");
+      var rel = relations.makeEntry("this.is.a.uid");
       JSRelation relVal = (JSRelation)rel.getValue();
 
       relVal.getRelations(true).add("parent");
 
       JSLinks links = event.getLinks(true);
       JSProperty<JSLink> link =
-              links.makeLink("http://example.org/something.ics");
+              links.makeEntry("http://example.org/something.ics");
       link.getValue().setRel("alternate");
 
       info("Dump of created event");

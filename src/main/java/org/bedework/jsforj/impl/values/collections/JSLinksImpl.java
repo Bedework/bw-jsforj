@@ -4,7 +4,6 @@
 package org.bedework.jsforj.impl.values.collections;
 
 import org.bedework.jsforj.model.JSProperty;
-import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.collections.JSLinks;
@@ -18,7 +17,7 @@ import java.util.List;
  * User: mike Date: 5/4/20 Time: 23:30
  */
 public class JSLinksImpl
-        extends JSListImpl<JSProperty<JSLink>>
+        extends JSMapImpl<String, JSLink>
         implements JSLinks {
   public JSLinksImpl(final String type,
                      final JsonNode node) {
@@ -26,45 +25,27 @@ public class JSLinksImpl
   }
 
   @Override
-  protected void store(final JSProperty<JSLink> val) {
-    addProperty(val);
+  protected String getPropertyType() {
+    return JSTypes.typeLink;
   }
 
   @Override
-  protected String fieldName(final JSProperty<JSLink> val) {
-    return val.getName();
+  protected String convertKey(final String key) {
+    return key;
   }
 
   @Override
-  protected JSProperty<JSLink> convertToT(final String val) {
-    return getFactory().makeProperty(val,
-                                     JSTypes.typeLink,
-                                     getNode().get(val));
+  protected String convertFieldName(final String fieldName) {
+    return fieldName;
   }
 
   @Override
-  public JSProperty<JSLink> makeLink(final String href) {
-    final JSProperty<JSLink> p =
-            getFactory().makeProperty(href,
-                                      JSTypes.typeLink,
-                                      null);
-
-    p.getValue().setProperty(
-            factory.makeProperty(JSPropertyNames.href, href));
-    add(p);
-
-    return p;
-  }
-
-  @Override
-  public List<JSLink> getAll(final String rel) {
-    final List<JSLink> res = new ArrayList<>();
+  public List<JSProperty<JSLink>> getAll(final String rel) {
+    final List<JSProperty<JSLink>> res = new ArrayList<>();
 
     for (final JSProperty<JSLink> prop: get()) {
-      final String prel = prop.getValue()
-                              .getStringProperty(JSPropertyNames.rel);
-      if (rel.equals(prel)) {
-        res.add((JSLink)prop.getValue());
+      if (rel.equals(prop.getValue().getRel())) {
+        res.add(prop);
       }
     }
 

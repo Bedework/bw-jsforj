@@ -28,7 +28,12 @@ public interface JSLocation extends JSValue {
 
   void setLocationTypes(JSList<String> val);
 
-  JSList<String> getLocationTypes();
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return list of location types
+   */
+  JSList<String> getLocationTypes(boolean create);
 
   // linkIds: "Id[Boolean]"
 }

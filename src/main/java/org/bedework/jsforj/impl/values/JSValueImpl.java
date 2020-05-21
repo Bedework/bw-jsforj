@@ -219,20 +219,6 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public <T extends JSValue> T getPropertyValueAlways(
-          final TypeReference<T> typeRef,
-          final String name) {
-    var prop = getProperty(typeRef, name);
-
-    if (prop == null) {
-      return (T)addProperty(
-              factory.makeProperty(name)).getValue();
-    }
-
-    return prop.getValue();
-  }
-
-  @Override
   public JSValue getPropertyValue(final String name) {
     var prop = getProperty(new TypeReference<>() {}, name);
 

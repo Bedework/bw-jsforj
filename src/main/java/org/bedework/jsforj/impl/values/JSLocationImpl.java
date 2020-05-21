@@ -76,8 +76,9 @@ public class JSLocationImpl extends JSValueImpl
   }
 
   @Override
-  public JSList<String> getLocationTypes() {
-    return getPropertyValueAlways(new TypeReference<>() {},
-                                  JSPropertyNames.locationTypes);
+  public JSList<String> getLocationTypes(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.locationTypes,
+                    create);
   }
 }

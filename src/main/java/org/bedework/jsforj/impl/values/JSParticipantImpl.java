@@ -3,7 +3,6 @@
 */
 package org.bedework.jsforj.impl.values;
 
-import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.collections.JSList;
@@ -123,19 +122,36 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public JSList<String> getRoles(final boolean create) {
-    final JSProperty<JSList<String>> val =
-            getProperty(new TypeReference<>() {},
-                        JSPropertyNames.roles);
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.roles,
+                    create);
+  }
 
-    if (val != null) {
-      return val.getValue();
-    }
+  @Override
+  public JSList<String> getDelegatedTo(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.delegatedTo,
+                    create);
+  }
 
-    if (!create) {
-      return null;
-    }
+  @Override
+  public JSList<String> getDelegatedFrom(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.delegatedFrom,
+                    create);
+  }
 
-    return (JSList<String>)addProperty(
-            factory.makeProperty(JSPropertyNames.roles)).getValue();
+  @Override
+  public JSList<String> getMemberOf(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.memberOf,
+                    create);
+  }
+
+  @Override
+  public JSList<String> getLinkIds(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.linkIds,
+                    create);
   }
 }

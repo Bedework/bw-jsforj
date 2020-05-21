@@ -16,7 +16,7 @@ import java.util.UUID;
  * User: mike Date: 10/25/19 Time: 12:45
  */
 public class JSLocationsImpl
-        extends JSListImpl<JSProperty<JSLocation>>
+        extends JSMapImpl<String, JSLocation>
         implements JSLocations {
   public JSLocationsImpl(final String type,
                          final JsonNode node) {
@@ -24,41 +24,22 @@ public class JSLocationsImpl
   }
 
   @Override
-  protected void store(final JSProperty<JSLocation> val) {
-    final String id = val.getName();
-    if (id == null) {
-      throw new RuntimeException(
-              "Id must be set for a location");
-    }
-
-    addProperty(val);
+  protected String getPropertyType() {
+    return JSTypes.typeLocation;
   }
 
   @Override
-  protected String fieldName(final JSProperty<JSLocation> val) {
-    return val.getName();
+  protected String convertKey(final String key) {
+    return key;
   }
 
   @Override
-  protected JSProperty<JSLocation> convertToT(final String val) {
-    return getFactory().makeProperty(val,
-                                     JSTypes.typeLocation,
-                                     getNode().get(val));
+  protected String convertFieldName(final String fieldName) {
+    return fieldName;
   }
 
   @Override
   public JSProperty<JSLocation> makeLocation() {
-    return makeLocation(UUID.randomUUID().toString());
-  }
-
-  @Override
-  public JSProperty<JSLocation> makeLocation(final String id) {
-    final JSProperty<JSLocation> p =
-            getFactory().makeProperty(id,
-                                      JSTypes.typeLocation,
-                                      null);
-    add(p);
-
-    return p;
+    return makeEntry(UUID.randomUUID().toString());
   }
 }

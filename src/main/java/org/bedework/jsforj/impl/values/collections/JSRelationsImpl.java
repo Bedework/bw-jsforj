@@ -3,8 +3,8 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
-import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
+import org.bedework.jsforj.model.values.JSRelation;
 import org.bedework.jsforj.model.values.collections.JSRelations;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +12,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
-public class JSRelationsImpl extends JSListImpl<JSProperty>
+public class JSRelationsImpl
+        extends JSMapImpl<String, JSRelation>
         implements JSRelations {
   public JSRelationsImpl(final String type,
                          final JsonNode node) {
@@ -20,30 +21,17 @@ public class JSRelationsImpl extends JSListImpl<JSProperty>
   }
 
   @Override
-  protected void store(final JSProperty val) {
-    addProperty(val);
+  protected String getPropertyType() {
+    return JSTypes.typeRelation;
   }
 
   @Override
-  protected String fieldName(final JSProperty val) {
-    return val.getName();
+  protected String convertKey(final String key) {
+    return key;
   }
 
   @Override
-  protected JSProperty convertToT(final String val) {
-    return getFactory().makeProperty(val,
-                                      JSTypes.typeRelation,
-                                      getNode().get(val));
-  }
-
-  @Override
-  public JSProperty makeRelation(final String uid) {
-    final JSProperty rel =
-            getFactory().makeProperty(uid,
-                                      JSTypes.typeRelation,
-                                      null);
-    add(rel);
-
-    return rel;
+  protected String convertFieldName(final String fieldName) {
+    return fieldName;
   }
 }

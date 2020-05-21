@@ -141,15 +141,6 @@ public interface JSValue {
    */
   JSProperty<?> setProperty(final String name, final String val);
 
-  /** Get the value. Create the property if absent.
-   *
-   * @param name of property
-   * @return the value
-   */
-  <T extends JSValue> T getPropertyValueAlways(
-          TypeReference<T> typeRef,
-          String name);
-
   /** Get the value. Return null if absent.
    *
    * @param name of property

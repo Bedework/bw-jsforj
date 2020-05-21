@@ -12,12 +12,10 @@ import java.util.List;
  *
  * User: mike Date: 4/3/20 Time: 21:50
  */
-public interface JSLinks extends JSList<JSProperty<JSLink>> {
+public interface JSLinks extends JSMap<String, JSLink> {
   /**
    *
    * @return list of JSLink with given rel - never null
    */
-  List<JSLink> getAll(final String rel);
-
-  JSProperty<JSLink> makeLink(final String href);
+  List<JSProperty<JSLink>> getAll(final String rel);
 }

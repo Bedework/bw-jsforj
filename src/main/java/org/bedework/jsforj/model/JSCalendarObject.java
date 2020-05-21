@@ -46,9 +46,10 @@ public interface JSCalendarObject extends JSValue {
 
   /**
    *
-   * @return list of comments - never null
+   * @param create true if we create property if it doesn't exist
+   * @return list of comments
    */
-  JSArray<String> getComments();
+  JSArray<String> getComments(boolean create);
 
   /** Remove all comments
    *
@@ -107,5 +108,5 @@ public interface JSCalendarObject extends JSValue {
    * @param create true if we create property if it doesn't exist
    * @return relations object
    */
-  JSRelations getRelations(boolean create);
+  JSRelations getRelatedTo(boolean create);
 }

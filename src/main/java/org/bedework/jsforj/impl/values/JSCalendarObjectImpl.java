@@ -58,18 +58,21 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public void addComment(final String val) {
-    getComments().add(val);
+    getComments(true).add(val);
   }
 
   @Override
-  public JSArray<String> getComments() {
-    return getPropertyValueAlways(new TypeReference<>() {},
-                                  JSPropertyNames.comments);
+  public JSArray<String> getComments(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.comments,
+                    create);
   }
 
   @Override
   public void clearComments() {
-    getComments().clear();
+    if (getComments(false) != null) {
+      removeProperty(JSPropertyNames.comments);
+    }
   }
 
   @Override
@@ -123,7 +126,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
-  public JSRelations getRelations(final boolean create) {
+  public JSRelations getRelatedTo(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.relatedTo, create);
   }

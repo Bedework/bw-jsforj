@@ -8,7 +8,8 @@ import org.bedework.jsforj.model.values.JSValue;
 /**
  * User: mike Date: 10/28/19 Time: 12:09
  */
-public interface JSUnsignedInteger extends JSValue {
+public interface JSUnsignedInteger
+        extends JSValue, Comparable<JSUnsignedInteger> {
   int get();
 
   /**

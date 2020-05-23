@@ -46,4 +46,14 @@ public class JSUnsignedIntegerImpl extends JSValueImpl
   public String toString() {
     return String.valueOf(get());
   }
+
+  @Override
+  public int compareTo(final JSUnsignedInteger that) {
+    if (that == null) {
+      return 1;
+    }
+
+    return Integer.compare(get(), that.get());
+
+  }
 }

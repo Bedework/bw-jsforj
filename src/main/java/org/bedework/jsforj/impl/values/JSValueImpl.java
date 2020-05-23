@@ -241,15 +241,29 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public void setNull(final String name) {
-    var prop = getProperty(new TypeReference<>() {},name);
+  public void setNull(final String... name) {
+    if ((name == null) || (name.length == 0)) {
+      throw new RuntimeException("Empty path");
+    }
+    final var pathsb = new StringBuilder();
+    for (var n: name) {
+      if (pathsb.length() != 0) {
+        pathsb.append("/");
+      }
+      pathsb.append(n);
+    }
+
+    final var path = pathsb.toString();
+
+    var prop = getProperty(new TypeReference<>() {},
+                           path);
 
     if (prop != null) {
       // Remove then add
-      removeProperty(name);
+      removeProperty(path);
     }
 
-    ((ObjectNode)node).set(name, NullNode.getInstance());
+    ((ObjectNode)node).set(path, NullNode.getInstance());
   }
 
   @Override
@@ -299,6 +313,18 @@ public class JSValueImpl implements JSValue {
   public JSProperty addProperty(final String name,
                                 final boolean val) {
     return addProperty(factory.makeProperty(name, val));
+  }
+
+  @Override
+  public JSProperty<?> makeProperty(final String name,
+                                    final String type) {
+    final JSProperty<?> p =
+            getFactory().makeProperty(name,
+                                      type,
+                                      null);
+    addProperty(p);
+
+    return p;
   }
 
   @Override

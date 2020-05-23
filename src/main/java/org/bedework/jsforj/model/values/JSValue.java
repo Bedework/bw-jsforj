@@ -160,9 +160,9 @@ public interface JSValue {
    * This is only used for patch objects to signify the removal of a
    * property by an override.
    *
-   * @param name of property
+   * @param name of properties - generates a path
    */
-  void setNull(String name);
+  void setNull(String... name);
   /**
    *
    * @return true if this is a string
@@ -210,7 +210,16 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty addProperty(final String name, final boolean val);
+  JSProperty<?> addProperty(final String name, final boolean val);
+
+  /** Add a property of given type.
+   *
+   * @param name the property name - non null
+   * @param type the property type
+   * @return the property
+   * @throws RuntimeException if property already exists
+   */
+  JSProperty<?> makeProperty(final String name, final String type);
 
   /** Returns value of named UnsignedInteger property.
    *

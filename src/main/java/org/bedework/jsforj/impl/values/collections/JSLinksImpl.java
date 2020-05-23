@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * User: mike Date: 5/4/20 Time: 23:30
@@ -50,5 +51,10 @@ public class JSLinksImpl
     }
 
     return res;
+  }
+
+  @Override
+  public JSProperty<JSLink> makeLink() {
+    return makeEntry(UUID.randomUUID().toString());
   }
 }

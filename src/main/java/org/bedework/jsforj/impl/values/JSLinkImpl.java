@@ -6,6 +6,7 @@ package org.bedework.jsforj.impl.values;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
+import org.bedework.util.misc.Util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -88,6 +89,41 @@ public class JSLinkImpl extends JSValueImpl
 
   @Override
   public String getTitle() {
-    return null;
+    return getStringProperty(JSPropertyNames.title);
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (!(o instanceof JSLink)) {
+      return false;
+    }
+
+    var that = (JSLink)o;
+
+    if (Util.cmpObjval(getHref(), that.getHref()) != 0) {
+      return false;
+    }
+
+    if (Util.cmpObjval(getCid(), that.getCid()) != 0) {
+      return false;
+    }
+
+    if (Util.cmpObjval(getContentType(), that.getContentType()) != 0) {
+      return false;
+    }
+
+    if (Util.cmpObjval(getSize(), that.getSize()) != 0) {
+      return false;
+    }
+
+    if (Util.cmpObjval(getRel(), that.getRel()) != 0) {
+      return false;
+    }
+
+    if (Util.cmpObjval(getDisplay(), that.getDisplay()) != 0) {
+      return false;
+    }
+
+    return Util.cmpObjval(getTitle(), that.getTitle()) == 0;
   }
 }

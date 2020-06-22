@@ -6,6 +6,7 @@ package org.bedework.jsforj.impl.values;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.collections.JSSendTo;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -108,6 +109,13 @@ public class JSParticipantImpl extends JSValueImpl
   @Override
   public String getScheduleAgent() {
     return getStringProperty(JSPropertyNames.scheduleAgent);
+  }
+
+  @Override
+  public JSSendTo getSendTo(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.sendTo,
+                    create);
   }
 
   @Override

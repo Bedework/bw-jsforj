@@ -1,14 +1,33 @@
 package org.bedework.jsforj.model.values;
 
 import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.collections.JSSendTo;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
  */
 public interface JSParticipant extends JSValue {
-  void setName(String val);
+  /** A set of participant ids that this participant is acting as a
+   delegate for.  Each key in the set MUST be the id of a
+   participant.  The value for each key in the set MUST be true.  If
+   there are no delegators, this MUST be omitted (rather than
+   specified as an empty set).
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return JSList<String> object - never null if create true
+   */
+  JSList<String> getDelegatedFrom(boolean create);
 
-  String getName();
+  /** A set of participant ids that this participant has delegated their
+   participation to.  Each key in the set MUST be the id of a
+   participant.  The value for each key in the set MUST be true.  If
+   there are no delegates, this MUST be omitted (rather than
+   specified as an empty set).
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return JSList<String> object - never null if create true
+   */
+  JSList<String> getDelegatedTo(boolean create);
 
   void setDescription(String val);
 
@@ -17,6 +36,10 @@ public interface JSParticipant extends JSValue {
   void setEmail(String val);
 
   String getEmail();
+
+  void setInvitedBy(String val);
+
+  String getInvitedBy();
 
   void setKind(String val);
 
@@ -30,6 +53,10 @@ public interface JSParticipant extends JSValue {
 
   String getLanguage();
 
+  void setName(String val);
+
+  String getName();
+
   void setParticipationComment(String val);
 
   String getParticipationComment();
@@ -38,14 +65,6 @@ public interface JSParticipant extends JSValue {
 
   String getParticipationStatus();
 
-  void setScheduleAgent(String val);
-
-  String getScheduleAgent();
-
-  void setInvitedBy(String val);
-
-  String getInvitedBy();
-
   /**
    *
    * @param create true if we create property if it doesn't exist
@@ -53,27 +72,11 @@ public interface JSParticipant extends JSValue {
    */
   JSList<String> getRoles(boolean create);
 
-  /** A set of participant ids that this participant has delegated their
-  participation to.  Each key in the set MUST be the id of a
-  participant.  The value for each key in the set MUST be true.  If
-  there are no delegates, this MUST be omitted (rather than
-      specified as an empty set).
-   *
-   * @param create true if we create property if it doesn't exist
-   * @return JSList<String> object - never null if create true
-   */
-  JSList<String> getDelegatedTo(boolean create);
+  void setScheduleAgent(String val);
 
-  /** A set of participant ids that this participant is acting as a
-  delegate for.  Each key in the set MUST be the id of a
-  participant.  The value for each key in the set MUST be true.  If
-  there are no delegators, this MUST be omitted (rather than
-      specified as an empty set).
-   *
-   * @param create true if we create property if it doesn't exist
-   * @return JSList<String> object - never null if create true
-   */
-  JSList<String> getDelegatedFrom(boolean create);
+  String getScheduleAgent();
+
+  JSSendTo getSendTo(boolean create);
 
   /** A set of group participants that were invited to this calendar
   object, which caused this participant to be invited due to their

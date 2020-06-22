@@ -20,7 +20,7 @@ public interface JSInteger extends JSValue {
    * @param that the int to compare
    * @return the value 0 if this == that; a value less than 0 if this < that; and a value greater than 0 if this > that
    */
-  int compare(final int that);
+  int compare(int that);
 
   /**
    * Compares with an int value numerically. The value returned is
@@ -31,5 +31,5 @@ public interface JSInteger extends JSValue {
    * @param that the int to compare
    * @return the value 0 if this == that; a value less than 0 if this < that; and a value greater than 0 if this > that
    */
-  int compare(final JSInteger that);
+  int compare(JSInteger that);
 }

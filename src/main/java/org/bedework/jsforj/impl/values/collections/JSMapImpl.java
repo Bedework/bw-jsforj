@@ -128,7 +128,7 @@ public abstract class JSMapImpl<K, E extends JSValue>
   public void remove(final JSProperty<E> entry) {
     assertObject("remove");
 
-    var node = (ObjectNode)getNode();
+    final var node = (ObjectNode)getNode();
     node.remove(entry.getName());
   }
 

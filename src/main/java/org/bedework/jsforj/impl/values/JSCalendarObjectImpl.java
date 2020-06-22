@@ -13,6 +13,7 @@ import org.bedework.jsforj.model.values.collections.JSParticipants;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
+import org.bedework.jsforj.model.values.collections.JSReplyTo;
 import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -95,17 +96,20 @@ public class JSCalendarObjectImpl extends JSValueImpl
 
   @Override
   public JSParticipants getParticipants(final boolean create) {
-    final JSParticipants ps =
-            getValue(new TypeReference<>() {},
-                     JSPropertyNames.participants, create);
-
-    return ps;
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.participants, create);
   }
 
   @Override
   public JSRecurrenceRules getRecurrenceRules(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.recurrenceRules, create);
+  }
+
+  @Override
+  public JSReplyTo getReplyTo(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.replyTo, create);
   }
 
   @Override

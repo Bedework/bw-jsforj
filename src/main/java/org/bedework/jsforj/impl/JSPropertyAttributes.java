@@ -22,6 +22,8 @@ import org.bedework.jsforj.impl.values.factories.JSRecurrenceRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSRecurrenceRulesFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
+import org.bedework.jsforj.impl.values.factories.JSReplyToFactory;
+import org.bedework.jsforj.impl.values.factories.JSSendToFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
@@ -362,7 +364,7 @@ public class JSPropertyAttributes {
           JSTypes.typeString);
 
     ptype(JSPropertyNames.replyTo,
-          JSTypes.typeStringStrings);
+          JSTypes.typeReplyTo);
 
     ptype(JSPropertyNames.roles,
           JSTypes.typeStrings);
@@ -380,7 +382,7 @@ public class JSPropertyAttributes {
           JSTypes.typeUTCDateTime);
 
     ptype(JSPropertyNames.sendTo,
-          JSTypes.typeStringStrings);
+          JSTypes.typeSendTo);
 
     ptype(JSPropertyNames.sequence,
           JSTypes.typeUnsignedInt);
@@ -644,6 +646,20 @@ public class JSPropertyAttributes {
          false, // object
          JSRelationsFactory.class); // factoryClass
 
+    type(JSTypes.typeReplyTo,
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeString), // elementType
+         false, // object
+         JSReplyToFactory.class); // factoryClass
+
+    type(JSTypes.typeSendTo,
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeString), // elementType
+         false, // object
+         JSSendToFactory.class); // factoryClass
+
     type(JSTypes.typeSignedDuration,
          false, // valueList
          false, // propertyList
@@ -671,13 +687,6 @@ public class JSPropertyAttributes {
          types(JSTypes.typeString), // elementType
          false, // object
          JSStringListFactory.class); // factoryClass
-
-    type(JSTypes.typeStringStrings,
-         true, // valueList
-         false, // propertyList
-         types(JSTypes.typeString), // elementType
-         false, // object
-         null); // factoryClass
 
     type(JSTypes.typeTimeZone,
          false, // valueList

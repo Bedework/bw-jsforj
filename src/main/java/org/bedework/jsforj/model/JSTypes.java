@@ -58,7 +58,9 @@ public interface JSTypes {
        "imip": "mailto:zoe@foobar.example.com"
      },
    */
-  String typeStringStrings = "String[String]";
+  // Too general String typeStringStrings = "String[String]";
+  String typeReplyTo = "String[String-replyToUrl]";
+  String typeSendTo = "String[String-sendToUrl]";
   String typeTimeZone = "TimeZone";
   String typeTimeZones = "String[TimeZone]";
   String typeTimeZoneRule = "TimeZoneRule";

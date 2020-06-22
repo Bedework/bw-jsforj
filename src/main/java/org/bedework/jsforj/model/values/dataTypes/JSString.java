@@ -17,7 +17,7 @@ public interface JSString extends JSValue {
    * @param that the value to compare
    * @return the value 0 if this == that; a value less than 0 if this < that; and a value greater than 0 if this > that
    */
-  int compare(final String that);
+  int compare(String that);
 
   /**
    * Compares with a JSString value.
@@ -25,5 +25,5 @@ public interface JSString extends JSValue {
    * @param that the value to compare
    * @return the value 0 if this == that; a value less than 0 if this < that; and a value greater than 0 if this > that
    */
-  int compare(final JSString that);
+  int compare(JSString that);
 }

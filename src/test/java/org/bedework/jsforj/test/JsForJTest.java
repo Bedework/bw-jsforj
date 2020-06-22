@@ -6,7 +6,9 @@ package org.bedework.jsforj.test;
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.impl.values.JSOverrideImpl;
+import org.bedework.jsforj.impl.values.collections.JSReplyToImpl;
 import org.bedework.jsforj.impl.values.collections.JSUnsignedIntArrayImpl;
+import org.bedework.jsforj.impl.values.dataTypes.JSStringImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSUnsignedIntegerImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSEvent;
@@ -25,6 +27,7 @@ import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
+import org.bedework.jsforj.model.values.dataTypes.JSString;
 import org.bedework.util.misc.Util;
 
 import org.junit.AfterClass;
@@ -100,6 +103,21 @@ public class JsForJTest {
 
         info(obj.writeValueAsStringFormatted(mapper));
 
+        final var replyTo = obj.getReplyTo(false);
+        if (replyTo != null) {
+          Assert.assertEquals("Must be JSReplyToImpl:",
+                              JSReplyToImpl.class,
+                              replyTo.getClass());
+          final List<JSProperty<JSString>> rtl = replyTo.get();
+          if (!Util.isEmpty(rtl)) {
+            final JSString rtlVal = rtl.get(0).getValue();
+
+            Assert.assertEquals("Must be JSStringImpl:",
+                                JSStringImpl.class,
+                                rtlVal.getClass());
+          }
+        }
+
         final JSRecurrenceRules rrules =
                 obj.getRecurrenceRules(false);
 
@@ -163,13 +181,13 @@ public class JsForJTest {
     try {
       final File jsonGroup = new File(dataPath + "simpleGroup.json");
 
-      var obj = mapper.parse(new FileReader(jsonGroup));
+      final var obj = mapper.parse(new FileReader(jsonGroup));
 
       Assert.assertTrue("Not JSGroup", obj instanceof JSGroup);
 
-      var group = (JSGroup)obj;
+      final var group = (JSGroup)obj;
 
-      var entries = group.getEntries();
+      final var entries = group.getEntries();
       Assert.assertEquals("Not 2 entries", 2, entries.size());
     } catch (final Throwable t) {
       t.printStackTrace();
@@ -190,43 +208,50 @@ public class JsForJTest {
       event.addComment("comment 1");
       event.addComment("comment 2");
 
-      var locations = event.getLocations(true);
+      final var locations = event.getLocations(true);
 
-      JSLocation loc = locations.makeLocation().getValue();
+      final JSLocation loc = locations.makeLocation().getValue();
 
       loc.setName("My new location");
-      JSList<String> loctypes = loc.getLocationTypes(true);
+      final JSList<String> loctypes = loc.getLocationTypes(true);
       loctypes.add("airport");
       loc.setCoordinates("geo:40.7654,73.9876");
 
-      var rrules = event.getRecurrenceRules(true);
+      final var rrules = event.getRecurrenceRules(true);
 
-      JSRecurrenceRule rrule = rrules.makeRecurrenceRule();
+      final JSRecurrenceRule rrule = rrules.makeRecurrenceRule();
 
       rrule.setFrequency(JSRecurrenceRule.freqWeekly);
       rrule.setCount(new JSUnsignedIntegerImpl(10));
 
-      var participants = event.getParticipants(true);
-      JSParticipant part = participants.makeParticipant().getValue();
+      final var replyTo = event.getReplyTo(true);
+
+      replyTo.makeReplyTo("imip",
+                          "mailto:farmerjo@wearepoultry.example.com");
+
+      final var participants = event.getParticipants(true);
+      final JSParticipant part = participants.makeParticipant().getValue();
 
       part.setName("Turkey Lurkey");
       part.setEmail("tlurkey@turkeys.example.com");
+      part.getSendTo(true).makeSendTo("imip",
+                                      "mailto:tlurkey@turkeys.example.com");
       part.setKind("turkey");
       part.setLanguage("gobble");
       part.setInvitedBy("thechicken@chickens.example.com");
-      var roles = part.getRoles(true);
+      final var roles = part.getRoles(true);
       roles.add("owner");
       roles.add("chair");
 
-      var relations = event.getRelatedTo(true);
+      final var relations = event.getRelatedTo(true);
 
-      var rel = relations.makeEntry("this.is.a.uid");
-      JSRelation relVal = (JSRelation)rel.getValue();
+      final var rel = relations.makeEntry("this.is.a.uid");
+      final JSRelation relVal = rel.getValue();
 
       relVal.getRelations(true).add("parent");
 
-      JSLinks links = event.getLinks(true);
-      JSProperty<JSLink> link =
+      final JSLinks links = event.getLinks(true);
+      final JSProperty<JSLink> link =
               links.makeEntry("http://example.org/something.ics");
       link.getValue().setRel("alternate");
 

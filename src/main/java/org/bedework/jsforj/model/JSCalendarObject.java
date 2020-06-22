@@ -1,5 +1,6 @@
 package org.bedework.jsforj.model;
 
+import org.bedework.jsforj.model.values.collections.JSReplyTo;
 import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.collections.JSArray;
@@ -21,7 +22,7 @@ public interface JSCalendarObject extends JSValue {
    * @param val the uid
    * @throws RuntimeException if value already present
    */
-  void setUid(final String val);
+  void setUid(String val);
 
   /**
    *
@@ -34,7 +35,7 @@ public interface JSCalendarObject extends JSValue {
    * @param val the recurrence id
    * @throws RuntimeException if value already present or not override
    */
-  void setRecurrenceId(final JSLocalDateTime val);
+  void setRecurrenceId(JSLocalDateTime val);
 
   /**
    *
@@ -97,6 +98,13 @@ public interface JSCalendarObject extends JSValue {
    * @return recurrence rules object
    */
   JSRecurrenceRules getRecurrenceRules(boolean create);
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return replyTo object
+   */
+  JSReplyTo getReplyTo(boolean create);
 
   /** Remove all overrides
    *

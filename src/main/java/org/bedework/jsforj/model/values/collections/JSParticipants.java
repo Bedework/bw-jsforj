@@ -15,4 +15,11 @@ public interface JSParticipants
    *
    */
   JSProperty<JSParticipant> makeParticipant();
+
+  /**
+   *
+   * @param cua identifying the participant
+   * @return null if not found else a participant with a matching sendTo
+   */
+  JSProperty<JSParticipant> findParticipant(String cua);
 }

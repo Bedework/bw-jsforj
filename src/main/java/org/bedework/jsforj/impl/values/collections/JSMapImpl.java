@@ -33,9 +33,9 @@ public abstract class JSMapImpl<K, E extends JSValue>
    * @param key external form
    * @return String
    */
-  protected abstract String convertKey(final K key);
+  protected abstract String convertKey(K key);
 
-  protected abstract K convertFieldName(final String fieldName);
+  protected abstract K convertFieldName(String fieldName);
 
   protected JSProperty<E> postCreate(final JSProperty<E> entry) {
     return entry;
@@ -55,7 +55,7 @@ public abstract class JSMapImpl<K, E extends JSValue>
     final var res = new ArrayList<K>(getNode().size());
     final var node = (ObjectNode)getNode();
 
-    for (var it = node.fieldNames(); it.hasNext(); ) {
+    for (final var it = node.fieldNames(); it.hasNext(); ) {
       res.add(convertFieldName(it.next()));
     }
 
@@ -69,8 +69,8 @@ public abstract class JSMapImpl<K, E extends JSValue>
     final var res = new ArrayList<JSProperty<E>>(getNode().size());
     final var node = (ObjectNode)getNode();
 
-    for (var it = node.fieldNames(); it.hasNext(); ) {
-      var name = it.next();
+    for (final var it = node.fieldNames(); it.hasNext(); ) {
+      final var name = it.next();
       res.add(postCreate(
               getFactory().makeProperty(name,
                                         getPropertyType(),
@@ -81,7 +81,7 @@ public abstract class JSMapImpl<K, E extends JSValue>
   }
 
   @Override
-  public JSProperty<E> get(K key) {
+  public JSProperty<E> get(final K key) {
     assertObject("get(i)");
 
     final var node = (ObjectNode)getNode();
@@ -99,7 +99,7 @@ public abstract class JSMapImpl<K, E extends JSValue>
   }
 
   @Override
-  public JSProperty<E> put(K key, E val) {
+  public JSProperty<E> put(final K key, final E val) {
     assertObject("add");
 
     final String name = convertKey(key);
@@ -110,7 +110,7 @@ public abstract class JSMapImpl<K, E extends JSValue>
   }
 
   @Override
-  public void put(JSProperty<E> entry) {
+  public void put(final JSProperty<E> entry) {
     assertObject("add");
 
     addProperty(entry);
@@ -120,7 +120,7 @@ public abstract class JSMapImpl<K, E extends JSValue>
   public void remove(final K key) {
     assertObject("remove");
 
-    var node = (ObjectNode)getNode();
+    final var node = (ObjectNode)getNode();
     node.remove(convertKey(key));
   }
 

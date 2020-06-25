@@ -94,7 +94,7 @@ public interface JSValue {
    * @throws RuntimeException if not an object
    */
   <T extends JSValue> JSProperty<T> getProperty(
-          final TypeReference<T> type,
+          TypeReference<T> type,
           String name);
 
   /** Remove named property
@@ -124,14 +124,14 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty addProperty(final String name, final String val);
+  JSProperty<?> addProperty(String name, String val);
 
   /** Add or replace the named property
    *
    * @param val the property - non null
    * @return the property
    */
-  JSProperty<?> setProperty(final JSProperty<?> val);
+  JSProperty<?> setProperty(JSProperty<?> val);
 
   /** Set the value for a string type property
    *
@@ -139,14 +139,14 @@ public interface JSValue {
    * @param val the property value - non null
    * @return the property
    */
-  JSProperty<?> setProperty(final String name, final String val);
+  JSProperty<?> setProperty(String name, String val);
 
   /** Get the value. Return null if absent.
    *
    * @param name of property
    * @return the value or null
    */
-  JSValue getPropertyValue(final String name);
+  JSValue getPropertyValue(String name);
 
   /** Returns value of named String property.
    *
@@ -175,7 +175,7 @@ public interface JSValue {
    * @param val the property value - non null
    * @return the property
    */
-  JSProperty setProperty(final String name, final JSUnsignedInteger val);
+  JSProperty<?> setProperty(String name, JSUnsignedInteger val);
 
   /** Add an UnsignedInteger type property
    *
@@ -184,7 +184,7 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty addProperty(final String name, final JSUnsignedInteger val);
+  JSProperty<?> addProperty(String name, JSUnsignedInteger val);
 
   /** Set the value for an UnsignedInteger type property
    *
@@ -192,7 +192,15 @@ public interface JSValue {
    * @param val the property value - non null
    * @return the property
    */
-  JSProperty setProperty(final String name, final Integer val);
+  JSProperty<?> setProperty(String name, Integer val);
+
+  /** Set the value for a boolean type property
+   *
+   * @param name the property name - non null
+   * @param val the property value
+   * @return the property
+   */
+  JSProperty<?> setProperty(String name, boolean val);
 
   /** Add an UnsignedInteger type property
    *
@@ -201,7 +209,7 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty addProperty(final String name, final Integer val);
+  JSProperty<?> addProperty(String name, Integer val);
 
   /** Add a boolean type property
    *
@@ -210,7 +218,7 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if not an object or property already exists
    */
-  JSProperty<?> addProperty(final String name, final boolean val);
+  JSProperty<?> addProperty(String name, boolean val);
 
   /** Add a property of given type.
    *
@@ -219,7 +227,9 @@ public interface JSValue {
    * @return the property
    * @throws RuntimeException if property already exists
    */
-  JSProperty<?> makeProperty(final String name, final String type);
+  <T extends JSValue> JSProperty<T> makeProperty(
+          TypeReference<T> typeRef,
+          String name, String type);
 
   /** Returns value of named UnsignedInteger property.
    *

@@ -52,6 +52,22 @@ public class JSParticipantImpl extends JSValueImpl
   }
 
   @Override
+  public void setExpectReply(final boolean val) {
+    setProperty(JSPropertyNames.expectReply, val);
+  }
+
+  @Override
+  public boolean getExpectReply() {
+    final var p = getProperty(new TypeReference<>() {},
+                              JSPropertyNames.expectReply);
+    if (p == null) {
+      return false;
+    }
+
+    return p.getValue().getBooleanValue();
+  }
+
+  @Override
   public void setKind(final String val) {
     addProperty(JSPropertyNames.kind, val);
   }

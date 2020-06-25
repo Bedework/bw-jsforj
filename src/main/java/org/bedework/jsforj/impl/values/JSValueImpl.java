@@ -147,7 +147,7 @@ public class JSValueImpl implements JSValue {
           final String name) {
     assertObject("getProperty");
 
-    var pnode = node.get(name);
+    final var pnode = node.get(name);
 
     if (pnode == null) {
       return null;
@@ -285,17 +285,33 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public JSProperty addProperty(final String name,
-                                final JSUnsignedInteger val) {
+  public JSProperty<?> addProperty(final String name,
+                                   final JSUnsignedInteger val) {
     return addProperty(factory.makeProperty(name, val));
   }
 
   @Override
-  public JSProperty setProperty(final String name,
-                                final Integer val) {
-    var prop = getProperty(new TypeReference<>() {},name);
+  public JSProperty<?> setProperty(final String name,
+                                   final Integer val) {
+    final var prop = getProperty(new TypeReference<>() {},name);
 
     if (prop != null) {
+      // Remove then add
+      removeProperty(name);
+    }
+
+    return addProperty(name, val);
+  }
+
+  @Override
+  public JSProperty<?> setProperty(final String name,
+                                   final boolean val) {
+    final var prop = getProperty(new TypeReference<>() {},name);
+
+    if (prop != null) {
+      if (prop.getValue().getBooleanValue() == val) {
+        return prop;
+      }
       // Remove then add
       removeProperty(name);
     }
@@ -316,9 +332,11 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public JSProperty<?> makeProperty(final String name,
-                                    final String type) {
-    final JSProperty<?> p =
+  public <T extends JSValue> JSProperty<T> makeProperty(
+          final TypeReference<T> typeRef,
+          final String name,
+          final String type) {
+    final JSProperty<T> p =
             getFactory().makeProperty(name,
                                       type,
                                       null);
@@ -329,13 +347,13 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public JSUnsignedInteger getUnsignedIntegerProperty(final String name) {
-    var prop = getProperty(new TypeReference<>() {},name);
+    final var prop = getProperty(new TypeReference<>() {},name);
 
     if (prop == null) {
       return null;
     }
 
-    var val = ((JSValueImpl)prop.getValue()).getNode();
+    final var val = ((JSValueImpl)prop.getValue()).getNode();
     return new JSUnsignedIntegerImpl(val.intValue());
   }
 

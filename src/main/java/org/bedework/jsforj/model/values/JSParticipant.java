@@ -37,6 +37,14 @@ public interface JSParticipant extends JSValue {
 
   String getEmail();
 
+  /**
+   * The RSVP parameter in 5545
+   * @param val true if reply expected
+   */
+  void setExpectReply(boolean val);
+
+  boolean getExpectReply();
+
   void setInvitedBy(String val);
 
   String getInvitedBy();

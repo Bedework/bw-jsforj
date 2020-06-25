@@ -34,7 +34,7 @@ public class JSOverrideImpl extends JSPatchObjectImpl
 
   @Override
   public void markExcluded() {
-
+    setProperty(JSPropertyNames.excluded, true);
   }
 
   @Override

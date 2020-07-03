@@ -128,6 +128,26 @@ public class JSParticipantImpl extends JSValueImpl
   }
 
   @Override
+  public void setScheduleForceSend(final String val) {
+    addProperty(JSPropertyNames.scheduleForceSend, val);
+  }
+
+  @Override
+  public String getScheduleForceSend() {
+    return getStringProperty(JSPropertyNames.scheduleForceSend);
+  }
+
+  @Override
+  public void setScheduleStatus(final String val) {
+    addProperty(JSPropertyNames.scheduleStatus, val);
+  }
+
+  @Override
+  public String getScheduleStatus() {
+    return getStringProperty(JSPropertyNames.scheduleStatus);
+  }
+
+  @Override
   public JSSendTo getSendTo(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.sendTo,

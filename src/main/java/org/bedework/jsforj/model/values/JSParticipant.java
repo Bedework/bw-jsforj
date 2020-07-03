@@ -84,6 +84,14 @@ public interface JSParticipant extends JSValue {
 
   String getScheduleAgent();
 
+  void setScheduleForceSend(String val);
+
+  String getScheduleForceSend();
+
+  void setScheduleStatus(String val);
+
+  String getScheduleStatus();
+
   JSSendTo getSendTo(boolean create);
 
   /** A set of group participants that were invited to this calendar

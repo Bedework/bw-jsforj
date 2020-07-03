@@ -101,11 +101,11 @@ public class JSValueImpl implements JSValue {
     // Exactly as get properties - except all the elements should have
     // constrained types
 
-    var props = new ArrayList<JSProperty>();
-    var nd = getNode();
+    final var props = new ArrayList<JSProperty>();
+    final var nd = getNode();
 
-    for (var it = nd.fieldNames(); it.hasNext(); ) {
-      var fieldName = it.next();
+    for (final var it = nd.fieldNames(); it.hasNext(); ) {
+      final var fieldName = it.next();
 
       props.add(factory.makeProperty(fieldName,
                                      nd.get(fieldName)));
@@ -128,11 +128,11 @@ public class JSValueImpl implements JSValue {
       return Collections.emptyList();
     }
 
-    var props = new ArrayList<JSProperty>();
-    var nd = getNode();
+    final var props = new ArrayList<JSProperty>();
+    final var nd = getNode();
 
-    for (var it = nd.fieldNames(); it.hasNext(); ) {
-      var fieldName = it.next();
+    for (final var it = nd.fieldNames(); it.hasNext(); ) {
+      final var fieldName = it.next();
 
       props.add(factory.makeProperty(fieldName,
                                      node.get(fieldName)));
@@ -175,11 +175,11 @@ public class JSValueImpl implements JSValue {
           final JSProperty<ValType> val) {
     assertObject("addProperty");
 
-    var name = val.getName();
+    final var name = val.getName();
     if (node.get(name) != null) {
-      throw new RuntimeException("Property " + name + "already present");
+      throw new RuntimeException("Property " + name + " already present");
     }
-    var value = (JSValueImpl)val.getValue();
+    final var value = (JSValueImpl)val.getValue();
     ((ObjectNode)node).set(name, value.getNode());
 
     return val;
@@ -193,9 +193,9 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public JSProperty<?> setProperty(final JSProperty<?> val) {
-    var name = val.getName();
+    final var name = val.getName();
 
-    var prop = getProperty(new TypeReference<>() {}, name);
+    final var prop = getProperty(new TypeReference<>() {}, name);
 
     if (prop != null) {
       // Remove then add
@@ -208,7 +208,7 @@ public class JSValueImpl implements JSValue {
   @Override
   public JSProperty<JSString> setProperty(final String name,
                                           final String val) {
-    var prop = getProperty(new TypeReference<>() {}, name);
+    final var prop = getProperty(new TypeReference<>() {}, name);
 
     if (prop != null) {
       // Remove then add
@@ -220,7 +220,7 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public JSValue getPropertyValue(final String name) {
-    var prop = getProperty(new TypeReference<>() {}, name);
+    final var prop = getProperty(new TypeReference<>() {}, name);
 
     if (prop == null) {
       return null;
@@ -231,7 +231,7 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public String getStringProperty(final String name) {
-    var prop = getProperty(new TypeReference<>() {},name);
+    final var prop = getProperty(new TypeReference<>() {},name);
 
     if (prop == null) {
       return null;
@@ -246,7 +246,7 @@ public class JSValueImpl implements JSValue {
       throw new RuntimeException("Empty path");
     }
     final var pathsb = new StringBuilder();
-    for (var n: name) {
+    for (final var n: name) {
       if (pathsb.length() != 0) {
         pathsb.append("/");
       }
@@ -255,8 +255,8 @@ public class JSValueImpl implements JSValue {
 
     final var path = pathsb.toString();
 
-    var prop = getProperty(new TypeReference<>() {},
-                           path);
+    final var prop = getProperty(new TypeReference<>() {},
+                                 path);
 
     if (prop != null) {
       // Remove then add
@@ -274,7 +274,7 @@ public class JSValueImpl implements JSValue {
   @Override
   public JSProperty setProperty(final String name,
                                 final JSUnsignedInteger val) {
-    var prop = getProperty(new TypeReference<>() {},name);
+    final var prop = getProperty(new TypeReference<>() {},name);
 
     if (prop != null) {
       // Remove then add
@@ -421,7 +421,7 @@ public class JSValueImpl implements JSValue {
       p = addProperty(factory.makeProperty(pname));
     }
 
-    return (T)p.getValue();
+    return p.getValue();
   }
 
   protected void assertStringNode() {

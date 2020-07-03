@@ -111,6 +111,8 @@ public interface JSPropertyNames {
   String roles = "roles";       //  String[Boolean]Valid for: Participant
   String rscale = "rscale"; // String  Valid for: Recurrence Rule
   String scheduleAgent = "scheduleAgent";//  String    Valid for: Participant
+  String scheduleForceSend = "scheduleForceSend";//  String    Valid for: Participant
+  String scheduleStatus = "scheduleStatus";//  String    Valid for: Participant
   String scheduleSequence = "scheduleSequence";//  UnsignedInt    Valid for: Participant
   String scheduleUpdated = "scheduleUpdated";//  UTCDateTime    Valid for: Participant
   String sendTo = "sendTo";      //  String[String] Valid for: Participant

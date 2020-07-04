@@ -57,4 +57,15 @@ public class JSLinksImpl
   public JSProperty<JSLink> makeLink() {
     return makeEntry(UUID.randomUUID().toString());
   }
+
+  @Override
+  public JSProperty<JSLink> findLink(final String href) {
+    for (final JSProperty<JSLink> prop: get()) {
+      if (href.equals(prop.getValue().getHref())) {
+        return prop;
+      }
+    }
+
+    return null;
+  }
 }

@@ -493,8 +493,8 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeIds,
-         true, // valueList
-         false, // propertyList
+         false, // valueList
+         true, // propertyList
          types(JSTypes.typeId), // elementType
          false, // object
          JSStringListFactory.class); // factoryClass

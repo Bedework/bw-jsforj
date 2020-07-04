@@ -19,8 +19,13 @@ public interface JSLinks extends JSMap<String, JSLink> {
    */
   List<JSProperty<JSLink>> getAll(String rel);
 
-  /** Create and add a new location object with a random uuid as key
+  /** Create and add a new link object with a random uuid as key
    *
    */
   JSProperty<JSLink> makeLink();
+
+  /** Try to find the link object with the given href
+   *
+   */
+  JSProperty<JSLink> findLink(String href);
 }

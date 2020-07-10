@@ -27,6 +27,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
   public JSCalendarObjectImpl(final String type,
                               final JsonNode node) {
     super(type, node);
+    setProperty(JSPropertyNames.type, type);
   }
 
   @Override

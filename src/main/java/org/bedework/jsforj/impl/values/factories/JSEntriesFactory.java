@@ -16,12 +16,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class JSEntriesFactory extends JSValueFactoryImpl {
   @Override
-  public JSValue newValue(final String name,
+  public JSValue newValue(final String type,
                           final JsonNode nd) {
     if (nd == null) {
-      return new JSEntriesImpl(name,
+      return new JSEntriesImpl(type,
                                new ObjectNode(JsonNodeFactory.instance));
     }
-    return new JSEntriesImpl(name, nd);
+    return new JSEntriesImpl(type, nd);
   }
 }

@@ -1,8 +1,7 @@
 package org.bedework.jsforj.model;
 
-import org.bedework.jsforj.model.values.collections.JSReplyTo;
-import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 import org.bedework.jsforj.model.values.JSValue;
+import org.bedework.jsforj.model.values.collections.JSAlerts;
 import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
@@ -11,6 +10,8 @@ import org.bedework.jsforj.model.values.collections.JSParticipants;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceOverrides;
 import org.bedework.jsforj.model.values.collections.JSRecurrenceRules;
 import org.bedework.jsforj.model.values.collections.JSRelations;
+import org.bedework.jsforj.model.values.collections.JSReplyTo;
+import org.bedework.jsforj.model.values.dataTypes.JSLocalDateTime;
 
 /** Top level objects
  *
@@ -42,6 +43,13 @@ public interface JSCalendarObject extends JSValue {
    * @return Recurrence id or null if none set
    */
   JSLocalDateTime getRecurrenceId();
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return list of alerts
+   */
+  JSAlerts getAlerts(boolean create);
 
   void addComment(String val);
 

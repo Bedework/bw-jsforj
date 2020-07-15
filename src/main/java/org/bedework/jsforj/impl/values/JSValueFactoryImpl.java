@@ -23,7 +23,7 @@ public abstract class JSValueFactoryImpl extends JSValueFactory {
    * @return ObjectNode
    */
   protected JsonNode newObject(final String typeName) {
-    var node = new ObjectNode(JsonNodeFactory.instance);
+    final var node = new ObjectNode(JsonNodeFactory.instance);
 
     node.put(JSPropertyNames.type, typeName);
 

@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.model.values.collections.JSAlerts;
 import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
@@ -56,6 +57,12 @@ public class JSCalendarObjectImpl extends JSValueImpl
   @Override
   public JSLocalDateTime getRecurrenceId() {
     return (JSLocalDateTime)getPropertyValue(JSPropertyNames.recurrenceId);
+  }
+
+  @Override
+  public JSAlerts getAlerts(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.alerts, create);
   }
 
   @Override

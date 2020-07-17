@@ -6,6 +6,7 @@ package org.bedework.jsforj.impl;
 import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
+import org.bedework.jsforj.impl.values.factories.JSDurationFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
 import org.bedework.jsforj.impl.values.factories.JSIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSIntegerFactory;
@@ -24,6 +25,7 @@ import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSReplyToFactory;
 import org.bedework.jsforj.impl.values.factories.JSSendToFactory;
+import org.bedework.jsforj.impl.values.factories.JSSignedDurationFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
@@ -476,7 +478,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSDurationFactory.class); // factoryClass
 
     type(JSTypes.typeEntries,
          true, // valueList
@@ -665,7 +667,7 @@ public class JSPropertyAttributes {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSSignedDurationFactory.class); // factoryClass
 
     type(JSTypes.typeString,
          false, // valueList

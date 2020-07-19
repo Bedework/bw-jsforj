@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.values.collections.JSArray;
 
@@ -27,14 +28,14 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
    * @param val external representation
    * @return internal representation (json field name)
    */
-  protected abstract JsonNode convertToElement(final T val);
+  protected abstract JsonNode convertToElement(T val);
 
   /**
    *
    * @param node representing the object
    * @return external representation
    */
-  protected abstract T convertToT(final JsonNode node);
+  protected abstract T convertToT(JsonNode node);
 
   @Override
   public int size() {
@@ -49,7 +50,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
 
     final var res = new ArrayList<T>(getNode().size());
 
-    for (var it = getNode().elements(); it.hasNext(); ) {
+    for (final var it = getNode().elements(); it.hasNext(); ) {
       res.add(convertToT(it.next()));
     }
 
@@ -61,7 +62,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
     assertArray("get(i)");
 
     if ((index < 0) || (index >= getNode().size())) {
-      throw new RuntimeException("Index " + index +
+      throw new JsforjException("Index " + index +
               " out of bounds for " + getType());
     }
 
@@ -69,7 +70,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
        list
      */
 
-    var node = (ArrayNode)getNode();
+    final var node = (ArrayNode)getNode();
     return convertToT(node.get(index));
   }
 
@@ -77,7 +78,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
   public void add(final T val) {
     assertArray("add");
 
-    var node = (ArrayNode)getNode();
+    final var node = (ArrayNode)getNode();
 
     node.add(convertToElement(val));
   }
@@ -87,11 +88,11 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
     assertArray("remove");
 
     if ((index < 0) || (index >= getNode().size())) {
-      throw new RuntimeException("Index " + index +
+      throw new JsforjException("Index " + index +
                                          " out of bounds for " + getType());
     }
 
-    var node = (ArrayNode)getNode();
+    final var node = (ArrayNode)getNode();
 
     node.remove(index);
   }
@@ -100,9 +101,9 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
   public boolean remove(final T val) {
     assertArray("remove");
 
-    var node = (ArrayNode)getNode();
+    final var node = (ArrayNode)getNode();
     for (int i = 0; i <= node.size(); i++) {
-      var elval = get(i);
+      final var elval = get(i);
       if (elval.equals(val)) {
         remove(i);
         return true;
@@ -116,7 +117,7 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
   public void clear() {
     assertArray("clear");
 
-    var node = (ArrayNode)getNode();
+    final var node = (ArrayNode)getNode();
     node.removeAll();
   }
 }

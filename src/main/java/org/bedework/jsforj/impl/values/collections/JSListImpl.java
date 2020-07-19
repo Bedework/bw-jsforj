@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.values.collections.JSList;
 
@@ -27,21 +28,21 @@ public abstract class JSListImpl<T> extends JSValueImpl
    *
    * @param val external representation
    */
-  protected abstract void store(final T val);
+  protected abstract void store(T val);
 
   /**
    *
    * @param val external representation
    * @return field name
    */
-  protected abstract String fieldName(final T val);
+  protected abstract String fieldName(T val);
 
   /**
    *
    * @param val json field name
    * @return external representation
    */
-  protected abstract T convertToT(final String val);
+  protected abstract T convertToT(String val);
 
   @Override
   public int size() {
@@ -57,7 +58,7 @@ public abstract class JSListImpl<T> extends JSValueImpl
     final var res = new ArrayList<T>(getNode().size());
     final var node = (ObjectNode)getNode();
 
-    for (var it = node.fieldNames(); it.hasNext(); ) {
+    for (final var it = node.fieldNames(); it.hasNext(); ) {
       res.add(convertToT(it.next()));
     }
 
@@ -69,7 +70,7 @@ public abstract class JSListImpl<T> extends JSValueImpl
     assertObject("get(i)");
 
     if ((index < 0) || (index >= getNode().size())) {
-      throw new RuntimeException("Index " + index +
+      throw new JsforjException("Index " + index +
               " out of bounds for " + getType());
     }
 
@@ -99,7 +100,7 @@ public abstract class JSListImpl<T> extends JSValueImpl
   public void remove(final T val) {
     assertObject("remove");
 
-    var node = (ObjectNode)getNode();
+    final var node = (ObjectNode)getNode();
     node.remove(fieldName(val));
   }
 }

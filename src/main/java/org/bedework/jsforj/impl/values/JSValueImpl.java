@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSPropertyAttributes;
 import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
@@ -39,17 +40,17 @@ public class JSValueImpl implements JSValue {
   public JSValueImpl(final String type,
                      final JsonNode node) {
     if (node == null) {
-      throw new RuntimeException("Null node value");
+      throw new JsforjException("Null node value");
     }
     if (type == null) {
-      throw new RuntimeException("Null value type for " + node);
+      throw new JsforjException("Null value type for " + node);
     }
 
     this.type = type;
     this.node = node;
     typeInfo = JSPropertyAttributes.getTypeInfo(type);
 //    if (typeInfo == null) {
-//      throw new RuntimeException("Null value typeInfo for type"
+//      throw new JsforjException("Null value typeInfo for type"
 //                                         + type
 //                                         + " and node " + node);
 //    }
@@ -177,7 +178,7 @@ public class JSValueImpl implements JSValue {
 
     final var name = val.getName();
     if (node.get(name) != null) {
-      throw new RuntimeException("Property " + name + " already present");
+      throw new JsforjException("Property " + name + " already present");
     }
     final var value = (JSValueImpl)val.getValue();
     ((ObjectNode)node).set(name, value.getNode());
@@ -243,7 +244,7 @@ public class JSValueImpl implements JSValue {
   @Override
   public void setNull(final String... name) {
     if ((name == null) || (name.length == 0)) {
-      throw new RuntimeException("Empty path");
+      throw new JsforjException("Empty path");
     }
     final var pathsb = new StringBuilder();
     for (final var n: name) {
@@ -363,7 +364,7 @@ public class JSValueImpl implements JSValue {
       return node.textValue();
     }
 
-    throw new RuntimeException("Not String value");
+    throw new JsforjException("Not String value");
   }
 
   @Override
@@ -372,7 +373,7 @@ public class JSValueImpl implements JSValue {
       return node.asBoolean();
     }
 
-    throw new RuntimeException("Not boolean value");
+    throw new JsforjException("Not boolean value");
   }
 
   @Override
@@ -381,7 +382,7 @@ public class JSValueImpl implements JSValue {
     try {
       mapper.writeValue(wtr, node);
     } catch (final Throwable t) {
-      throw new RuntimeException(t);
+      throw new JsforjException(t);
     }
   }
 
@@ -390,7 +391,7 @@ public class JSValueImpl implements JSValue {
     try {
       return mapper.writeValueAsString(node);
     } catch (final JsonProcessingException e) {
-      throw new RuntimeException(e);
+      throw new JsforjException(e);
     }
   }
 
@@ -399,7 +400,7 @@ public class JSValueImpl implements JSValue {
     try {
       return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
     } catch (final JsonProcessingException e) {
-      throw new RuntimeException(e);
+      throw new JsforjException(e);
     }
   }
 
@@ -426,7 +427,7 @@ public class JSValueImpl implements JSValue {
 
   protected void assertStringNode() {
     if (node == null) {
-      throw new RuntimeException("Null node for type: "
+      throw new JsforjException("Null node for type: "
                                          + type);
     }
 
@@ -434,13 +435,13 @@ public class JSValueImpl implements JSValue {
       return;
     }
 
-    throw new RuntimeException("Not String value. Type: "
+    throw new JsforjException("Not String value. Type: "
                                        + type);
   }
 
   protected void assertIntNode() {
     if (node == null) {
-      throw new RuntimeException("Null node for type: "
+      throw new JsforjException("Null node for type: "
                                          + type);
     }
 
@@ -448,7 +449,7 @@ public class JSValueImpl implements JSValue {
       return;
     }
 
-    throw new RuntimeException("Not int value. Type: "
+    throw new JsforjException("Not int value. Type: "
                                        + type);
   }
 
@@ -457,11 +458,11 @@ public class JSValueImpl implements JSValue {
       return;
     }
     if (action == null) {
-      throw new RuntimeException("Not object value. Type: "
+      throw new JsforjException("Not object value. Type: "
                                          + type);
     }
 
-    throw new RuntimeException("Not object value. Type: "
+    throw new JsforjException("Not object value. Type: "
                                        + type + " action: " + action);
   }
 
@@ -470,11 +471,11 @@ public class JSValueImpl implements JSValue {
       return;
     }
     if (action == null) {
-      throw new RuntimeException("Not array value. Type: "
+      throw new JsforjException("Not array value. Type: "
                                          + type);
     }
 
-    throw new RuntimeException("Not array value. Type: "
+    throw new JsforjException("Not array value. Type: "
                                        + type + " action: " + action);
   }
 }

@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSCalendarObject;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,7 +29,7 @@ public class JSMapper extends ObjectMapper {
     try {
       nd = readTree(rdr);
     } catch (final Throwable t) {
-      throw new RuntimeException(t);
+      throw new JsforjException(t);
     }
 
     return factory.makeCalObj(nd);

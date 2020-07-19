@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSOverride;
@@ -49,7 +50,7 @@ public class JSOverrideImpl extends JSPatchObjectImpl
 
   @Override
   public void setUid(final String val) {
-    throw new RuntimeException("Cannot set uid in patch object");
+    throw new JsforjException("Cannot set uid in patch object");
   }
 
   @Override

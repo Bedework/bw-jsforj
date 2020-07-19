@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSRecurrenceRuleImpl;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
@@ -30,7 +31,7 @@ public class JSRecurrenceRulesImpl
   @Override
   protected JSRecurrenceRule convertToT(final JsonNode node) {
     if (!(node instanceof ObjectNode)) {
-      throw new RuntimeException("Bad node class: " + node .getClass());
+      throw new JsforjException("Bad node class: " + node.getClass());
     }
 
     return (JSRecurrenceRule)factory.newValue(

@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.dataTypes;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
@@ -18,7 +19,7 @@ public class JSUnsignedIntegerImpl extends JSValueImpl
   public JSUnsignedIntegerImpl(final int value) {
     super(JSTypes.typeUnsignedInt, new IntNode(value));
     if (value < 0) {
-      throw new RuntimeException("Value < 0 for unsigned int:" + value);
+      throw new JsforjException("Value < 0 for unsigned int:" + value);
     }
   }
 

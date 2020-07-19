@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSCalendarObjectImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.values.collections.JSEntries;
@@ -28,7 +29,8 @@ public class JSEntriesImpl extends JSArrayImpl<JSCalendarObject>
   @Override
   protected JSCalendarObject convertToT(final JsonNode node) {
     if (!(node instanceof ObjectNode)) {
-      throw new RuntimeException("Bad node class: " + node .getClass());
+      throw new JsforjException("Bad node class:",
+                                node.getClass().getName());
     }
 
     return factory.makeCalObj(node);

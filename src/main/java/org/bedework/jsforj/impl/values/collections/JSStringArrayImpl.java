@@ -3,6 +3,8 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
@@ -23,7 +25,7 @@ public class JSStringArrayImpl extends JSArrayImpl<String> {
   @Override
   protected String convertToT(final JsonNode node) {
     if (!(node instanceof TextNode)) {
-      throw new RuntimeException("Bad node class: " + node .getClass());
+      throw new JsforjException("Bad node class: " + node.getClass());
     }
 
     return node.asText();

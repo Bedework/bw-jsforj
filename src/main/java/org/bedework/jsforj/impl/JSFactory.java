@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
 import org.bedework.jsforj.impl.values.JSEventImpl;
 import org.bedework.jsforj.impl.values.JSGroupImpl;
@@ -49,7 +50,7 @@ public class JSFactory {
 
   public JSCalendarObject makeCalObj(final JsonNode nd) {
     if (!nd.isObject()) {
-      throw new RuntimeException("Not a calendar object");
+      throw new JsforjException("Not a calendar object");
     }
 
     final String type = factory.getType(nd);
@@ -62,15 +63,15 @@ public class JSFactory {
       case JSTypes.typeJSGroup:
         return parseGroup(nd);
       default:
-        throw new RuntimeException(
-                "Unknown or unsupported type: " +
-                        type);
+        throw new JsforjException(
+                "Unknown or unsupported type: ",
+                type);
     }
   }
 
   public JSValue makePropertyValue(final String propertyName,
                                    final JsonNode nd) {
-    var typeInfo = JSPropertyAttributes.getPropertyTypeInfo(propertyName);
+    final var typeInfo = JSPropertyAttributes.getPropertyTypeInfo(propertyName);
 
     final String type;
     if (typeInfo == null) {
@@ -80,18 +81,20 @@ public class JSFactory {
         type = getType(nd);
       }
     } else {
-      var types = typeInfo.getTypes();
+      final var types = typeInfo.getTypes();
       if (types.size() == 1) {
         type = types.get(0);
       } else {
         // Better be object
         if (!nd.isObject()) {
-          throw new RuntimeException("Cannot determine type for " + nd);
+          throw new JsforjException("Cannot determine type for ",
+                                    nd.toString());
         }
 
         type = getType(nd);
         if (!types.contains(type)) {
-          throw new RuntimeException("Invalid type for " + nd);
+          throw new JsforjException("Invalid type for ",
+                                    nd.toString());
         }
       }
     }
@@ -112,7 +115,7 @@ public class JSFactory {
    */
   public JSProperty<JSString> makeProperty(final String propertyName,
                                            final String value) {
-    var node = new TextNode(value);
+    final var node = new TextNode(value);
 
     return (JSProperty<JSString>)makeProperty(propertyName, node);
   }
@@ -125,7 +128,7 @@ public class JSFactory {
    */
   public JSProperty makeProperty(final String propertyName,
                                  final JSUnsignedInteger value) {
-    var node = new IntNode(value.get());
+    final var node = new IntNode(value.get());
 
     return makeProperty(propertyName, node);
   }
@@ -237,7 +240,7 @@ public class JSFactory {
       } else if (typeInfo.getValueList()) {
         theNode = new ArrayNode(JsonNodeFactory.instance);
       } else {
-        throw new RuntimeException("Unable to create node for " +
+        throw new JsforjException("Unable to create node for " +
                                            type);
       }
     }
@@ -255,7 +258,7 @@ public class JSFactory {
                 (JSValueFactory)factoryClass
                         .getConstructor().newInstance();
       } catch (final Throwable t) {
-        throw new RuntimeException(t);
+        throw new JsforjException(t);
       }
 
       valueFactories.put(factoryClass, vfactory);
@@ -268,11 +271,12 @@ public class JSFactory {
     final JsonNode typeNode = nd.get(JSPropertyNames.type);
 
     if (typeNode == null) {
-      throw new RuntimeException("No @type for calendar object: " + nd);
+      throw new JsforjException("No @type for calendar object: ",
+                                nd.toString());
     }
 
     if (!typeNode.isTextual()) {
-      throw new RuntimeException("Wrong type for @type");
+      throw new JsforjException("Wrong type for @type");
     }
 
     return typeNode.asText();

@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.dataTypes.JSIntegerImpl;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
@@ -28,7 +29,7 @@ public class JSUnsignedIntArrayImpl
   @Override
   protected JSUnsignedInteger convertToT(final JsonNode node) {
     if (!(node instanceof IntNode)) {
-      throw new RuntimeException("Bad node class: " + node .getClass());
+      throw new JsforjException("Bad node class: " + node.getClass());
     }
 
     return (JSUnsignedInteger)factory.newValue(

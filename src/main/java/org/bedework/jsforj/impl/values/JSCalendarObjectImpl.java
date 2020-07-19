@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.collections.JSAlerts;
@@ -34,7 +35,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
   @Override
   public void setUid(final String val) {
     if (getUid() != null) {
-      throw new RuntimeException("uid is immutable");
+      throw new JsforjException("uid is immutable");
     }
 
     addProperty(factory.makeProperty(JSPropertyNames.uid,
@@ -49,7 +50,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
   @Override
   public void setRecurrenceId(final JSLocalDateTime val) {
     if (getRecurrenceId() != null) {
-      throw new RuntimeException("recurrenceId is immutable");
+      throw new JsforjException("recurrenceId is immutable");
     }
     addProperty(factory.makeProperty(JSPropertyNames.recurrenceId, val));
   }

@@ -85,6 +85,7 @@ public interface JSPropertyNames {
   //                                   JSTask
   String participationComment = "participationComment";//  String    Valid for: Participant
   String participationStatus = "participationStatus";//  String    Valid for: Participant
+  String percentComplete = "percentComplete";//  UnsignedInt    Valid for: JSTask, Participant
   String priority = "priority";    //  Int            Valid for: JSEvent,
   //                                   JSTask
   String privacy = "privacy";     //  String    Valid for: JSEvent,

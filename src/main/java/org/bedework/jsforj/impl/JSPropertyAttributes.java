@@ -145,14 +145,18 @@ public class JSPropertyAttributes {
   }
 
   // Type info for properties
-  private static Map<String, PropertyInfo> ptypes = new HashMap<>();
+  private final static Map<String, PropertyInfo> ptypes =
+          new HashMap<>();
 
   // Type info for types
-  private static Map<String, TypeInfo> types = new HashMap<>();
+  private final static Map<String, TypeInfo> types =
+          new HashMap<>();
 
-  private static Map<String, List<String>> validFor = new HashMap<>();
+  private final static Map<String, List<String>> validFor =
+          new HashMap<>();
 
-  private static Map<String, List<String>> contains = new HashMap<>();
+  private final static Map<String, List<String>> contains =
+          new HashMap<>();
 
   static {
     ptype(JSPropertyNames.type,
@@ -328,6 +332,9 @@ public class JSPropertyAttributes {
 
     ptype(JSPropertyNames.participationStatus,
           JSTypes.typeString);
+
+    ptype(JSPropertyNames.percentComplete,
+          JSTypes.typeUnsignedInt);
 
     ptype(JSPropertyNames.priority,
           JSTypes.typeInt);
@@ -938,8 +945,9 @@ public class JSPropertyAttributes {
     validFor.put(name, List.of(types));
 
     for (final var type: types) {
-      List<String> contained = contains.computeIfAbsent(type,
-                                                        k -> new ArrayList<>());
+      final List<String> contained =
+              contains.computeIfAbsent(type,
+                                       k -> new ArrayList<>());
       contained.add(name);
     }
   }

@@ -11,6 +11,8 @@ import org.bedework.util.misc.Util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -42,6 +44,22 @@ public class JSParticipantsImpl
   @Override
   public JSProperty<JSParticipant> makeParticipant() {
     return makeEntry(UUID.randomUUID().toString());
+  }
+
+  @Override
+  public List<JSProperty<JSParticipant>> getAttendees() {
+    final var parts = new ArrayList<JSProperty<JSParticipant>>();
+
+    for (final var partp: get()) {
+      final var sendTos = partp.getValue().getSendTo(false);
+      if (sendTos == null) {
+        continue;
+      }
+
+      parts.add(partp);
+    }
+
+    return parts;
   }
 
   @Override

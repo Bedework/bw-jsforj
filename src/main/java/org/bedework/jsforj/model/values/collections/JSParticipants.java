@@ -6,6 +6,8 @@ package org.bedework.jsforj.model.values.collections;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSParticipant;
 
+import java.util.List;
+
 /**
  * User: mike Date: 4/21/20 Time: 13:45
  */
@@ -15,6 +17,12 @@ public interface JSParticipants
    *
    */
   JSProperty<JSParticipant> makeParticipant();
+
+  /** Get all attendee participant objects
+   *
+   * @return non null list
+   */
+  List<JSProperty<JSParticipant>> getAttendees();
 
   /**
    *

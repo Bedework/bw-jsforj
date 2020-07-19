@@ -105,6 +105,13 @@ public interface JSCalendarObject extends JSValue {
    * @param create true if we create property if it doesn't exist
    * @return recurrence rules object
    */
+  JSRecurrenceRules getExcludedRecurrenceRules(boolean create);
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return recurrence rules object
+   */
   JSRecurrenceRules getRecurrenceRules(boolean create);
 
   /**

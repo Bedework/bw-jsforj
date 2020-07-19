@@ -51,6 +51,8 @@ public interface JSPropertyNames {
   String estimatedDuration = "estimatedDuration";//  Duration       Valid for: JSTask
   String excluded = "excluded";       //  Boolean   Valid for: JSEvent,
   //                                   JSTask
+  String excludedRecurrenceRules = "excludedRecurrenceRules";//  RecurrenceRule[] Valid for: JSEvent,
+  //                                   JSTask
   String expectReply = "expectReply"; //  Boolean   Valid for: Participant
   String firstDayOfWeek = "firstDayOfWeek"; // String Valid for: Recurrence Rule
   String freeBusyStatus = "freeBusyStatus";//  String    Valid for: JSEvent,
@@ -100,7 +102,7 @@ public interface JSPropertyNames {
   //                                   JSTask
   String recurrenceOverrides = "recurrenceOverrides";//  LocalDateTime[PatchObject]   Valid for: JSEvent,
   //                                   JSTask
-  String recurrenceRules = "recurrenceRules";//  RecurrenceRule Valid for: JSEvent,
+  String recurrenceRules = "recurrenceRules";//  RecurrenceRule[] Valid for: JSEvent,
   //                                   JSTask
   String rel = "rel";         //  String    Valid for: Link
   String relatedTo = "relatedTo";   //  String[Relation]   Valid for: JSEvent,

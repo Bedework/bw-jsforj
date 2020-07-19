@@ -109,6 +109,13 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
+  public JSRecurrenceRules getExcludedRecurrenceRules(
+          final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.excludedRecurrenceRules, create);
+  }
+
+  @Override
   public JSRecurrenceRules getRecurrenceRules(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.recurrenceRules, create);

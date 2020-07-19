@@ -258,6 +258,9 @@ public class JSPropertyAttributes {
     ptype(JSPropertyNames.excluded,
           JSTypes.typeBoolean);
 
+    ptype(JSPropertyNames.excludedRecurrenceRules,
+          JSTypes.typeRecurrenceRules);
+
     ptype(JSPropertyNames.expectReply,
           JSTypes.typeBoolean);
 

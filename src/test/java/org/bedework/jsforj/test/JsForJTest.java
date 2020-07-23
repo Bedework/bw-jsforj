@@ -103,6 +103,26 @@ public class JsForJTest {
 
         info(obj.writeValueAsStringFormatted(mapper));
 
+        /*
+        final var bwloc = obj.getPropertyValue(
+                "bedework.org/location");
+        if (bwloc != null) {
+          info("Has bwloc with class " + bwloc.getClass());
+        }
+        */
+        final var overrides = obj.getOverrides(false);
+        if (overrides != null) {
+          info("Has overrides with class " + overrides.getClass());
+
+          final var ovs = overrides.get();
+
+          info("Has " + ovs.size() + " overrides");
+
+          for (final var ov: ovs) {
+            info("value has class " + ov.getValue().getClass());
+          }
+        }
+
         final var replyTo = obj.getReplyTo(false);
         if (replyTo != null) {
           Assert.assertEquals("Must be JSReplyToImpl:",

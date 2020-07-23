@@ -1,4 +1,4 @@
-package org.bedework.jsforj.impl;
+package org.bedework.jsforj;
 
 import org.bedework.jsforj.model.values.JSValue;
 
@@ -14,6 +14,6 @@ public abstract class JSValueFactory {
    * @param nd never null
    * @return new cvalue
    */
-  public abstract JSValue newValue(final String typeName,
-                                   final JsonNode nd);
+  public abstract JSValue newValue(String typeName,
+                                   JsonNode nd);
 }

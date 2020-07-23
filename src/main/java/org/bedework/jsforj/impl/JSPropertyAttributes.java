@@ -3,6 +3,8 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.JSTypeInfo;
+import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
@@ -67,89 +69,12 @@ public class JSPropertyAttributes {
     }
   }
 
-  public static class TypeInfo {
-    final String name;
-    private final boolean valueList;
-    private final boolean propertyList;
-    private final String[] elementType;
-    private final boolean object;
-    private final Class<? extends JSValueFactory> factoryClass;
-
-    TypeInfo(final String name,
-             final boolean valueList,
-             final boolean propertyList,
-             final String[] elementType,
-             final boolean object,
-             final Class<? extends JSValueFactory> factoryClass) {
-      this.name = name;
-      this.valueList = valueList;
-      this.propertyList = propertyList;
-      this.elementType = elementType;
-      this.object = object;
-      this.factoryClass = factoryClass;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public boolean getValueList() {
-      return valueList;
-    }
-
-    public boolean getPropertyList() {
-      return propertyList;
-    }
-
-    /**
-     *
-     * @return true if we need a boolean node
-     */
-    public boolean getBoolean() {
-      return name.equals(JSTypes.typeBoolean);
-    }
-
-    /**
-     *
-     * @return true if we need an integer node
-     */
-    public boolean getInteger() {
-      return name.equals(JSTypes.typeInt) ||
-              name.equals(JSTypes.typeUnsignedInt);
-    }
-
-    /**
-     *
-     * @return true if we need a String node
-     */
-    public boolean getString() {
-      return name.equals(JSTypes.typeString);
-    }
-
-    public String[] getElementType() {
-      return elementType;
-    }
-
-    public boolean getObject() {
-      return object;
-    }
-
-    /**
-     *
-     * @return class used to create objects - maybe the class represented here
-     *               or elements of the property list.
-     */
-    public Class<?> getFactoryClass() {
-      return factoryClass;
-    }
-  }
-
   // Type info for properties
   private final static Map<String, PropertyInfo> ptypes =
           new HashMap<>();
 
   // Type info for types
-  private final static Map<String, TypeInfo> types =
+  private final static Map<String, JSTypeInfo> types =
           new HashMap<>();
 
   private final static Map<String, List<String>> validFor =
@@ -939,8 +864,8 @@ public class JSPropertyAttributes {
                            final String[] elementType,
                            final boolean object,
                            final Class<? extends JSValueFactory> factoryClass) {
-    types.put(typeName, new TypeInfo(typeName, valueList, propertyList,
-                                     elementType, object, factoryClass));
+    types.put(typeName, new JSTypeInfo(typeName, valueList, propertyList,
+                                       elementType, object, factoryClass));
   }
 
   private static void validFor(final String name,
@@ -983,7 +908,7 @@ public class JSPropertyAttributes {
    * @param name of type
    * @return type information - null if unknown type
    */
-  public static TypeInfo getTypeInfo(final String name) {
+  public static JSTypeInfo getTypeInfo(final String name) {
     return types.get(name);
   }
 

@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.JSTypeInfo;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSPropertyAttributes;
@@ -32,7 +33,7 @@ public class JSValueImpl implements JSValue {
   protected final static JSFactory factory = JSFactory.getFactory();
 
   private final String type;
-  private final JSPropertyAttributes.TypeInfo typeInfo;
+  private final JSTypeInfo typeInfo;
 
   // Parsed value
   private final JsonNode node;

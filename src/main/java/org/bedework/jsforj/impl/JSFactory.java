@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
 import org.bedework.jsforj.impl.values.JSEventImpl;

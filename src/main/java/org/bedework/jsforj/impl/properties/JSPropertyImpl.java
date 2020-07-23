@@ -3,7 +3,6 @@
 */
 package org.bedework.jsforj.impl.properties;
 
-import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
 
@@ -12,13 +11,11 @@ import org.bedework.jsforj.model.values.JSValue;
  */
 public class JSPropertyImpl<T extends JSValue>
         implements JSProperty<T> {
-  final static JSFactory factory = JSFactory.getFactory();
-
   private final String name;
   private final T value;
 
   public JSPropertyImpl(final String name,
-                        T value) {
+                        final T value) {
     this.name = name;
     this.value = value;
   }

@@ -4,7 +4,7 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSProperty;
-import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.impl.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSRelation;
 import org.bedework.jsforj.model.values.collections.JSList;
 

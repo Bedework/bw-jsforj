@@ -3,19 +3,14 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.JSRegistration;
+import org.bedework.jsforj.JSTypeInfo;
 import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
-import org.bedework.jsforj.impl.values.JSEventImpl;
-import org.bedework.jsforj.impl.values.JSGroupImpl;
-import org.bedework.jsforj.impl.values.JSTaskImpl;
 import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
-import org.bedework.jsforj.model.JSEvent;
-import org.bedework.jsforj.model.JSGroup;
 import org.bedework.jsforj.model.JSProperty;
-import org.bedework.jsforj.model.JSPropertyNames;
-import org.bedework.jsforj.model.JSTask;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
@@ -29,6 +24,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,25 +41,64 @@ public class JSFactory {
   private final static Map<Class<?>, JSValueFactory> valueFactories =
           new HashMap<>();
 
+  private final static List<JSRegistration> registrations =
+          new ArrayList<>();
+
+  static {
+    register(new JSPropertyAttributes());
+  }
+
   public static JSFactory getFactory() {
     return factory;
   }
 
-  public JSCalendarObject makeCalObj(final JsonNode nd) {
-    if (!nd.isObject()) {
-      throw new JsforjException("Not a calendar object");
+  public static void register(final JSRegistration val) {
+    registrations.add(val);
+  }
+
+  /**
+   *
+   * @param name of property
+   * @return type name - null if unknown property
+   */
+  public static String getPropertyType(final String name) {
+    for (final var registration: registrations) {
+      final var ptype = registration.getType(name);
+      if (ptype != null) {
+        return ptype;
+      }
     }
 
-    final String type = factory.getType(nd);
+    return null;
+  }
 
-    switch (type) {
-      case JSTypes.typeJSEvent:
-        return parseEvent(nd);
-      case JSTypes.typeJSTask:
-        return parseTask(nd);
-      case JSTypes.typeJSGroup:
-        return parseGroup(nd);
-      default:
+  /**
+   *
+   * @param name of type
+   * @return type information - null if unknown type
+   */
+  public static JSTypeInfo getTypeInfo(final String name) {
+    for (final var registration: registrations) {
+      final var typeInfo = registration.getTypeInfo(name);
+      if (typeInfo != null) {
+        return typeInfo;
+      }
+    }
+
+    return null;
+  }
+
+
+  public JSCalendarObject makeCalObj(final JsonNode nd) {
+    if (!nd.isObject()) {
+      throw new JsforjException("Not an object node");
+    }
+
+    final String type = getType(nd);
+
+    try {
+      return (JSCalendarObject)newValue(type, nd);
+    } catch (final Throwable t) {
         throw new JsforjException(
                 "Unknown or unsupported type: ",
                 type);
@@ -72,30 +107,23 @@ public class JSFactory {
 
   public JSValue makePropertyValue(final String propertyName,
                                    final JsonNode nd) {
-    final var typeInfo = JSPropertyAttributes.getPropertyTypeInfo(propertyName);
-
-    final String type;
-    if (typeInfo == null) {
+    String type = getPropertyType(propertyName);
+    if (type == null) {
       if ((nd == null) || (!nd.isObject())) {
         type = JSTypes.typeUnknown;
       } else {
         type = getType(nd);
       }
     } else {
-      final var types = typeInfo.getTypes();
-      if (types.size() == 1) {
-        type = types.get(0);
-      } else {
-        // Better be object
-        if (!nd.isObject()) {
-          throw new JsforjException("Cannot determine type for ",
-                                    nd.toString());
-        }
-
-        type = getType(nd);
-        if (!types.contains(type)) {
-          throw new JsforjException("Invalid type for ",
-                                    nd.toString());
+      final var typeInfo = getTypeInfo(propertyName);
+      if ((typeInfo != null) && typeInfo.getRequiresType()) {
+        // Could validate here
+        if (nd.isObject() && !type.equals(JSTypes.typePatchObject)) {
+          final var ntype = getType(nd);
+          if (type.equals(ntype)) {
+            throw new JsforjException("Invalid type for ",
+                                      nd.toString());
+          }
         }
       }
     }
@@ -127,8 +155,8 @@ public class JSFactory {
    * @param value UnsignedInteger
    * @return the property
    */
-  public JSProperty makeProperty(final String propertyName,
-                                 final JSUnsignedInteger value) {
+  public JSProperty<?> makeProperty(final String propertyName,
+                                    final JSUnsignedInteger value) {
     final var node = new IntNode(value.get());
 
     return makeProperty(propertyName, node);
@@ -140,9 +168,9 @@ public class JSFactory {
    * @param value Integer
    * @return the property
    */
-  public JSProperty makeProperty(final String propertyName,
+  public JSProperty<?> makeProperty(final String propertyName,
                                  final Integer value) {
-    var node = new IntNode(value);
+    final var node = new IntNode(value);
 
     return makeProperty(propertyName, node);
   }
@@ -153,9 +181,9 @@ public class JSFactory {
    * @param value true/false
    * @return the property
    */
-  public JSProperty makeProperty(final String propertyName,
+  public JSProperty<?> makeProperty(final String propertyName,
                                  final boolean value) {
-    JsonNode node;
+    final JsonNode node;
 
     if (value) {
       node = BooleanNode.getTrue();
@@ -166,7 +194,7 @@ public class JSFactory {
     return makeProperty(propertyName, node);
   }
 
-  public JSProperty makeProperty(final String propertyName) {
+  public JSProperty<?> makeProperty(final String propertyName) {
     return makeProperty(propertyName, (JsonNode)null);
   }
 
@@ -175,7 +203,7 @@ public class JSFactory {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makePropertyValue(propertyName, nd);
 
-    return new JSPropertyImpl(propertyName, value);
+    return new JSPropertyImpl<>(propertyName, value);
   }
 
   /** Used for the situations where we have no @type - path objects.
@@ -193,12 +221,12 @@ public class JSFactory {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
     final var value = makePropertyValueWithType(type, nd);
 
-    return new JSPropertyImpl<ValClass>(propertyName, (ValClass)value);
+    return new JSPropertyImpl<>(propertyName, (ValClass)value);
   }
 
   public JSProperty<?> makeProperty(final String propertyName,
                                  final JSValue value) {
-    return new JSPropertyImpl(propertyName, value);
+    return new JSPropertyImpl<>(propertyName, value);
   }
 
   public JSValue newStringValue(final String val) {
@@ -223,7 +251,7 @@ public class JSFactory {
 
   public JSValue newValue(final String type,
                           final JsonNode node) {
-    final var typeInfo = JSPropertyAttributes.getTypeInfo(type);
+    final var typeInfo = getTypeInfo(type);
     var theNode = node;
 
     if (typeInfo == null) {
@@ -281,32 +309,5 @@ public class JSFactory {
     }
 
     return typeNode.asText();
-  }
-
-  private JSEvent parseEvent(final JsonNode nd) {
-    final JSEventImpl ent = new JSEventImpl(JSTypes.typeJSEvent,
-                                            nd);
-
-    //parseProperties(ent, nd);
-
-    return ent;
-  }
-
-  private JSTask parseTask(final JsonNode nd) {
-    final JSTaskImpl ent = new JSTaskImpl(JSTypes.typeJSTask,
-                                          nd);
-
-    //parseProperties(ent, nd);
-
-    return ent;
-  }
-
-  private JSGroup parseGroup(final JsonNode nd) {
-    final JSGroupImpl ent = new JSGroupImpl(JSTypes.typeJSGroup,
-                                            nd);
-
-    //parseProperties(ent, nd);
-
-    return ent;
   }
 }

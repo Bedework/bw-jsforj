@@ -28,7 +28,7 @@ public interface JSArray<T> extends JSValue {
    *
    * @param index of entry
    * @return the value
-   * @throws RuntimeException if index out of bounds
+   * throws JsforjException if index out of bounds
    */
   T get(int index);
 
@@ -41,7 +41,7 @@ public interface JSArray<T> extends JSValue {
   /**
    *
    * @param index of element to remove
-   * @throws RuntimeException if index out of bounds
+   * throws JsforjException if index out of bounds
    */
   void remove(int index);
 

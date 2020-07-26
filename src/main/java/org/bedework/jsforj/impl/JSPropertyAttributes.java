@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl;
 
+import org.bedework.jsforj.JSRegistration;
 import org.bedework.jsforj.JSTypeInfo;
 import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
@@ -37,40 +38,24 @@ import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntFactory;
 import org.bedework.jsforj.impl.values.factories.JSVirtualLocationFactory;
-import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Mappings for property names to types and valid objects
  *
  * User: mike Date: 10/23/19 Time: 16:53
  */
-public class JSPropertyAttributes {
-  public static class PropertyInfo {
-    final String name;
-    private final List<String> types;
+class JSPropertyAttributes implements JSRegistration {
+  private final static String registrationName =
+          "draft-ietf-calext-jscalendar-27";
 
-    public PropertyInfo(final String name,
-                        final String... types) {
-      this.name = name;
-      this.types = List.of(types);
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public List<String> getTypes() {
-      return types;
-    }
-  }
-
-  // Type info for properties
-  private final static Map<String, PropertyInfo> ptypes =
+  // Type names for properties
+  private final static Map<String, String> ptypes =
           new HashMap<>();
 
   // Type info for types
@@ -381,6 +366,7 @@ public class JSPropertyAttributes {
     /* ===== info for types ======================= */
 
     type(JSTypes.typeAlert,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          types(JSTypes.typeAlert), // elementType
@@ -388,6 +374,7 @@ public class JSPropertyAttributes {
          JSAlertFactory.class); // factoryClass
 
     type(JSTypes.typeAlerts,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeAlert), // elementType
@@ -395,6 +382,7 @@ public class JSPropertyAttributes {
          JSAlertsFactory.class); // factoryClass
 
     type(JSTypes.typeBoolean,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -402,6 +390,7 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeComments,
+         false, // requiresType
          true, // valueList
          false, // propertyList
          types(JSTypes.typeString), // elementType
@@ -409,6 +398,7 @@ public class JSPropertyAttributes {
          JSStringArrayFactory.class); // factoryClass
 
     type(JSTypes.typeDuration,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -416,6 +406,7 @@ public class JSPropertyAttributes {
          JSDurationFactory.class); // factoryClass
 
     type(JSTypes.typeEntries,
+         false, // requiresType
          true, // valueList
          false, // propertyList
          types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
@@ -423,6 +414,7 @@ public class JSPropertyAttributes {
          JSEntriesFactory.class); // factoryClass
 
     type(JSTypes.typeId,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -430,6 +422,7 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeIds,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeId), // elementType
@@ -437,6 +430,7 @@ public class JSPropertyAttributes {
          JSStringListFactory.class); // factoryClass
 
     type(JSTypes.typeInt,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -444,6 +438,7 @@ public class JSPropertyAttributes {
          JSIntegerFactory.class); // factoryClass
 
     type(JSTypes.typeIntArray,
+         false, // requiresType
          true, // valueList
          false, // propertyList
          null, // elementType
@@ -451,6 +446,7 @@ public class JSPropertyAttributes {
          JSIntArrayFactory.class); // factoryClass
 
     type(JSTypes.typeJSEvent,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -458,6 +454,7 @@ public class JSPropertyAttributes {
          JSCalendarObjectFactory.class); // factoryClass
 
     type(JSTypes.typeJSGroup,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -465,6 +462,7 @@ public class JSPropertyAttributes {
          JSCalendarObjectFactory.class); // factoryClass
 
     type(JSTypes.typeJSTask,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -472,6 +470,7 @@ public class JSPropertyAttributes {
          JSCalendarObjectFactory.class); // factoryClass
 
     type(JSTypes.typeLink,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -479,6 +478,7 @@ public class JSPropertyAttributes {
          JSLinkFactory.class); // factoryClass
 
     type(JSTypes.typeLinks,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeLink), // elementType
@@ -486,6 +486,7 @@ public class JSPropertyAttributes {
          JSLinksFactory.class); // factoryClass
 
     type(JSTypes.typeLocalDateTime,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -493,6 +494,7 @@ public class JSPropertyAttributes {
          JSLocalDateTimeFactory.class); // factoryClass
 
     type(JSTypes.typeLocalizations,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typePatchObject), // elementType
@@ -500,6 +502,7 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeLocation,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -507,6 +510,7 @@ public class JSPropertyAttributes {
          JSLocationFactory.class); // factoryClass
 
     type(JSTypes.typeLocations,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeLocation), // elementType
@@ -514,6 +518,7 @@ public class JSPropertyAttributes {
          JSLocationsFactory.class); // factoryClass
 
     type(JSTypes.typeOffsetTrigger,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -521,6 +526,7 @@ public class JSPropertyAttributes {
          JSTriggerFactory.class); // factoryClass
 
     type(JSTypes.typeOverride,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -528,6 +534,7 @@ public class JSPropertyAttributes {
          JSOverrideFactory.class); // factoryClass
 
     type(JSTypes.typeParticipant,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -535,6 +542,7 @@ public class JSPropertyAttributes {
          JSParticipantFactory.class); // factoryClass
 
     type(JSTypes.typeParticipants,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeParticipant), // elementType
@@ -542,6 +550,7 @@ public class JSPropertyAttributes {
          JSParticipantsFactory.class); // factoryClass
 
     type(JSTypes.typePatchObject,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -549,6 +558,7 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeRecurrenceOverrides,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typePatchObject), // elementType
@@ -556,6 +566,7 @@ public class JSPropertyAttributes {
          JSRecurrenceOverridesFactory.class); // factoryClass
 
     type(JSTypes.typeRecurrenceRule,
+         true, // requiresType
          true, // valueList
          false, // propertyList
          null, // elementType
@@ -563,6 +574,7 @@ public class JSPropertyAttributes {
          JSRecurrenceRuleFactory.class); // factoryClass
 
     type(JSTypes.typeRecurrenceRules,
+         false, // requiresType
          true, // valueList
          false, // propertyList
          types(JSTypes.typeRecurrenceRule),// elementType
@@ -570,6 +582,7 @@ public class JSPropertyAttributes {
          JSRecurrenceRulesFactory.class); // factoryClass
 
     type(JSTypes.typeRelation,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -577,6 +590,7 @@ public class JSPropertyAttributes {
          JSRelationFactory.class); // factoryClass
 
     type(JSTypes.typeRelations,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeRelation), // elementType
@@ -584,6 +598,7 @@ public class JSPropertyAttributes {
          JSRelationsFactory.class); // factoryClass
 
     type(JSTypes.typeReplyTo,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeString), // elementType
@@ -591,6 +606,7 @@ public class JSPropertyAttributes {
          JSReplyToFactory.class); // factoryClass
 
     type(JSTypes.typeSendTo,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeString), // elementType
@@ -598,6 +614,7 @@ public class JSPropertyAttributes {
          JSSendToFactory.class); // factoryClass
 
     type(JSTypes.typeSignedDuration,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -605,6 +622,7 @@ public class JSPropertyAttributes {
          JSSignedDurationFactory.class); // factoryClass
 
     type(JSTypes.typeString,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -612,6 +630,7 @@ public class JSPropertyAttributes {
          JSStringFactory.class); // factoryClass
 
     type(JSTypes.typeStringArray,
+         false, // requiresType
          true, // valueList
          false, // propertyList
          types(JSTypes.typeString), // elementType
@@ -619,6 +638,7 @@ public class JSPropertyAttributes {
          JSStringArrayFactory.class); // factoryClass
 
     type(JSTypes.typeStrings,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeString), // elementType
@@ -626,6 +646,7 @@ public class JSPropertyAttributes {
          JSStringListFactory.class); // factoryClass
 
     type(JSTypes.typeTimeZone,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -633,6 +654,7 @@ public class JSPropertyAttributes {
          JSTimeZoneFactory.class); // factoryClass
 
     type(JSTypes.typeTimeZoneRule,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -640,6 +662,7 @@ public class JSPropertyAttributes {
          JSTimeZoneRuleFactory.class); // factoryClass
 
     type(JSTypes.typeTimeZones,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeTimeZone), // elementType
@@ -647,6 +670,7 @@ public class JSPropertyAttributes {
          JSTimeZoneFactory.class); // factoryClass
 
     type(JSTypes.typeUnknownTrigger,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -654,6 +678,7 @@ public class JSPropertyAttributes {
          JSTriggerFactory.class); // factoryClass
 
     type(JSTypes.typeUnsignedInt,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -661,6 +686,7 @@ public class JSPropertyAttributes {
          JSUnsignedIntFactory.class); // factoryClass
 
     type(JSTypes.typeUnsignedIntArray,
+         false, // requiresType
          true, // valueList
          false, // propertyList
          types(JSTypes.typeUnsignedInt), // elementType
@@ -668,6 +694,7 @@ public class JSPropertyAttributes {
          JSUnsignedIntArrayFactory.class); // factoryClass
 
     type(JSTypes.typeUTCDateTime,
+         false, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -675,6 +702,7 @@ public class JSPropertyAttributes {
          null); // factoryClass
 
     type(JSTypes.typeAbsoluteTrigger,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -682,6 +710,7 @@ public class JSPropertyAttributes {
          JSTriggerFactory.class); // factoryClass
 
     type(JSTypes.typeVirtualLocation,
+         true, // requiresType
          false, // valueList
          false, // propertyList
          null, // elementType
@@ -689,6 +718,7 @@ public class JSPropertyAttributes {
          JSVirtualLocationFactory.class); // factoryClass
 
     type(JSTypes.typeVirtualLocations,
+         false, // requiresType
          false, // valueList
          true, // propertyList
          types(JSTypes.typeVirtualLocation), // elementType
@@ -854,18 +884,20 @@ public class JSPropertyAttributes {
   }
 
   private static void ptype(final String name,
-                            final String... types) {
-    ptypes.put(name, new PropertyInfo(name, types));
+                            final String type) {
+    ptypes.put(name, type);
   }
 
   private static void type(final String typeName,
+                           final boolean requiresType,
                            final boolean valueList,
                            final boolean propertyList,
                            final String[] elementType,
                            final boolean object,
                            final Class<? extends JSValueFactory> factoryClass) {
-    types.put(typeName, new JSTypeInfo(typeName, valueList, propertyList,
-                                       elementType, object, factoryClass));
+    types.put(typeName,
+              new JSTypeInfo(typeName, requiresType, valueList, propertyList,
+                             elementType, object, factoryClass));
   }
 
   private static void validFor(final String name,
@@ -884,23 +916,28 @@ public class JSPropertyAttributes {
     return types;
   }
 
-  static List<String> getTypes(final String name) {
-    final var info = ptypes.get(name);
-
-    if (info == null) {
-      return null;
-    }
-
-    return info.getTypes();
-  }
-
   /**
    *
    * @param name of property
-   * @return type information - null if unknown property
+   * @return type name - null if unknown property
    */
-  public static PropertyInfo getPropertyTypeInfo(final String name) {
+  public static String getPropertyType(final String name) {
     return ptypes.get(name);
+  }
+
+  @Override
+  public String getRegistrationName() {
+    return registrationName;
+  }
+
+  @Override
+  public Set<String> propertyNames() {
+    return ptypes.keySet();
+  }
+
+  @Override
+  public String getType(final String propertyName) {
+    return ptypes.get(propertyName);
   }
 
   /**
@@ -908,7 +945,7 @@ public class JSPropertyAttributes {
    * @param name of type
    * @return type information - null if unknown type
    */
-  public static JSTypeInfo getTypeInfo(final String name) {
+  public JSTypeInfo getTypeInfo(final String name) {
     return types.get(name);
   }
 

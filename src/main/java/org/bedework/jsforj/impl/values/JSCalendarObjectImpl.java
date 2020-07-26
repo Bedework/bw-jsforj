@@ -5,7 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSCalendarObject;
-import org.bedework.jsforj.model.JSPropertyNames;
+import org.bedework.jsforj.impl.JSPropertyNames;
 import org.bedework.jsforj.model.values.collections.JSAlerts;
 import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;

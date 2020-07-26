@@ -19,79 +19,17 @@ public interface JSValue {
    */
   String getType();
 
-  /** Will return true if getValueList will return an array of values
-   * and the external representation is an array.
-   *
-   * @return true if this is an array of values
-   */
-  boolean isArray();
-
-  /** Will return true if getValueList will return an array of values.
-   *
-   * @return true if this is a list of values
-   */
-  boolean isValueList();
-
-  /** Will return conceptual arrays of properties as a value list,
-   * for example
-   * <pre>
-   *          "comments": {
-   *            "owner": true,
-   *            "attendee": true,
-   *            "chair": true
-   *          }
-   * </pre>
-   * will return ["owner", "attendee", "chair"]
-   *
-   * @return unmodifiable list of values if this is a value list
-   * @throws RuntimeException if not a value list
-   */
-  List<JSValue> getValueList();
-
-  /** For example
-   * <pre>
-   *      "locations": {
-   *        "2a358cee-6489-4f14-a57f-c104db4dc2f1": {
-   *          "@type": "Location",
-   *          "rel": "start",
-   *          "name": "Frankfurt Airport (FRA)"
-   *        },
-   *        "c2c7ac67-dc13-411e-a7d4-0780fb61fb08": {
-   *          "@type": "Location",
-   *          "rel": "end",
-   *          "name": "Narita International Airport (NRT)",
-   *          "timeZone": "Asia/Tokyo"
-   *        }
-   *      }
-   * </pre>
-   * @return true if this is a list of properties, e.g. locations
-   */
-  boolean isPropertyList();
-
-  /** Properties will all have the same type, e.g. location
-   *
-   * @return unmodifiable list of properties if this is a properties list
-   * @throws RuntimeException if not a properties list
-   */
-  List<JSProperty> getPropertyList();
-
-  /**
-   *
-   * @return true if this is an object with properties
-   */
-  boolean isObject();
-
   /** Return all contained properties
    *
    * @return properties
-   * @throws RuntimeException if not an object
+   * throws JsforjException if not an object
    */
-  List<JSProperty> getProperties();
+  List<JSProperty<?>> getProperties();
 
   /** Return named property
    *
    * @return property or null
-   * @throws RuntimeException if not an object
+   * throws JsforjException if not an object
    */
   <T extends JSValue> JSProperty<T> getProperty(
           TypeReference<T> type,
@@ -99,7 +37,7 @@ public interface JSValue {
 
   /** Remove named property
    *
-   * @throws RuntimeException if not an object
+   * throws JsforjException if not an object
    */
   void removeProperty(String name);
 
@@ -112,7 +50,7 @@ public interface JSValue {
    *
    * @param val the property - non null
    * @return the property
-   * @throws RuntimeException if not an object or property already exists
+   * throws JsforjException if not an object or property already exists
    */
   <ValType extends JSValue> JSProperty<ValType> addProperty(
           JSProperty<ValType> val);
@@ -122,7 +60,7 @@ public interface JSValue {
    * @param name the property name - non null
    * @param val the property value - non null
    * @return the property
-   * @throws RuntimeException if not an object or property already exists
+   * throws JsforjException if not an object or property already exists
    */
   JSProperty<?> addProperty(String name, String val);
 
@@ -152,7 +90,7 @@ public interface JSValue {
    *
    * @param name the property name - non null
    * @return the value of the property
-   * @throws RuntimeException if not a String property
+   * throws JsforjException if not a String property
    */
   String getStringProperty(String name);
 
@@ -182,7 +120,7 @@ public interface JSValue {
    * @param name the property name - non null
    * @param val the property value - non null
    * @return the property
-   * @throws RuntimeException if not an object or property already exists
+   * throws JsforjException if not an object or property already exists
    */
   JSProperty<?> addProperty(String name, JSUnsignedInteger val);
 
@@ -207,7 +145,7 @@ public interface JSValue {
    * @param name the property name - non null
    * @param val the property value - non null
    * @return the property
-   * @throws RuntimeException if not an object or property already exists
+   * throws JsforjException if not an object or property already exists
    */
   JSProperty<?> addProperty(String name, Integer val);
 
@@ -216,7 +154,7 @@ public interface JSValue {
    * @param name the property name - non null
    * @param val the property value - true/false
    * @return the property
-   * @throws RuntimeException if not an object or property already exists
+   * throws JsforjException if not an object or property already exists
    */
   JSProperty<?> addProperty(String name, boolean val);
 
@@ -225,7 +163,7 @@ public interface JSValue {
    * @param name the property name - non null
    * @param type the property type
    * @return the property
-   * @throws RuntimeException if property already exists
+   * throws JsforjException if property already exists
    */
   <T extends JSValue> JSProperty<T> makeProperty(
           TypeReference<T> typeRef,
@@ -235,21 +173,21 @@ public interface JSValue {
    *
    * @param name the property name - non null
    * @return the value of the property
-   * @throws RuntimeException if not a String property
+   * throws JsforjException if not a String property
    */
   JSUnsignedInteger getUnsignedIntegerProperty(String name);
 
   /** Returns value as a String.
    *
    * @return the value of the property
-   * @throws RuntimeException if not a String property
+   * throws JsforjException if not a String property
    */
   String getStringValue();
 
   /** Returns value as a boolean.
    *
    * @return the value of the property
-   * @throws RuntimeException if not a boolean property
+   * throws JsforjException if not a boolean property
    */
   boolean getBooleanValue();
 

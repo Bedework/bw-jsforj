@@ -1,4 +1,4 @@
-package org.bedework.jsforj.model;
+package org.bedework.jsforj.impl;
 
 /**
  * User: mike Date: 10/24/19 Time: 23:52
@@ -8,7 +8,7 @@ public interface JSPropertyNames {
   //      JSGroup, AbsoluteTrigger, Alert, Link,
   //      Location, OffsetTrigger, Participant,
   //      ParticipantProgress, RecurrenceRule,
-  //      Relation, TimeZone, VirtualLocationValid for:
+  //      Relation, TimeZone, VirtualLocation
 
   String acknowledged = "acknowledged";//  UTCDateTime    Valid for: Alert   Valid for:
 

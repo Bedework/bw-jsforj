@@ -10,6 +10,7 @@ import org.bedework.jsforj.model.JSTypes;
  */
 public class JSTypeInfo {
   final String name;
+  private final boolean requiresType;
   private final boolean valueList;
   private final boolean propertyList;
   private final String[] elementType;
@@ -17,12 +18,14 @@ public class JSTypeInfo {
   private final Class<? extends JSValueFactory> factoryClass;
 
   public JSTypeInfo(final String name,
+                    final boolean requiresType,
                     final boolean valueList,
                     final boolean propertyList,
                     final String[] elementType,
                     final boolean object,
                     final Class<? extends JSValueFactory> factoryClass) {
     this.name = name;
+    this.requiresType = requiresType;
     this.valueList = valueList;
     this.propertyList = propertyList;
     this.elementType = elementType;
@@ -32,6 +35,10 @@ public class JSTypeInfo {
 
   public String getName() {
     return name;
+  }
+
+  public boolean getRequiresType() {
+    return requiresType;
   }
 
   public boolean getValueList() {

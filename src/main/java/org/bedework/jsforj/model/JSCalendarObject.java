@@ -21,7 +21,7 @@ public interface JSCalendarObject extends JSValue {
   /**
    *
    * @param val the uid
-   * @throws RuntimeException if value already present
+   * throws JsforjException if value already present
    */
   void setUid(String val);
 
@@ -34,7 +34,7 @@ public interface JSCalendarObject extends JSValue {
   /**
    *
    * @param val the recurrence id
-   * @throws RuntimeException if value already present or not override
+   * throws JsforjException if value already present or not override
    */
   void setRecurrenceId(JSLocalDateTime val);
 

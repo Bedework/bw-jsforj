@@ -3,11 +3,8 @@
 */
 package org.bedework.jsforj.impl.values;
 
-import org.bedework.jsforj.JSTypeInfo;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.JSFactory;
-import org.bedework.jsforj.impl.JSPropertyAttributes;
-import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSUnsignedIntegerImpl;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
@@ -33,7 +30,6 @@ public class JSValueImpl implements JSValue {
   protected final static JSFactory factory = JSFactory.getFactory();
 
   private final String type;
-  private final JSTypeInfo typeInfo;
 
   // Parsed value
   private final JsonNode node;
@@ -49,12 +45,6 @@ public class JSValueImpl implements JSValue {
 
     this.type = type;
     this.node = node;
-    typeInfo = JSPropertyAttributes.getTypeInfo(type);
-//    if (typeInfo == null) {
-//      throw new JsforjException("Null value typeInfo for type"
-//                                         + type
-//                                         + " and node " + node);
-//    }
   }
 
   protected JSFactory getFactory() {
@@ -67,71 +57,14 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public boolean isArray() {
-    if (typeInfo == null) {
-      return node.isArray();
-    }
-
-    return this instanceof JSArrayImpl;
-  }
-
-  @Override
-  public boolean isValueList() {
-    if (typeInfo == null) {
-      return node.isArray();
-    }
-    return typeInfo.getValueList();
-  }
-
-  @Override
-  public List<JSValue> getValueList() {
-    return null;
-  }
-
-  @Override
-  public boolean isPropertyList() {
-    if (typeInfo == null) {
-      return node.isArray();
-    }
-    return typeInfo.getPropertyList();
-  }
-
-  @Override
-  public List<JSProperty> getPropertyList() {
-    assertObject("getPropertyList");
-
-    // Exactly as get properties - except all the elements should have
-    // constrained types
-
-    final var props = new ArrayList<JSProperty>();
+  public List<JSProperty<?>> getProperties() {
     final var nd = getNode();
 
-    for (final var it = nd.fieldNames(); it.hasNext(); ) {
-      final var fieldName = it.next();
-
-      props.add(factory.makeProperty(fieldName,
-                                     nd.get(fieldName)));
-    }
-
-    return Collections.unmodifiableList(props);
-  }
-
-  @Override
-  public boolean isObject() {
-    if (typeInfo == null) {
-      return node.isObject();
-    }
-    return typeInfo.getObject();
-  }
-
-  @Override
-  public List<JSProperty> getProperties() {
-    if (!isObject()) {
+    if (!nd.isObject()) {
       return Collections.emptyList();
     }
 
-    final var props = new ArrayList<JSProperty>();
-    final var nd = getNode();
+    final var props = new ArrayList<JSProperty<?>>();
 
     for (final var it = nd.fieldNames(); it.hasNext(); ) {
       final var fieldName = it.next();
@@ -274,8 +207,8 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public JSProperty setProperty(final String name,
-                                final JSUnsignedInteger val) {
+  public JSProperty<?> setProperty(final String name,
+                                   final JSUnsignedInteger val) {
     final var prop = getProperty(new TypeReference<>() {},name);
 
     if (prop != null) {
@@ -322,14 +255,14 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public JSProperty addProperty(final String name,
-                                final Integer val) {
+  public JSProperty<?> addProperty(final String name,
+                                   final Integer val) {
     return addProperty(factory.makeProperty(name, val));
   }
 
   @Override
-  public JSProperty addProperty(final String name,
-                                final boolean val) {
+  public JSProperty<?> addProperty(final String name,
+                                   final boolean val) {
     return addProperty(factory.makeProperty(name, val));
   }
 
@@ -420,7 +353,7 @@ public class JSValueImpl implements JSValue {
         return null;
       }
 
-      p = addProperty(factory.makeProperty(pname));
+      p = (JSProperty<T>)addProperty(factory.makeProperty(pname));
     }
 
     return p.getValue();

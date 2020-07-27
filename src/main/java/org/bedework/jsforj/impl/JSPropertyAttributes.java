@@ -916,15 +916,6 @@ class JSPropertyAttributes implements JSRegistration {
     return types;
   }
 
-  /**
-   *
-   * @param name of property
-   * @return type name - null if unknown property
-   */
-  public static String getPropertyType(final String name) {
-    return ptypes.get(name);
-  }
-
   @Override
   public String getRegistrationName() {
     return registrationName;

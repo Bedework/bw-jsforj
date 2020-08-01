@@ -4,10 +4,9 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.JsforjException;
-import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.impl.JSPropertyNames;
+import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.values.collections.JSAlerts;
-import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSLocations;
@@ -66,6 +65,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
                     JSPropertyNames.alerts, create);
   }
 
+  /*
   @Override
   public void addComment(final String val) {
     getComments(true).add(val);
@@ -84,6 +84,7 @@ public class JSCalendarObjectImpl extends JSValueImpl
       removeProperty(JSPropertyNames.comments);
     }
   }
+   */
 
   @Override
   public JSList<String> getKeywords(final boolean create) {
@@ -138,11 +139,6 @@ public class JSCalendarObjectImpl extends JSValueImpl
     }
     ovs.setMaster(this);
     return ovs;
-  }
-
-  @Override
-  public void clearOverrides() {
-    removeProperty(JSPropertyNames.recurrenceOverrides);
   }
 
   @Override

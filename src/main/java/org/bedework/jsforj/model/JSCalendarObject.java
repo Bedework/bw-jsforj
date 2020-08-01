@@ -2,7 +2,6 @@ package org.bedework.jsforj.model;
 
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.collections.JSAlerts;
-import org.bedework.jsforj.model.values.collections.JSArray;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSLocations;
@@ -51,19 +50,21 @@ public interface JSCalendarObject extends JSValue {
    */
   JSAlerts getAlerts(boolean create);
 
+  /*
   void addComment(String val);
 
   /**
    *
    * @param create true if we create property if it doesn't exist
    * @return list of comments
-   */
+   * /
   JSArray<String> getComments(boolean create);
 
   /** Remove all comments
    *
-   */
+   * /
   void clearComments();
+     */
 
   /**
    *
@@ -120,11 +121,6 @@ public interface JSCalendarObject extends JSValue {
    * @return replyTo object
    */
   JSReplyTo getReplyTo(boolean create);
-
-  /** Remove all overrides
-   *
-   */
-  void clearOverrides();
 
   /**
    *

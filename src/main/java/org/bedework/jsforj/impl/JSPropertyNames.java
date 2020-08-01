@@ -17,8 +17,6 @@ public interface JSPropertyNames {
   String alerts = "alerts";     //  Id[Alert]   Valid for: JSEvent,
   //                                   JSTask
   String byDay = "byDay";       // NDay[]         Valid for: Recurrence Rule
-  String day = "day";           // String         Valid for: NDay
-  String nthOfPeriod = "nthOfPeriod"; // Int      Valid for: NDay
   String byHour = "byHour";     // UnsignedInt[]  Valid for: Recurrence Rule
   String byMinute = "byMinute"; // UnsignedInt[]  Valid for: Recurrence Rule
   String byMonth = "byMonth";   // String[]       Valid for: Recurrence Rule
@@ -38,6 +36,7 @@ public interface JSPropertyNames {
   String count = "count";       // UnsignedInt      Valid for: Recurrence
   String created  = "created ";    //  UTCDateTime    Valid for: JSEvent,
   //                                   JSTask, JSGroup
+  String day = "day";           // String         Valid for: NDay
   String delegatedFrom = "delegatedFrom";//  String[Boolean]Valid for: Participant
   String delegatedTo = "delegatedTo"; //  String[Boolean]Valid for: Participant
   String description = "description"; //  String    Valid for: JSEvent,
@@ -82,6 +81,7 @@ public interface JSPropertyNames {
   //                                   JSTask
   String name = "name";        //  String    Valid for: Location,
   //     Participant
+  String nthOfPeriod = "nthOfPeriod"; // Int      Valid for: NDay
   String offset = "offset";      //  SignedDuration Valid for: OffsetTriggerValid for:
   String participants = "participants";//  Id[Participant]Valid for: JSEvent,
   //                                   JSTask
@@ -130,7 +130,6 @@ public interface JSPropertyNames {
   //                                   JSTask
   String status = "status";      //  String    Valid for: JSEvent,
   //                                   JSTask, ParticipantProgress
-  String statusUpdatedAt = "statusUpdatedAt";//  UTCDateTime    Valid for: JSTask
   String timeZone = "timeZone";    //  String|null    Valid for: JSEvent,
   //                                   JSTask, Location
   String timeZones = "timeZones";   //  String[TimeZone]      Valid for: JSEvent,

@@ -57,6 +57,11 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
+  public boolean hasProperty(final String propertyName) {
+    return getNode().has(propertyName);
+  }
+
+  @Override
   public List<JSProperty<?>> getProperties() {
     final var nd = getNode();
 
@@ -173,6 +178,17 @@ public class JSValueImpl implements JSValue {
     }
 
     return prop.getValue().getStringValue();
+  }
+
+  @Override
+  public boolean getBooleanProperty(final String name) {
+    final var prop = getProperty(new TypeReference<>() {},name);
+
+    if (prop == null) {
+      return false;
+    }
+
+    return prop.getValue().getBooleanValue();
   }
 
   @Override

@@ -19,6 +19,13 @@ public interface JSValue {
    */
   String getType();
 
+  /**
+   *
+   * @param propertyName to test for
+   * @return true if value contains named property
+   */
+  boolean hasProperty(String propertyName);
+
   /** Return all contained properties
    *
    * @return properties
@@ -85,6 +92,14 @@ public interface JSValue {
    * @return the value or null
    */
   JSValue getPropertyValue(String name);
+
+  /** Returns value of named boolean property.
+   *
+   * @param name the property name - non null
+   * @return the value of the property - false if absent
+   * throws JsforjException if not a boolean property
+   */
+  boolean getBooleanProperty(String name);
 
   /** Returns value of named String property.
    *

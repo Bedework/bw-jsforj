@@ -225,8 +225,8 @@ public class JsForJTest {
 
       event.setUid(UUID.randomUUID().toString());
 
-      event.addComment("comment 1");
-      event.addComment("comment 2");
+      //event.addComment("comment 1");
+      //event.addComment("comment 2");
 
       final var locations = event.getLocations(true);
 

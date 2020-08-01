@@ -228,11 +228,11 @@ class JSPropertyAttributes implements JSRegistration {
     ptype(JSPropertyNames.method,
           JSTypes.typeString);
 
+    ptype(JSPropertyNames.name,
+          JSTypes.typeString);
+
     ptype(JSPropertyNames.nthOfPeriod,
           JSTypes.typeInt);
-
-    ptype(JSPropertyNames.uid,
-          JSTypes.typeString);
 
     ptype(JSPropertyNames.offset,
           JSTypes.typeSignedDuration);
@@ -297,8 +297,14 @@ class JSPropertyAttributes implements JSRegistration {
     ptype(JSPropertyNames.scheduleAgent,
           JSTypes.typeString);
 
+    ptype(JSPropertyNames.scheduleForceSend,
+          JSTypes.typeBoolean);
+
     ptype(JSPropertyNames.scheduleSequence,
           JSTypes.typeUnsignedInt);
+
+    ptype(JSPropertyNames.scheduleStatus,
+          JSTypes.typeStringArray);
 
     ptype(JSPropertyNames.scheduleUpdated,
           JSTypes.typeUTCDateTime);
@@ -326,9 +332,6 @@ class JSPropertyAttributes implements JSRegistration {
 
     ptype(JSPropertyNames.status,
           JSTypes.typeString);
-
-    ptype(JSPropertyNames.statusUpdatedAt,
-          JSTypes.typeUTCDateTime);
 
     ptype(JSPropertyNames.timeZone,
           JSTypes.typeString);
@@ -852,7 +855,6 @@ class JSPropertyAttributes implements JSRegistration {
              JSTypes.typeJSTask);
     validFor(JSPropertyNames.status,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);
-    validFor(JSPropertyNames.statusUpdatedAt,  JSTypes.typeJSTask);
     validFor(JSPropertyNames.timeZone,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeLocation);
     validFor(JSPropertyNames.timeZones,  JSTypes.typeJSEvent,

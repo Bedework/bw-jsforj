@@ -76,4 +76,5 @@ public interface JSTypes {
 
   // Internally used types
   String typeOverride = "override";
+  String typeTrigger = "trigger";
 }

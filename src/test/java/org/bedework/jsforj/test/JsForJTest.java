@@ -17,6 +17,7 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.JSLocation;
+import org.bedework.jsforj.model.values.JSOffsetTrigger;
 import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSRecurrenceRule;
@@ -158,6 +159,22 @@ public class JsForJTest {
                                 JSOverrideImpl.class,
                                 ovVal.getClass());
           }
+        }
+
+        final var desc = obj.getDescription();
+        if ("offset alert".equals(desc)) {
+          final var alerts = obj.getAlerts(false);
+          Assert.assertNotNull(alerts);
+
+          final var alist = alerts.get();
+          Assert.assertEquals("Should only be one", 1, alist.size());
+
+          final var alert = alist.get(0).getValue();
+
+          final var trigger = alert.getTrigger();
+          Assert.assertTrue(trigger instanceof JSOffsetTrigger);
+
+          info("Offset alert passes");
         }
       }
     } catch (final Throwable t) {

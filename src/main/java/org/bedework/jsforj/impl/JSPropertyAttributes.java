@@ -35,6 +35,7 @@ import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
+import org.bedework.jsforj.impl.values.factories.JSUTCDateTimeFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntFactory;
 import org.bedework.jsforj.impl.values.factories.JSVirtualLocationFactory;
@@ -343,7 +344,7 @@ class JSPropertyAttributes implements JSRegistration {
           JSTypes.typeString);
 
     ptype(JSPropertyNames.trigger,
-          JSTypes.typeUnknownTrigger);
+          JSTypes.typeTrigger);
 
     ptype(JSPropertyNames.uid,
           JSTypes.typeString);
@@ -672,6 +673,15 @@ class JSPropertyAttributes implements JSRegistration {
          false, // object
          JSTimeZoneFactory.class); // factoryClass
 
+    // Internal type
+    type(JSTypes.typeTrigger,
+         true, // requiresType
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         true, // object
+         JSTriggerFactory.class); // factoryClass
+
     type(JSTypes.typeUnknownTrigger,
          true, // requiresType
          false, // valueList
@@ -702,7 +712,7 @@ class JSPropertyAttributes implements JSRegistration {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSUTCDateTimeFactory.class); // factoryClass
 
     type(JSTypes.typeAbsoluteTrigger,
          true, // requiresType

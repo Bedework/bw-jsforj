@@ -37,13 +37,24 @@ public class JSCalendarObjectImpl extends JSValueImpl
       throw new JsforjException("uid is immutable");
     }
 
-    addProperty(factory.makeProperty(JSPropertyNames.uid,
+    setProperty(factory.makeProperty(JSPropertyNames.uid,
                                      val));
   }
 
   @Override
   public String getUid() {
     return getStringProperty(JSPropertyNames.uid);
+  }
+
+  @Override
+  public void setDescription(final String val) {
+    setProperty(factory.makeProperty(JSPropertyNames.description,
+                                     val));
+  }
+
+  @Override
+  public String getDescription() {
+    return getStringProperty(JSPropertyNames.description);
   }
 
   @Override

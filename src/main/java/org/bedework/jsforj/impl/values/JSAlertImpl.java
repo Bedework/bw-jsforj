@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.impl.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSAlert;
+import org.bedework.jsforj.model.values.JSTrigger;
 import org.bedework.jsforj.model.values.dataTypes.JSSignedDuration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,6 +19,17 @@ public class JSAlertImpl extends JSValueImpl
   public JSAlertImpl(final String type,
                      final JsonNode node) {
     super(type, node);
+  }
+
+  @Override
+  public void setTrigger(final JSTrigger val) {
+    setProperty(factory.makeProperty(JSPropertyNames.trigger, val));
+  }
+
+  @Override
+  public JSTrigger getTrigger() {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.trigger, false);
   }
 
   @Override

@@ -72,7 +72,7 @@ public class JSLocationImpl extends JSValueImpl
 
   @Override
   public void setLocationTypes(final JSList<String> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.locationTypes, val));
+    setProperty(factory.makeProperty(JSPropertyNames.locationTypes, val));
   }
 
   @Override

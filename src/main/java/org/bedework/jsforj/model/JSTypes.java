@@ -75,6 +75,7 @@ public interface JSTypes {
   String typeUnknownTrigger = "UnknownTrigger";
 
   // Internally used types
+  String typeNull = "null";
   String typeOverride = "override";
   String typeTrigger = "trigger";
 }

@@ -45,6 +45,18 @@ public interface JSCalendarObject extends JSValue {
 
   /**
    *
+   * @param val the title
+   */
+  void setTitle(String val);
+
+  /**
+   *
+   * @return title or null if none set
+   */
+  String getTitle();
+
+  /**
+   *
    * @param val the recurrence id
    * throws JsforjException if value already present or not override
    */

@@ -117,7 +117,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setByMonthDay(final JSArray<Integer> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.byMonthDay, val));
+    setProperty(factory.makeProperty(JSPropertyNames.byMonthDay, val));
   }
 
   @Override
@@ -128,7 +128,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setByMonth(final JSArray<String> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.byMonth, val));
+    setProperty(factory.makeProperty(JSPropertyNames.byMonth, val));
   }
 
   @Override
@@ -139,7 +139,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setByYearDay(final JSArray<Integer> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.byYearDay, val));
+    setProperty(factory.makeProperty(JSPropertyNames.byYearDay, val));
   }
 
   @Override
@@ -150,7 +150,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setByWeekNo(final JSArray<Integer> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.byWeekNo, val));
+    setProperty(factory.makeProperty(JSPropertyNames.byWeekNo, val));
   }
 
   @Override
@@ -161,7 +161,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setByHour(final JSArray<JSUnsignedInteger> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.byHour, val));
+    setProperty(factory.makeProperty(JSPropertyNames.byHour, val));
   }
 
   @Override
@@ -172,7 +172,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setByMinute(final JSArray<JSUnsignedInteger> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.byMinute, val));
+    setProperty(factory.makeProperty(JSPropertyNames.byMinute, val));
   }
 
   @Override
@@ -183,7 +183,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setBySecond(final JSArray<JSUnsignedInteger> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.bySecond, val));
+    setProperty(factory.makeProperty(JSPropertyNames.bySecond, val));
   }
 
   @Override
@@ -194,7 +194,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setBySetPosition(final JSArray<Integer> val) {
-    addProperty(factory.makeProperty(JSPropertyNames.bySetPosition, val));
+    setProperty(factory.makeProperty(JSPropertyNames.bySetPosition, val));
   }
 
   @Override
@@ -216,7 +216,7 @@ public class JSRecurrenceRuleImpl extends JSValueImpl
 
   @Override
   public void setUntil(final JSLocalDateTime val) {
-    addProperty(factory.makeProperty(JSPropertyNames.until, val));
+    setProperty(factory.makeProperty(JSPropertyNames.until, val));
   }
 
   @Override

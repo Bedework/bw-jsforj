@@ -53,30 +53,13 @@ public interface JSValue {
    */
   void clear();
 
-  /**
-   *
-   * @param val the property - non null
-   * @return the property
-   * throws JsforjException if not an object or property already exists
-   */
-  <ValType extends JSValue> JSProperty<ValType> addProperty(
-          JSProperty<ValType> val);
-
-  /** Add a string type property
-   *
-   * @param name the property name - non null
-   * @param val the property value - non null
-   * @return the property
-   * throws JsforjException if not an object or property already exists
-   */
-  JSProperty<?> addProperty(String name, String val);
-
   /** Add or replace the named property
    *
    * @param val the property - non null
    * @return the property
    */
-  JSProperty<?> setProperty(JSProperty<?> val);
+  <ValType extends JSValue> JSProperty<ValType> setProperty(
+          JSProperty<ValType> val);
 
   /** Set the value for a string type property
    *
@@ -109,13 +92,6 @@ public interface JSValue {
    */
   String getStringProperty(String name);
 
-  /** Sets the named property to have a value of null.
-   * This is only used for patch objects to signify the removal of a
-   * property by an override.
-   *
-   * @param name of properties - generates a path
-   */
-  void setNull(String... name);
   /**
    *
    * @return true if this is a string
@@ -129,15 +105,6 @@ public interface JSValue {
    * @return the property
    */
   JSProperty<?> setProperty(String name, JSUnsignedInteger val);
-
-  /** Add an UnsignedInteger type property
-   *
-   * @param name the property name - non null
-   * @param val the property value - non null
-   * @return the property
-   * throws JsforjException if not an object or property already exists
-   */
-  JSProperty<?> addProperty(String name, JSUnsignedInteger val);
 
   /** Set the value for an UnsignedInteger type property
    *
@@ -155,24 +122,6 @@ public interface JSValue {
    */
   JSProperty<?> setProperty(String name, boolean val);
 
-  /** Add an UnsignedInteger type property
-   *
-   * @param name the property name - non null
-   * @param val the property value - non null
-   * @return the property
-   * throws JsforjException if not an object or property already exists
-   */
-  JSProperty<?> addProperty(String name, Integer val);
-
-  /** Add a boolean type property
-   *
-   * @param name the property name - non null
-   * @param val the property value - true/false
-   * @return the property
-   * throws JsforjException if not an object or property already exists
-   */
-  JSProperty<?> addProperty(String name, boolean val);
-
   /** Add a property of given type.
    *
    * @param name the property name - non null
@@ -181,6 +130,17 @@ public interface JSValue {
    * throws JsforjException if property already exists
    */
   <T extends JSValue> JSProperty<T> makeProperty(
+          TypeReference<T> typeRef,
+          String name, String type);
+
+  /** Create a property of the given type. NOT added or set
+   *
+   * @param name the property name - non null
+   * @param type the property type
+   * @return the property
+   * throws JsforjException if property already exists
+   */
+  <T extends JSValue> JSProperty<T> newProperty(
           TypeReference<T> typeRef,
           String name, String type);
 
@@ -227,4 +187,17 @@ public interface JSValue {
    * @return Json
    */
   String writeValueAsStringFormatted(ObjectMapper mapper);
+
+  /** Returns a value of the desired type and adds as a sub-property
+   * of this value.
+   *
+   * @param type reference
+   * @param pname property name
+   * @param create true if it shoudl be created if absent
+   * @param <T> type of value
+   * @return value
+   */
+  <T extends JSValue> T getValue(TypeReference<T> type,
+                                 String pname,
+                                 boolean create);
 }

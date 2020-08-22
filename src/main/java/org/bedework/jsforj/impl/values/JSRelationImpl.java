@@ -3,7 +3,6 @@
 */
 package org.bedework.jsforj.impl.values;
 
-import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.impl.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSRelation;
 import org.bedework.jsforj.model.values.collections.JSList;
@@ -23,19 +22,7 @@ public class JSRelationImpl extends JSValueImpl
 
   @Override
   public JSList<String> getRelations(final boolean create) {
-    final JSProperty<JSList<String>> val =
-            getProperty(new TypeReference<>() {},
-                        JSPropertyNames.relation);
-
-    if (val != null) {
-      return val.getValue();
-    }
-
-    if (!create) {
-      return null;
-    }
-
-    return (JSList<String>)addProperty(
-            factory.makeProperty(JSPropertyNames.relation)).getValue();
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.relation, create);
   }
 }

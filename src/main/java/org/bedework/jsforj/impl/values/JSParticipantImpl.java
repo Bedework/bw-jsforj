@@ -23,7 +23,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setName(final String val) {
-    addProperty(JSPropertyNames.name, val);
+    setProperty(JSPropertyNames.name, val);
   }
 
   @Override
@@ -33,7 +33,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setDescription(final String val) {
-    addProperty(JSPropertyNames.description, val);
+    setProperty(JSPropertyNames.description, val);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setEmail(final String val) {
-    addProperty(JSPropertyNames.email, val);
+    setProperty(JSPropertyNames.email, val);
   }
 
   @Override
@@ -58,18 +58,12 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public boolean getExpectReply() {
-    final var p = getProperty(new TypeReference<>() {},
-                              JSPropertyNames.expectReply);
-    if (p == null) {
-      return false;
-    }
-
-    return p.getValue().getBooleanValue();
+    return getBooleanProperty(JSPropertyNames.expectReply);
   }
 
   @Override
   public void setKind(final String val) {
-    addProperty(JSPropertyNames.kind, val);
+    setProperty(JSPropertyNames.kind, val);
   }
 
   @Override
@@ -79,7 +73,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setLocationId(final String val) {
-    addProperty(JSPropertyNames.locationId, val);
+    setProperty(JSPropertyNames.locationId, val);
   }
 
   @Override
@@ -89,7 +83,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setLanguage(final String val) {
-    addProperty(JSPropertyNames.language, val);
+    setProperty(JSPropertyNames.language, val);
   }
 
   @Override
@@ -99,7 +93,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setParticipationComment(final String val) {
-    addProperty(JSPropertyNames.participationComment, val);
+    setProperty(JSPropertyNames.participationComment, val);
   }
 
   @Override
@@ -109,7 +103,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setParticipationStatus(final String val) {
-    addProperty(JSPropertyNames.participationStatus, val);
+    setProperty(JSPropertyNames.participationStatus, val);
   }
 
   @Override
@@ -119,7 +113,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setScheduleAgent(final String val) {
-    addProperty(JSPropertyNames.scheduleAgent, val);
+    setProperty(JSPropertyNames.scheduleAgent, val);
   }
 
   @Override
@@ -129,7 +123,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setScheduleForceSend(final String val) {
-    addProperty(JSPropertyNames.scheduleForceSend, val);
+    setProperty(JSPropertyNames.scheduleForceSend, val);
   }
 
   @Override
@@ -139,7 +133,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setScheduleStatus(final String val) {
-    addProperty(JSPropertyNames.scheduleStatus, val);
+    setProperty(JSPropertyNames.scheduleStatus, val);
   }
 
   @Override
@@ -156,7 +150,7 @@ public class JSParticipantImpl extends JSValueImpl
 
   @Override
   public void setInvitedBy(final String val) {
-    addProperty(JSPropertyNames.invitedBy, val);
+    setProperty(JSPropertyNames.invitedBy, val);
   }
 
   @Override

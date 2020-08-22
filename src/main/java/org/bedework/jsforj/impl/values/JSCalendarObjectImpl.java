@@ -6,6 +6,7 @@ package org.bedework.jsforj.impl.values;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.JSPropertyNames;
 import org.bedework.jsforj.model.JSCalendarObject;
+import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.collections.JSAlerts;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
@@ -28,6 +29,9 @@ public class JSCalendarObjectImpl extends JSValueImpl
   public JSCalendarObjectImpl(final String type,
                               final JsonNode node) {
     super(type, node);
+    if (JSTypes.typeOverride.equals(type)) {
+      return; // No type for overrides
+    }
     setProperty(JSPropertyNames.type, type);
   }
 
@@ -58,11 +62,22 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
+  public void setTitle(final String val) {
+    setProperty(factory.makeProperty(JSPropertyNames.title,
+                                     val));
+  }
+
+  @Override
+  public String getTitle() {
+    return getStringProperty(JSPropertyNames.title);
+  }
+
+  @Override
   public void setRecurrenceId(final JSLocalDateTime val) {
     if (getRecurrenceId() != null) {
       throw new JsforjException("recurrenceId is immutable");
     }
-    addProperty(factory.makeProperty(JSPropertyNames.recurrenceId, val));
+    setProperty(factory.makeProperty(JSPropertyNames.recurrenceId, val));
   }
 
   @Override

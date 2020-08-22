@@ -15,8 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import netscape.javascript.JSException;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -34,6 +34,10 @@ public class JSValueImpl implements JSValue {
   // Parsed value
   private final JsonNode node;
 
+  private JSProperty<?> containingProperty;
+
+  private JSValue owner;
+
   public JSValueImpl(final String type,
                      final JsonNode node) {
     if (node == null) {
@@ -47,8 +51,46 @@ public class JSValueImpl implements JSValue {
     this.node = node;
   }
 
+  /**
+   * Only used for proxies.
+   */
+  protected JSValueImpl() {
+    type = null;
+    node = null;
+  }
+
   protected JSFactory getFactory() {
     return factory;
+  }
+
+  /** The owner is the value containing this value.
+   *
+   * @param val the owner of this value
+   */
+  public void setOwner(final JSValue val) {
+    if (owner != null) {
+      throw new JSException("Value owner already set");
+    }
+    owner = val;
+  }
+
+  public JSValue getOwner() {
+    return owner;
+  }
+
+  /** The owner is the property containing the value.
+   *
+   * @param val the property containing the value
+   */
+  public void setContainingProperty(final JSProperty<?> val) {
+    if (containingProperty != null) {
+      throw new JSException("Value property already set");
+    }
+    containingProperty = val;
+  }
+
+  public JSProperty<?> getContainingProperty() {
+    return containingProperty;
   }
 
   @Override
@@ -74,8 +116,10 @@ public class JSValueImpl implements JSValue {
     for (final var it = nd.fieldNames(); it.hasNext(); ) {
       final var fieldName = it.next();
 
-      props.add(factory.makeProperty(fieldName,
-                                     node.get(fieldName)));
+      final var p = factory.makeProperty(fieldName,
+                                         getNode().get(fieldName));
+      props.add(p);
+      ((JSValueImpl)p.getValue()).setOwner(this);
     }
 
     return props;
@@ -87,7 +131,7 @@ public class JSValueImpl implements JSValue {
           final String name) {
     assertObject("getProperty");
 
-    final var pnode = node.get(name);
+    final var pnode = getNode().get(name);
 
     if (pnode == null) {
       return null;
@@ -100,39 +144,19 @@ public class JSValueImpl implements JSValue {
   public void removeProperty(final String name) {
     assertObject("removeProperty");
 
-    ((ObjectNode)node).remove(name);
+    ((ObjectNode)getNode()).remove(name);
   }
 
   @Override
   public void clear() {
     assertObject("clear");
 
-    ((ObjectNode)node).removeAll();
+    ((ObjectNode)getNode()).removeAll();
   }
 
   @Override
-  public <ValType extends JSValue> JSProperty<ValType> addProperty(
+  public <ValType extends JSValue> JSProperty<ValType> setProperty(
           final JSProperty<ValType> val) {
-    assertObject("addProperty");
-
-    final var name = val.getName();
-    if (node.get(name) != null) {
-      throw new JsforjException("Property " + name + " already present");
-    }
-    final var value = (JSValueImpl)val.getValue();
-    ((ObjectNode)node).set(name, value.getNode());
-
-    return val;
-  }
-
-  @Override
-  public JSProperty<JSString> addProperty(final String name,
-                                          final String val) {
-    return addProperty(factory.makeProperty(name, val));
-  }
-
-  @Override
-  public JSProperty<?> setProperty(final JSProperty<?> val) {
     final var name = val.getName();
 
     final var prop = getProperty(new TypeReference<>() {}, name);
@@ -148,14 +172,25 @@ public class JSValueImpl implements JSValue {
   @Override
   public JSProperty<JSString> setProperty(final String name,
                                           final String val) {
-    final var prop = getProperty(new TypeReference<>() {}, name);
+    return setProperty(factory.makeProperty(name, val));
+  }
 
-    if (prop != null) {
-      // Remove then add
-      removeProperty(name);
-    }
+  @Override
+  public JSProperty<?> setProperty(final String name,
+                                   final JSUnsignedInteger val) {
+    return setProperty(factory.makeProperty(name, val));
+  }
 
-    return addProperty(name, val);
+  @Override
+  public JSProperty<?> setProperty(final String name,
+                                   final Integer val) {
+    return setProperty(factory.makeProperty(name, val));
+  }
+
+  @Override
+  public JSProperty<?> setProperty(final String name,
+                                   final boolean val) {
+    return setProperty(factory.makeProperty(name, val));
   }
 
   @Override
@@ -192,94 +227,8 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public void setNull(final String... name) {
-    if ((name == null) || (name.length == 0)) {
-      throw new JsforjException("Empty path");
-    }
-    final var pathsb = new StringBuilder();
-    for (final var n: name) {
-      if (pathsb.length() != 0) {
-        pathsb.append("/");
-      }
-      pathsb.append(n);
-    }
-
-    final var path = pathsb.toString();
-
-    final var prop = getProperty(new TypeReference<>() {},
-                                 path);
-
-    if (prop != null) {
-      // Remove then add
-      removeProperty(path);
-    }
-
-    ((ObjectNode)node).set(path, NullNode.getInstance());
-  }
-
-  @Override
   public boolean isString() {
-    return node.isTextual();
-  }
-
-  @Override
-  public JSProperty<?> setProperty(final String name,
-                                   final JSUnsignedInteger val) {
-    final var prop = getProperty(new TypeReference<>() {},name);
-
-    if (prop != null) {
-      // Remove then add
-      removeProperty(name);
-    }
-
-    return addProperty(name, val);
-  }
-
-  @Override
-  public JSProperty<?> addProperty(final String name,
-                                   final JSUnsignedInteger val) {
-    return addProperty(factory.makeProperty(name, val));
-  }
-
-  @Override
-  public JSProperty<?> setProperty(final String name,
-                                   final Integer val) {
-    final var prop = getProperty(new TypeReference<>() {},name);
-
-    if (prop != null) {
-      // Remove then add
-      removeProperty(name);
-    }
-
-    return addProperty(name, val);
-  }
-
-  @Override
-  public JSProperty<?> setProperty(final String name,
-                                   final boolean val) {
-    final var prop = getProperty(new TypeReference<>() {},name);
-
-    if (prop != null) {
-      if (prop.getValue().getBooleanValue() == val) {
-        return prop;
-      }
-      // Remove then add
-      removeProperty(name);
-    }
-
-    return addProperty(name, val);
-  }
-
-  @Override
-  public JSProperty<?> addProperty(final String name,
-                                   final Integer val) {
-    return addProperty(factory.makeProperty(name, val));
-  }
-
-  @Override
-  public JSProperty<?> addProperty(final String name,
-                                   final boolean val) {
-    return addProperty(factory.makeProperty(name, val));
+    return getNode().isTextual();
   }
 
   @Override
@@ -291,9 +240,19 @@ public class JSValueImpl implements JSValue {
             getFactory().makeProperty(name,
                                       type,
                                       null);
-    addProperty(p);
+    setProperty(p);
 
     return p;
+  }
+
+  @Override
+  public <T extends JSValue> JSProperty<T> newProperty(
+          final TypeReference<T> typeRef,
+          final String name,
+          final String type) {
+    return getFactory().makeProperty(name,
+                                     type,
+                                     null);
   }
 
   @Override
@@ -310,8 +269,8 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public String getStringValue() {
-    if (node.isTextual()) {
-      return node.textValue();
+    if (getNode().isTextual()) {
+      return getNode().textValue();
     }
 
     throw new JsforjException("Not String value");
@@ -319,8 +278,8 @@ public class JSValueImpl implements JSValue {
 
   @Override
   public boolean getBooleanValue() {
-    if (node.isBoolean()) {
-      return node.asBoolean();
+    if (getNode().isBoolean()) {
+      return getNode().asBoolean();
     }
 
     throw new JsforjException("Not boolean value");
@@ -354,14 +313,11 @@ public class JSValueImpl implements JSValue {
     }
   }
 
-  public JsonNode getNode() {
-    return node;
-  }
-
-  protected <T extends JSValue> T getValue(
+  @Override
+  public <T extends JSValue> T getValue(
           final TypeReference<T> type,
-                           final String pname,
-                           final boolean create) {
+          final String pname,
+          final boolean create) {
     JSProperty<T> p = getProperty(new TypeReference<>() {}, pname);
 
     if (p == null) {
@@ -375,13 +331,17 @@ public class JSValueImpl implements JSValue {
     return p.getValue();
   }
 
+  public JsonNode getNode() {
+    return node;
+  }
+
   protected void assertStringNode() {
-    if (node == null) {
+    if (getNode() == null) {
       throw new JsforjException("Null node for type: "
                                          + type);
     }
 
-    if (node.isTextual()) {
+    if (getNode().isTextual()) {
       return;
     }
 
@@ -390,12 +350,12 @@ public class JSValueImpl implements JSValue {
   }
 
   protected void assertIntNode() {
-    if (node == null) {
+    if (getNode() == null) {
       throw new JsforjException("Null node for type: "
                                          + type);
     }
 
-    if (node.isInt()) {
+    if (getNode().isInt()) {
       return;
     }
 
@@ -404,9 +364,10 @@ public class JSValueImpl implements JSValue {
   }
 
   protected void assertObject(final String action) {
-    if (node.isObject()) {
+    if (getNode().isObject()) {
       return;
     }
+
     if (action == null) {
       throw new JsforjException("Not object value. Type: "
                                          + type);
@@ -417,9 +378,10 @@ public class JSValueImpl implements JSValue {
   }
 
   protected void assertArray(final String action) {
-    if (node.isArray()) {
+    if (getNode().isArray()) {
       return;
     }
+
     if (action == null) {
       throw new JsforjException("Not array value. Type: "
                                          + type);
@@ -427,5 +389,20 @@ public class JSValueImpl implements JSValue {
 
     throw new JsforjException("Not array value. Type: "
                                        + type + " action: " + action);
+  }
+
+  private <ValType extends JSValue> JSProperty<ValType> addProperty(
+          final JSProperty<ValType> val) {
+    assertObject("addProperty");
+
+    final var name = val.getName();
+    if (getNode().get(name) != null) {
+      throw new JsforjException("Property " + name + " already present");
+    }
+    final var value = (JSValueImpl)val.getValue();
+    value.setOwner(this);
+    ((ObjectNode)getNode()).set(name, value.getNode());
+
+    return val;
   }
 }

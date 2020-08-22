@@ -27,7 +27,7 @@ public class JSGroupImpl extends JSCalendarObjectImpl
 
   @Override
   public List<JSCalendarObject> getEntries() {
-    var entsVal = getEntsVal();
+    final var entsVal = getEntsVal();
 
     if (entsVal == null) {
       return Collections.emptyList();
@@ -42,9 +42,10 @@ public class JSGroupImpl extends JSCalendarObjectImpl
 
     if (entsVal == null) {
       // Add new property
-      JSProperty entries = factory.makeProperty(JSPropertyNames.entries,
-                                                (JsonNode)null);
-      addProperty(entries);
+      final JSProperty<?> entries =
+              factory.makeProperty(JSPropertyNames.entries,
+                                   (JsonNode)null);
+      setProperty(entries);
 
       entsVal = getEntsVal();
     }
@@ -53,14 +54,7 @@ public class JSGroupImpl extends JSCalendarObjectImpl
   }
 
   private JSEntries getEntsVal() {
-    JSProperty<JSEntries> entries = getProperty(
-            new TypeReference<>() {},
-            JSPropertyNames.entries);
-
-    if (entries == null) {
-      return null;
-    }
-
-    return entries.getValue();
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.entries, false);
   }
 }

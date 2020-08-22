@@ -4,9 +4,13 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.impl.JSPropertyNames;
+import org.bedework.jsforj.model.JSTypes;
+import org.bedework.jsforj.model.values.JSAbsoluteTrigger;
 import org.bedework.jsforj.model.values.JSAlert;
+import org.bedework.jsforj.model.values.JSOffsetTrigger;
 import org.bedework.jsforj.model.values.JSTrigger;
-import org.bedework.jsforj.model.values.dataTypes.JSSignedDuration;
+import org.bedework.jsforj.model.values.collections.JSRelations;
+import org.bedework.jsforj.model.values.dataTypes.JSUTCDateTime;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,6 +37,24 @@ public class JSAlertImpl extends JSValueImpl
   }
 
   @Override
+  public JSAbsoluteTrigger makeAbsoluteTrigger() {
+    final JSAbsoluteTrigger trigger =
+            (JSAbsoluteTrigger)factory.newValue(JSTypes.typeAbsoluteTrigger);
+    setTrigger(trigger);
+
+    return trigger;
+  }
+
+  @Override
+  public JSOffsetTrigger makeOffsetTrigger() {
+    final JSOffsetTrigger trigger =
+            (JSOffsetTrigger)factory.newValue(JSTypes.typeOffsetTrigger);
+    setTrigger(trigger);
+
+    return trigger;
+  }
+
+  @Override
   public void setAction(final String val) {
     setProperty(JSPropertyNames.action, val);
   }
@@ -43,25 +65,21 @@ public class JSAlertImpl extends JSValueImpl
   }
 
   @Override
-  public void setOffset(final JSSignedDuration offset) {
-    setProperty(getFactory().makeProperty(JSPropertyNames.offset,
+  public void setAcknowledged(final JSUTCDateTime offset) {
+    setProperty(getFactory().makeProperty(JSPropertyNames.acknowledged,
                                           offset));
   }
 
   @Override
-  public JSSignedDuration getOffset() {
+  public JSUTCDateTime getAcknowledged() {
     return getValue(new TypeReference<>() {},
-                    JSPropertyNames.offset,
+                    JSPropertyNames.acknowledged,
                     false);
   }
 
   @Override
-  public void setRelativeTo(final String val) {
-    setProperty(JSPropertyNames.relativeTo, val);
-  }
-
-  @Override
-  public String getRelativeTo() {
-    return getStringProperty(JSPropertyNames.relativeTo);
+  public JSRelations getRelatedTo(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.relatedTo, create);
   }
 }

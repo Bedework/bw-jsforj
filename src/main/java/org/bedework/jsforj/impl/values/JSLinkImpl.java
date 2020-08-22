@@ -8,7 +8,6 @@ import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 import org.bedework.util.misc.Util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -58,8 +57,7 @@ public class JSLinkImpl extends JSValueImpl
 
   @Override
   public JSUnsignedInteger getSize() {
-    return getProperty(new TypeReference<JSUnsignedInteger>() {},
-                       JSPropertyNames.size).getValue();
+    return getUnsignedIntegerProperty(JSPropertyNames.size);
   }
 
   @Override

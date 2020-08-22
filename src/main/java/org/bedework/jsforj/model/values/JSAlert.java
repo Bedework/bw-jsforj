@@ -1,6 +1,7 @@
 package org.bedework.jsforj.model.values;
 
-import org.bedework.jsforj.model.values.dataTypes.JSSignedDuration;
+import org.bedework.jsforj.model.values.collections.JSRelations;
+import org.bedework.jsforj.model.values.dataTypes.JSUTCDateTime;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
@@ -21,15 +22,30 @@ public interface JSAlert extends JSValue {
 
   JSTrigger getTrigger();
 
+  /**
+   *
+   * @return an absolute trigger. Will be set in alert.
+   */
+  JSAbsoluteTrigger makeAbsoluteTrigger();
+
+  /**
+   *
+   * @return an offset trigger. Will be set in alert.
+   */
+  JSOffsetTrigger makeOffsetTrigger();
+
   void setAction(String val);
 
   String getAction();
 
-  void setOffset(JSSignedDuration offset);
+  void setAcknowledged(JSUTCDateTime val);
 
-  JSSignedDuration getOffset();
+  JSUTCDateTime getAcknowledged();
 
-  void setRelativeTo(String val);
-
-  String getRelativeTo();
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return relations object
+   */
+  JSRelations getRelatedTo(boolean create);
 }

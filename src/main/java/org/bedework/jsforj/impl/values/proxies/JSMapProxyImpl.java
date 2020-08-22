@@ -1,14 +1,14 @@
 /* ********************************************************************
     Appropriate copyright notice
 */
-package org.bedework.jsforj.impl.values.collections;
+package org.bedework.jsforj.impl.values.proxies;
 
-import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.impl.values.collections.JSMapImpl;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.collections.JSMap;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
@@ -18,31 +18,18 @@ import java.util.List;
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
-public abstract class JSMapImpl<K, E extends JSValue>
-        extends JSValueImpl
-        implements JSMap<K, E> {
-  public JSMapImpl(final String type,
-                   final JsonNode node) {
-    super(type, node);
-  }
-
-  protected JSMapImpl() {
-    super();
-  }
-
-  protected abstract String getPropertyType();
-
+public abstract class JSMapProxyImpl<K, E extends JSValue>
+        extends JSMapImpl<K, E> {
   /**
    *
-   * @param key external form
-   * @return String
+   * @param master possible null master collection
+   * @param override possible null override collection
+   * @param updates possible null updates as they appear in patch objects
    */
-  protected abstract String convertKey(K key);
-
-  protected abstract K convertFieldName(String fieldName);
-
-  protected JSProperty<E> postCreate(final JSProperty<E> entry) {
-    return entry;
+  public JSMapProxyImpl(final JSMap<K, E> master,
+                        final JSMap<K, E> override,
+                        final List<JsonPointer> updates,
+                        final String updatesPrefix) {
   }
 
   @Override

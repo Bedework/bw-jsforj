@@ -8,6 +8,7 @@ import org.bedework.jsforj.JSTypeInfo;
 import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
+import org.bedework.jsforj.impl.values.JSNullImpl;
 import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
@@ -88,7 +90,12 @@ public class JSFactory {
     return null;
   }
 
-
+  /**
+   * Creates objects which may be independent top level objects or
+   * entries in a group.
+   * @param nd
+   * @return
+   */
   public JSCalendarObject makeCalObj(final JsonNode nd) {
     if (!nd.isObject()) {
       throw new JsforjException("Not an object node");
@@ -229,7 +236,7 @@ public class JSFactory {
     return new JSPropertyImpl<>(propertyName, value);
   }
 
-  public JSValue newStringValue(final String val) {
+/*  public JSValue newStringValue(final String val) {
     return new JSValueImpl(JSTypes.typeString,
                            nodeFactory.textNode(val));
   }
@@ -243,7 +250,7 @@ public class JSFactory {
     }
 
     return new JSValueImpl(type, nd);
-  }
+  }*/
 
   public JSValue newValue(final String type) {
     return newValue(type, (JsonNode)null);
@@ -251,6 +258,10 @@ public class JSFactory {
 
   public JSValue newValue(final String type,
                           final JsonNode node) {
+    if (node instanceof NullNode) {
+      return new JSNullImpl();
+    }
+
     final var typeInfo = getTypeInfo(type);
     var theNode = node;
 

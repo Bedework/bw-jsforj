@@ -21,22 +21,35 @@ import netscape.javascript.JSException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: mike Date: 10/24/19 Time: 10:35
  */
-public class JSValueImpl implements JSValue {
+public abstract class JSValueImpl implements JSValue {
   protected final static JSFactory factory = JSFactory.getFactory();
 
-  private final String type;
+  protected final String type;
 
   // Parsed value
   private final JsonNode node;
 
-  private JSProperty<?> containingProperty;
+  // This is set when processing overrides.
+  private JsonNode masterCopy;
+
+  private JSProperty<?> parentProperty;
+
+  /* childProperties is only updated when a property is modified or
+     removed.
+   */
+  private final Map<String, JSProperty<?>> childProperties =
+          new HashMap<>();
 
   private JSValue owner;
+
+  private boolean changed;
 
   public JSValueImpl(final String type,
                      final JsonNode node) {
@@ -57,6 +70,18 @@ public class JSValueImpl implements JSValue {
   protected JSValueImpl() {
     type = null;
     node = null;
+  }
+
+  public String getObjectType() {
+    return type;
+  }
+
+  public JsonNode getNode() {
+    if (masterCopy != null) {
+      return masterCopy;
+    }
+
+    return node;
   }
 
   protected JSFactory getFactory() {
@@ -82,15 +107,39 @@ public class JSValueImpl implements JSValue {
    *
    * @param val the property containing the value
    */
-  public void setContainingProperty(final JSProperty<?> val) {
-    if (containingProperty != null) {
+  public void setParentProperty(final JSProperty<?> val) {
+    if (parentProperty != null) {
       throw new JSException("Value property already set");
     }
-    containingProperty = val;
+    parentProperty = val;
   }
 
-  public JSProperty<?> getContainingProperty() {
-    return containingProperty;
+  public JSProperty<?> getParentProperty() {
+    return parentProperty;
+  }
+
+  @Override
+  public boolean getChanged() {
+    return changed;
+  }
+
+  @Override
+  public boolean hasChanges() {
+    if (changed) {
+      return true;
+    }
+
+    for (final var prop: childProperties.values()) {
+      if (prop.getValue().hasChanges()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  protected void setMasterCopy(final JsonNode copyNode) {
+    masterCopy = copyNode;
   }
 
   @Override
@@ -137,21 +186,170 @@ public class JSValueImpl implements JSValue {
       return null;
     }
 
-    return (JSProperty<T>)factory.makeProperty(name, pnode);
+    final var p =
+            (JSProperty<T>)factory.makeProperty(name, pnode);
+    ((JSValueImpl)p.getValue()).setOwner(this);
+    return p;
   }
+
+  @Override
+  public JSProperty<?> getProperty(final String name) {
+    assertObject("getProperty");
+
+    final var pnode = getNode().get(name);
+
+    if (pnode == null) {
+      return null;
+    }
+
+    final var p = factory.makeProperty(name, pnode);
+    ((JSValueImpl)p.getValue()).setOwner(this);
+    return p;
+  }
+
+  @Override
+  public JSValue getPropertyValue(final String name) {
+    final var prop = getProperty(new TypeReference<>() {}, name);
+
+    if (prop == null) {
+      return null;
+    }
+
+    return prop.getValue();
+  }
+
+  @Override
+  public String getStringProperty(final String name) {
+    final var prop = getProperty(new TypeReference<>() {},name);
+
+    if (prop == null) {
+      return null;
+    }
+
+    return prop.getValue().getStringValue();
+  }
+
+  @Override
+  public boolean getBooleanProperty(final String name) {
+    final var prop = getProperty(new TypeReference<>() {},name);
+
+    if (prop == null) {
+      return false;
+    }
+
+    return prop.getValue().getBooleanValue();
+  }
+
+  @Override
+  public boolean isString() {
+    return getNode().isTextual();
+  }
+
+  @Override
+  public JSUnsignedInteger getUnsignedIntegerProperty(final String name) {
+    final var prop = getProperty(new TypeReference<>() {},name);
+
+    if (prop == null) {
+      return null;
+    }
+
+    final var val = ((JSValueImpl)prop.getValue()).getNode();
+    return new JSUnsignedIntegerImpl(val.intValue());
+  }
+
+  @Override
+  public String getStringValue() {
+    if (getNode().isTextual()) {
+      return getNode().textValue();
+    }
+
+    throw new JsforjException("Not String value");
+  }
+
+  @Override
+  public boolean getBooleanValue() {
+    if (getNode().isBoolean()) {
+      return getNode().asBoolean();
+    }
+
+    throw new JsforjException("Not boolean value");
+  }
+
+  @Override
+  public <T extends JSValue> T getValue(
+          final TypeReference<T> type,
+          final String pname,
+          final boolean create) {
+    JSProperty<T> p = getProperty(new TypeReference<>() {}, pname);
+
+    if (p == null) {
+      if (!create) {
+        return null;
+      }
+
+      p = (JSProperty<T>)addProperty(factory.makeProperty(pname));
+    }
+
+    return p.getValue();
+  }
+
+  @Override
+  public void writeValue(final Writer wtr,
+                         final ObjectMapper mapper) {
+    try {
+      mapper.writeValue(wtr, getNode());
+    } catch (final Throwable t) {
+      throw new JsforjException(t);
+    }
+  }
+
+  @Override
+  public String writeValueAsString(final ObjectMapper mapper) {
+    try {
+      return mapper.writeValueAsString(getNode());
+    } catch (final JsonProcessingException e) {
+      throw new JsforjException(e);
+    }
+  }
+
+  @Override
+  public String writeValueAsStringFormatted(final ObjectMapper mapper) {
+    try {
+      return mapper.writerWithDefaultPrettyPrinter()
+                   .writeValueAsString(getNode());
+    } catch (final JsonProcessingException e) {
+      throw new JsforjException(e);
+    }
+  }
+
+  @Override
+  public <T extends JSValue> JSProperty<T> newProperty(
+          final TypeReference<T> typeRef,
+          final String name,
+          final String type) {
+    return getFactory().makeProperty(name,
+                                     type,
+                                     null);
+  }
+
+  /* ---------------------------- Write methods ------------------- */
 
   @Override
   public void removeProperty(final String name) {
     assertObject("removeProperty");
+    changed = true;
 
     ((ObjectNode)getNode()).remove(name);
+    childProperties.put(name, null);
   }
 
   @Override
   public void clear() {
     assertObject("clear");
+    changed = true;
 
     ((ObjectNode)getNode()).removeAll();
+    childProperties.clear();
   }
 
   @Override
@@ -194,44 +392,6 @@ public class JSValueImpl implements JSValue {
   }
 
   @Override
-  public JSValue getPropertyValue(final String name) {
-    final var prop = getProperty(new TypeReference<>() {}, name);
-
-    if (prop == null) {
-      return null;
-    }
-
-    return prop.getValue();
-  }
-
-  @Override
-  public String getStringProperty(final String name) {
-    final var prop = getProperty(new TypeReference<>() {},name);
-
-    if (prop == null) {
-      return null;
-    }
-
-    return prop.getValue().getStringValue();
-  }
-
-  @Override
-  public boolean getBooleanProperty(final String name) {
-    final var prop = getProperty(new TypeReference<>() {},name);
-
-    if (prop == null) {
-      return false;
-    }
-
-    return prop.getValue().getBooleanValue();
-  }
-
-  @Override
-  public boolean isString() {
-    return getNode().isTextual();
-  }
-
-  @Override
   public <T extends JSValue> JSProperty<T> makeProperty(
           final TypeReference<T> typeRef,
           final String name,
@@ -243,96 +403,6 @@ public class JSValueImpl implements JSValue {
     setProperty(p);
 
     return p;
-  }
-
-  @Override
-  public <T extends JSValue> JSProperty<T> newProperty(
-          final TypeReference<T> typeRef,
-          final String name,
-          final String type) {
-    return getFactory().makeProperty(name,
-                                     type,
-                                     null);
-  }
-
-  @Override
-  public JSUnsignedInteger getUnsignedIntegerProperty(final String name) {
-    final var prop = getProperty(new TypeReference<>() {},name);
-
-    if (prop == null) {
-      return null;
-    }
-
-    final var val = ((JSValueImpl)prop.getValue()).getNode();
-    return new JSUnsignedIntegerImpl(val.intValue());
-  }
-
-  @Override
-  public String getStringValue() {
-    if (getNode().isTextual()) {
-      return getNode().textValue();
-    }
-
-    throw new JsforjException("Not String value");
-  }
-
-  @Override
-  public boolean getBooleanValue() {
-    if (getNode().isBoolean()) {
-      return getNode().asBoolean();
-    }
-
-    throw new JsforjException("Not boolean value");
-  }
-
-  @Override
-  public void writeValue(final Writer wtr,
-                           final ObjectMapper mapper) {
-    try {
-      mapper.writeValue(wtr, node);
-    } catch (final Throwable t) {
-      throw new JsforjException(t);
-    }
-  }
-
-  @Override
-  public String writeValueAsString(final ObjectMapper mapper) {
-    try {
-      return mapper.writeValueAsString(node);
-    } catch (final JsonProcessingException e) {
-      throw new JsforjException(e);
-    }
-  }
-
-  @Override
-  public String writeValueAsStringFormatted(final ObjectMapper mapper) {
-    try {
-      return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
-    } catch (final JsonProcessingException e) {
-      throw new JsforjException(e);
-    }
-  }
-
-  @Override
-  public <T extends JSValue> T getValue(
-          final TypeReference<T> type,
-          final String pname,
-          final boolean create) {
-    JSProperty<T> p = getProperty(new TypeReference<>() {}, pname);
-
-    if (p == null) {
-      if (!create) {
-        return null;
-      }
-
-      p = (JSProperty<T>)addProperty(factory.makeProperty(pname));
-    }
-
-    return p.getValue();
-  }
-
-  public JsonNode getNode() {
-    return node;
   }
 
   protected void assertStringNode() {
@@ -393,6 +463,7 @@ public class JSValueImpl implements JSValue {
 
   private <ValType extends JSValue> JSProperty<ValType> addProperty(
           final JSProperty<ValType> val) {
+    changed = true;
     assertObject("addProperty");
 
     final var name = val.getName();
@@ -401,6 +472,7 @@ public class JSValueImpl implements JSValue {
     }
     final var value = (JSValueImpl)val.getValue();
     value.setOwner(this);
+    childProperties.put(name, val);
     ((ObjectNode)getNode()).set(name, value.getNode());
 
     return val;

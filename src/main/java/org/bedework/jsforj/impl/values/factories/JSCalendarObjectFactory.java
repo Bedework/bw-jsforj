@@ -6,8 +6,8 @@ package org.bedework.jsforj.impl.values.factories;
 import org.bedework.jsforj.impl.values.JSEventImpl;
 import org.bedework.jsforj.impl.values.JSGroupImpl;
 import org.bedework.jsforj.impl.values.JSTaskImpl;
+import org.bedework.jsforj.impl.values.JSUnknownTypeImpl;
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
-import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 
@@ -37,7 +37,7 @@ public class JSCalendarObjectFactory extends JSValueFactoryImpl {
         return new JSGroupImpl(typeName, theNode);
 
       default:
-        return new JSValueImpl(typeName, theNode);
+        return new JSUnknownTypeImpl(typeName, theNode);
     }
   }
 }

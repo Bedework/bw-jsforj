@@ -24,4 +24,6 @@ public interface JSProperty<T extends JSValue> {
    * @return the value of the property
    */
   T getValue();
+
+  JSProperty<T> copy();
 }

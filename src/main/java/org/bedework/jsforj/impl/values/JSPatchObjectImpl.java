@@ -59,7 +59,7 @@ public class JSPatchObjectImpl extends JSCalendarObjectImpl
     JsonPointer ptr = JsonPointer.compile(null);
 
     for (final var n: names) {
-      ptr = ptr.append(JsonPointer.compile(n));
+      ptr = ptr.append(JsonPointer.compile("/" + n));
     }
 
     return ptr.toString();

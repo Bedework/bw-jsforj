@@ -9,7 +9,7 @@ import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.properties.JSPropertyImpl;
 import org.bedework.jsforj.impl.values.JSNullImpl;
-import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.impl.values.JSUnknownTypeImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
@@ -269,7 +269,7 @@ public class JSFactory {
       if (theNode == null) {
         theNode = new ObjectNode(JsonNodeFactory.instance);
       }
-      return new JSValueImpl(type, theNode);
+      return new JSUnknownTypeImpl(type, theNode);
     }
 
     final var factoryClass = typeInfo.getFactoryClass();
@@ -286,8 +286,7 @@ public class JSFactory {
     }
 
     if (factoryClass == null) {
-      // Use generic class.
-      return new JSValueImpl(type, theNode);
+      return new JSUnknownTypeImpl(type, theNode);
     }
 
     JSValueFactory vfactory = valueFactories.get(factoryClass);

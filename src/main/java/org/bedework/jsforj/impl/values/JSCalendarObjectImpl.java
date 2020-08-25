@@ -160,10 +160,9 @@ public class JSCalendarObjectImpl extends JSValueImpl
     final JSRecurrenceOverrides ovs =
             getValue(new TypeReference<>() {},
                      JSPropertyNames.recurrenceOverrides, create);
-    if (!create) {
-      return ovs;
+    if (ovs != null) {
+      ovs.setMaster(this);
     }
-    ovs.setMaster(this);
     return ovs;
   }
 

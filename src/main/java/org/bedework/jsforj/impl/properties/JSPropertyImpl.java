@@ -22,7 +22,7 @@ public class JSPropertyImpl<T extends JSValue>
                         final T value) {
     this.name = name;
     this.value = value;
-    ((JSValueImpl)value).setContainingProperty(this);
+    ((JSValueImpl)value).setParentProperty(this);
   }
 
   @Override
@@ -41,5 +41,11 @@ public class JSPropertyImpl<T extends JSValue>
   @Override
   public T getValue() {
     return value;
+  }
+
+  @Override
+  public JSProperty<T> copy() {
+    return new JSPropertyImpl<T>(getName(),
+                                 (T)getValue().copy());
   }
 }

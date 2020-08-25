@@ -4,15 +4,52 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import netscape.javascript.JSException;
 
 import java.io.Writer;
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 /**
  * User: mike Date: 10/24/19 Time: 10:21
  */
 public interface JSValue {
+  /**
+   *
+   * @return type passed to constructor
+   */
+  String getObjectType();
+
+  /**
+   *
+   * @return node which currently represents this object
+   */
+  JsonNode getNode();
+
+  /**
+   * @return true if this value was changed - i.e a value was changed
+   * or a sub-property added or removed.
+   */
+  boolean getChanged();
+
+  /**
+   * @return true if this or any sub-value was changed.
+   */
+  boolean hasChanges();
+
+  /**
+   * @return next value up in hierarchy
+   */
+  JSValue getOwner();
+
+  /**
+   *
+   * @return property containing this value.
+   */
+  JSProperty<?> getParentProperty();
+
   /**
    *
    * @return the type of the value
@@ -35,12 +72,38 @@ public interface JSValue {
 
   /** Return named property
    *
+   * @param type expected type
+   * @param name of property
    * @return property or null
    * throws JsforjException if not an object
    */
   <T extends JSValue> JSProperty<T> getProperty(
           TypeReference<T> type,
           String name);
+
+  /** Return named property
+   *
+   * @param name of property
+   * @return property or null
+   * throws JsforjException if not an object
+   */
+  JSProperty<?> getProperty(String name);
+
+  /** Return a deep copy of this value
+   *
+   * @return value
+   */
+  default JSValue copy() {
+    try {
+      final Constructor<?> constructor =
+              getClass().getConstructor(String.class,
+                                        JsonNode.class);
+      return (JSValue)constructor.newInstance(getObjectType(),
+                                              getNode().deepCopy());
+    } catch (final Throwable t) {
+      throw new JSException("Exception thrown creating JSValue copy");
+    }
+  }
 
   /** Remove named property
    *

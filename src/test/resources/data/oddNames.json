@@ -9,6 +9,7 @@
   "comments": ["comment 1", "comment 2"],
   "odd/name/with/slash": "take that",
   "anObject": {
+    "@type": "atype",
     "another/odd/name/with/slash": "take that"
   },
   "recurrenceRules": [{

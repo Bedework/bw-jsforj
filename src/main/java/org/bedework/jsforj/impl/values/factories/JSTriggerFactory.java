@@ -5,8 +5,8 @@ package org.bedework.jsforj.impl.values.factories;
 
 import org.bedework.jsforj.impl.values.JSAbsoluteTriggerImpl;
 import org.bedework.jsforj.impl.values.JSOffsetTriggerImpl;
+import org.bedework.jsforj.impl.values.JSUnknownTriggerImpl;
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
-import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 
@@ -31,7 +31,8 @@ public class JSTriggerFactory extends JSValueFactoryImpl {
 
         case JSTypes.typeUnknownTrigger:
         default:
-          return new JSValueImpl(typeName, newObject(typeName));
+          return new JSUnknownTriggerImpl(typeName,
+                                          newObject(typeName));
       }
     }
 
@@ -46,7 +47,7 @@ public class JSTriggerFactory extends JSValueFactoryImpl {
 
       case JSTypes.typeUnknownTrigger:
       default:
-        return new JSValueImpl(typeName, nd);
+        return new JSUnknownTriggerImpl(typeName, nd);
     }
   }
 }

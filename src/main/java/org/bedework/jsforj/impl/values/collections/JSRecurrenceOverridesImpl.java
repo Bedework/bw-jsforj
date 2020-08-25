@@ -54,7 +54,8 @@ public class JSRecurrenceOverridesImpl
 
   protected JSProperty<JSOverride> postCreate(
           final JSProperty<JSOverride> entry) {
-    entry.getValue().setMaster(getMaster());
+    final var ovval = entry.getValue();
+    ovval.setMaster(getMaster());
 
     return entry;
   }

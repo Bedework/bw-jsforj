@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.JSPropertyNames;
+import org.bedework.jsforj.impl.properties.JSPropertyImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSLocalDateTimeImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
@@ -163,7 +164,9 @@ public class JSOverrideImpl extends JSPatchObjectImpl
         continue;
       }
 
-      parent.getValue().setProperty(prop.copy());
+      parent.getValue().setProperty(
+              new JSPropertyImpl<>(prop.getName(),
+                                   patch.getValue().copy()));
     }
 
     if (start == null) {

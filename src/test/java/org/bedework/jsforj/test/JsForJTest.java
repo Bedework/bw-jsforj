@@ -46,6 +46,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * User: mike Date: 10/25/19 Time: 16:39
  */
@@ -53,7 +58,10 @@ public class JsForJTest {
   final static JSFactory factory = JSFactory.getFactory();
 
   private final static String dataPath =
-          "/Users/mike/bedework/quickstart-dev/bw-jsforj/src/test/resources/data/";
+          "src/test/resources/data/";
+
+  private final static String specificPath =
+          "src/test/resources/specific/";
 
   private static final JSMapper mapper = new JSMapper();
 
@@ -83,7 +91,7 @@ public class JsForJTest {
       final DirectoryStream<Path> filesStream;
 
       if (glob == null) {
-        filesStream = Files.newDirectoryStream(jpath);
+        filesStream = Files.newDirectoryStream(jpath, "*.json");
       } else {
         filesStream = Files.newDirectoryStream(jpath, glob);
       }
@@ -126,14 +134,14 @@ public class JsForJTest {
 
         final var replyTo = obj.getReplyTo(false);
         if (replyTo != null) {
-          Assert.assertEquals("Must be JSReplyToImpl:",
+          assertEquals("Must be JSReplyToImpl:",
                               JSReplyToImpl.class,
                               replyTo.getClass());
           final List<JSProperty<JSString>> rtl = replyTo.get();
           if (!Util.isEmpty(rtl)) {
             final JSString rtlVal = rtl.get(0).getValue();
 
-            Assert.assertEquals("Must be JSStringImpl:",
+            assertEquals("Must be JSStringImpl:",
                                 JSStringImpl.class,
                                 rtlVal.getClass());
           }
@@ -155,31 +163,100 @@ public class JsForJTest {
           if (!Util.isEmpty(ovsl)) {
             final JSOverride ovVal = ovsl.get(0).getValue();
 
-            Assert.assertEquals("Must be JSOverrideImpl:",
+            assertEquals("Must be JSOverrideImpl:",
                                 JSOverrideImpl.class,
                                 ovVal.getClass());
           }
-        }
-
-        final var desc = obj.getDescription();
-        if ("offset alert".equals(desc)) {
-          final var alerts = obj.getAlerts(false);
-          Assert.assertNotNull(alerts);
-
-          final var alist = alerts.get();
-          Assert.assertEquals("Should only be one", 1, alist.size());
-
-          final var alert = alist.get(0).getValue();
-
-          final var trigger = alert.getTrigger();
-          Assert.assertTrue(trigger instanceof JSOffsetTrigger);
-
-          info("Offset alert passes");
         }
       }
     } catch (final Throwable t) {
       t.printStackTrace();
       Assert.fail(t.getMessage());
+    }
+  }
+
+  @Test
+  public void testOddPath() {
+    try {
+      final JSCalendarObject obj =
+              readSpecificFile("oddNames.json");
+
+      final var overrides = obj.getOverrides(false);
+
+      assertNotNull("Expected overrides", overrides);
+
+      final var overrideList = overrides.get();
+
+      assertFalse("Non-empty overrides list",
+                  Util.isEmpty(overrideList));
+
+      assertEquals("Only one entry", 1, overrideList.size());
+
+      final var override =
+              overrideList.get(0).getValue();
+      assertEquals("Odd names", override.getTitle());
+
+      final var anObject =
+              override.getProperty("anObject");
+
+      assertNotNull("Expected anObject", anObject);
+
+      final var oddNamedProp =
+              anObject.getValue()
+                      .getProperty("another/odd/name/with/slash");
+
+      assertNotNull("Expected another/odd/name/with/slash",
+                    oddNamedProp);
+
+      assertEquals("and that", oddNamedProp.getValue().getStringValue());
+    } catch (final Throwable t) {
+      t.printStackTrace();
+      Assert.fail(t.getMessage());
+    }
+  }
+
+  @Test
+  public void testAlertEvent() {
+    try {
+      final JSCalendarObject obj =
+              readSpecificFile("alertEvent.json");
+
+      final var alerts = obj.getAlerts(false);
+      assertNotNull(alerts);
+
+      final var alist = alerts.get();
+      assertEquals("Should only be one", 1, alist.size());
+
+      final var alert = alist.get(0).getValue();
+
+      final var trigger = alert.getTrigger();
+      assertTrue(trigger instanceof JSOffsetTrigger);
+
+      info("Offset alert passes");
+    } catch (final Throwable t) {
+      t.printStackTrace();
+      Assert.fail(t.getMessage());
+    }
+  }
+
+  private JSCalendarObject readSpecificFile(final String name) {
+    try {
+      final Path jpath = FileSystems.getDefault()
+                                    .getPath(specificPath,
+                                             name);
+
+      final File theFile = jpath.toFile();
+      if (!theFile.isFile()) {
+        throw new RuntimeException("Not a file");
+      }
+
+      info("Test read of " + theFile.getName());
+
+      return mapper.parse(new FileReader(theFile));
+    } catch (final Throwable t) {
+      t.printStackTrace();
+      Assert.fail(t.getMessage());
+      return null;
     }
   }
 
@@ -194,7 +271,7 @@ public class JsForJTest {
       return;
     }
 
-    Assert.assertEquals("Must be JSUnsignedInteger:",
+    assertEquals("Must be JSUnsignedInteger:",
                         JSUnsignedIntegerImpl.class,
                         val.getClass());
   }
@@ -204,7 +281,7 @@ public class JsForJTest {
       return;
     }
 
-    Assert.assertEquals("Must be JSArray<JSUnsignedInteger>:",
+    assertEquals("Must be JSArray<JSUnsignedInteger>:",
                         JSUnsignedIntArrayImpl.class,
                         val.getClass());
 
@@ -220,12 +297,12 @@ public class JsForJTest {
 
       final var obj = mapper.parse(new FileReader(jsonGroup));
 
-      Assert.assertTrue("Not JSGroup", obj instanceof JSGroup);
+      assertTrue("Not JSGroup", obj instanceof JSGroup);
 
       final var group = (JSGroup)obj;
 
       final var entries = group.getEntries();
-      Assert.assertEquals("Not 2 entries", 2, entries.size());
+      assertEquals("Not 2 entries", 2, entries.size());
     } catch (final Throwable t) {
       t.printStackTrace();
       Assert.fail(t.getMessage());
@@ -238,7 +315,7 @@ public class JsForJTest {
       final JSCalendarObject event =
               (JSCalendarObject)factory.newValue(JSTypes.typeJSEvent);
 
-      Assert.assertTrue("Not JSEvent", event instanceof JSEvent);
+      assertTrue("Not JSEvent", event instanceof JSEvent);
 
       event.setUid(UUID.randomUUID().toString());
 

@@ -3,6 +3,8 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
+import org.bedework.jsforj.impl.values.JSValueImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSLocalDateTimeImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
@@ -27,13 +29,25 @@ public class JSRecurrenceOverridesImpl
   }
 
   @Override
+  public void preWrite() {
+    for (final var p: get()) {
+      p.getValue().preWrite();
+    }
+  }
+
+  @Override
   public void setMaster(final JSCalendarObject val) {
     master = val;
   }
 
   @Override
   public JSCalendarObject getMaster() {
-    return master;
+    final var parent = ((JSValueImpl)this).getOwner();
+
+    if (parent == null) {
+      throw new JsforjException("Parent is null for recurrence overrides");
+    }
+    return (JSCalendarObject)parent;
   }
 
   @Override

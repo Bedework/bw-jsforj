@@ -209,6 +209,12 @@ public class JsForJTest {
                     oddNamedProp);
 
       assertEquals("and that", oddNamedProp.getValue().getStringValue());
+
+      anObject.getValue().setProperty("another/odd/name/with/slash",
+                                      "and that again");
+
+
+      info(obj.writeValueAsStringFormatted(mapper));
     } catch (final Throwable t) {
       t.printStackTrace();
       Assert.fail(t.getMessage());

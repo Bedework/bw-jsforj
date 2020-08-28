@@ -16,7 +16,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import netscape.javascript.JSException;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -27,14 +26,28 @@ import java.util.Map;
 
 /**
  * User: mike Date: 10/24/19 Time: 10:35
+ *
+ * Provides a view of the current json node and allows updates
+ * to that node.
+ *
+ * <p>
+ * When handling overrides we interact with the masterCopy.
+ * However the original node is still attached to the parent
+ * so will be output when serializing the object.
+ * </p>
+ *
+ * <p>
+ *   When we update an override we need to update the original
+ *   node with the appropriate patches.
+ * </p>
  */
 public abstract class JSValueImpl implements JSValue {
   protected final static JSFactory factory = JSFactory.getFactory();
 
   protected final String type;
 
-  // Parsed value
-  private final JsonNode node;
+  // Parsed or updated value
+  private JsonNode node;
 
   // This is set when processing overrides.
   private JsonNode masterCopy;
@@ -84,6 +97,13 @@ public abstract class JSValueImpl implements JSValue {
     return node;
   }
 
+  @Override
+  public void preWrite() {
+    for (final var p: getProperties()) {
+      p.getValue().preWrite();
+    }
+  }
+
   protected JSFactory getFactory() {
     return factory;
   }
@@ -94,7 +114,7 @@ public abstract class JSValueImpl implements JSValue {
    */
   public void setOwner(final JSValue val) {
     if (owner != null) {
-      throw new JSException("Value owner already set");
+      throw new JsforjException("Value owner already set");
     }
     owner = val;
   }
@@ -109,7 +129,7 @@ public abstract class JSValueImpl implements JSValue {
    */
   public void setParentProperty(final JSProperty<?> val) {
     if (parentProperty != null) {
-      throw new JSException("Value property already set");
+      throw new JsforjException("Value property already set");
     }
     parentProperty = val;
   }
@@ -165,10 +185,11 @@ public abstract class JSValueImpl implements JSValue {
     for (final var it = nd.fieldNames(); it.hasNext(); ) {
       final var fieldName = it.next();
 
-      final var p = factory.makeProperty(fieldName,
-                                         getNode().get(fieldName));
+//      final var p = factory.makeProperty(fieldName,
+//                                         getNode().get(fieldName));
+      final var p = getProperty(fieldName);
+
       props.add(p);
-      ((JSValueImpl)p.getValue()).setOwner(this);
     }
 
     return props;
@@ -178,6 +199,12 @@ public abstract class JSValueImpl implements JSValue {
   public <T extends JSValue> JSProperty<T> getProperty(
           final TypeReference<T> type,
           final String name) {
+    // Return if it's in childrenProperties
+    JSProperty<T> p= (JSProperty<T>)childProperties.get(name);
+    if (p != null) {
+      return p;
+    }
+
     assertObject("getProperty");
 
     final var pnode = getNode().get(name);
@@ -186,14 +213,21 @@ public abstract class JSValueImpl implements JSValue {
       return null;
     }
 
-    final var p =
-            (JSProperty<T>)factory.makeProperty(name, pnode);
+    p = (JSProperty<T>)factory.makeProperty(name, pnode);
     ((JSValueImpl)p.getValue()).setOwner(this);
+    childProperties.put(name, p);
+
     return p;
   }
 
   @Override
   public JSProperty<?> getProperty(final String name) {
+    // Return if it's in childrenProperties
+    JSProperty<?> p= childProperties.get(name);
+    if (p != null) {
+      return p;
+    }
+
     assertObject("getProperty");
 
     final var pnode = getNode().get(name);
@@ -202,8 +236,10 @@ public abstract class JSValueImpl implements JSValue {
       return null;
     }
 
-    final var p = factory.makeProperty(name, pnode);
+    p = factory.makeProperty(name, pnode);
     ((JSValueImpl)p.getValue()).setOwner(this);
+    childProperties.put(name, p);
+
     return p;
   }
 
@@ -296,6 +332,7 @@ public abstract class JSValueImpl implements JSValue {
   @Override
   public void writeValue(final Writer wtr,
                          final ObjectMapper mapper) {
+    preWrite();
     try {
       mapper.writeValue(wtr, getNode());
     } catch (final Throwable t) {
@@ -305,6 +342,7 @@ public abstract class JSValueImpl implements JSValue {
 
   @Override
   public String writeValueAsString(final ObjectMapper mapper) {
+    preWrite();
     try {
       return mapper.writeValueAsString(getNode());
     } catch (final JsonProcessingException e) {
@@ -314,6 +352,7 @@ public abstract class JSValueImpl implements JSValue {
 
   @Override
   public String writeValueAsStringFormatted(final ObjectMapper mapper) {
+    preWrite();
     try {
       return mapper.writerWithDefaultPrettyPrinter()
                    .writeValueAsString(getNode());
@@ -360,8 +399,9 @@ public abstract class JSValueImpl implements JSValue {
     final var prop = getProperty(new TypeReference<>() {}, name);
 
     if (prop != null) {
-      // Remove then add
-      removeProperty(name);
+      // Update the property with the value
+      return (JSProperty<ValType>)updateProperty(prop,
+                                                 val);
     }
 
     return addProperty(val);
@@ -472,9 +512,35 @@ public abstract class JSValueImpl implements JSValue {
     }
     final var value = (JSValueImpl)val.getValue();
     value.setOwner(this);
+    value.changed = true;
     childProperties.put(name, val);
+
     ((ObjectNode)getNode()).set(name, value.getNode());
 
     return val;
+  }
+
+  private <ValType extends JSValue> JSProperty<ValType> updateProperty(
+          final JSProperty<JSValue> val,
+          final JSProperty<ValType> newval) {
+    assertObject("updateProperty");
+
+    final var name = val.getName();
+
+    final var theNode = (ObjectNode)getNode();
+    if (theNode.get(name) != null) {
+      theNode.remove(name);
+    }
+
+    ((JSValueImpl)val.getValue()).changed = true;
+
+    final var newValue = (JSValueImpl)newval.getValue();
+    theNode.set(name, newValue.getNode());
+
+    // Replace value in property value
+    final var value = (JSValueImpl)val.getValue();
+    value.node = newValue.getNode();
+
+    return (JSProperty<ValType>)val;
   }
 }

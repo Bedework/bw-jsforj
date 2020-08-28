@@ -1,12 +1,12 @@
 package org.bedework.jsforj.model.values;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import netscape.javascript.JSException;
 
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -27,6 +27,13 @@ public interface JSValue {
    * @return node which currently represents this object
    */
   JsonNode getNode();
+
+  /**
+   * Called before we output the object. Objects MUST call all
+   * children to allow any processing before output - e.g. generate
+   * patches.
+   */
+  void preWrite();
 
   /**
    * @return true if this value was changed - i.e a value was changed
@@ -101,7 +108,7 @@ public interface JSValue {
       return (JSValue)constructor.newInstance(getObjectType(),
                                               getNode().deepCopy());
     } catch (final Throwable t) {
-      throw new JSException("Exception thrown creating JSValue copy");
+      throw new JsforjException("Exception thrown creating JSValue copy");
     }
   }
 

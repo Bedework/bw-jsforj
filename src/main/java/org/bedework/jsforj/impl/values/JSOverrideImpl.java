@@ -12,10 +12,10 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSNull;
 import org.bedework.jsforj.model.values.JSOverride;
+import org.bedework.util.misc.Util;
 
 import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
-import netscape.javascript.JSException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -54,10 +54,10 @@ public class JSOverrideImpl extends JSPatchObjectImpl
   @Override
   public void setMaster(final JSCalendarObject master) {
     if (this.master != null) {
-      throw new JSException("Master already set for override");
+      throw new JsforjException("Master already set for override");
     }
     this.master = master;
-    this.recurrencedId = getParentProperty().getName();
+    recurrencedId = getParentProperty().getName();
     makeMasterCopy();
   }
 
@@ -87,6 +87,26 @@ public class JSOverrideImpl extends JSPatchObjectImpl
     return getMaster().getUid();
   }
 
+  @Override
+  public void preWrite() {
+    // Generate patches.
+    overrides.clear();
+
+    final JsonPointer root = JsonPointer.compile("/");
+    for (final var p: getProperties()) {
+      final var val = p.getValue();
+      if (!val.hasChanges()) {
+        continue;
+      }
+
+      for (final var patch: makePatches(root, p)) {
+        overrides.setProperty(patch.copy());
+      }
+    }
+
+    super.preWrite();
+  }
+
   private final static Set<String> cannotPatch = new TreeSet<>();
 
   static {
@@ -109,6 +129,9 @@ public class JSOverrideImpl extends JSPatchObjectImpl
     final var copyNode = ((JSValueImpl)master)
             .getNode().deepCopy();
     setMasterCopy(copyNode);
+    removeProperty(JSPropertyNames.recurrenceOverrides);
+    removeProperty(JSPropertyNames.recurrenceRules);
+    removeProperty(JSPropertyNames.excludedRecurrenceRules);
 
     final List<JSProperty<?>> patches = new ArrayList<>();
     JSProperty<?> start = null;
@@ -139,7 +162,7 @@ public class JSOverrideImpl extends JSPatchObjectImpl
         continue;
       }
 
-      setProperty(prop);
+      setProperty(prop.copy());
     }
 
     for (final var patch: patches) {
@@ -150,7 +173,7 @@ public class JSOverrideImpl extends JSPatchObjectImpl
 
       final JSProperty<?> prop = findProperty(patch.getName());
       if (prop == null) {
-        throw new JSException("Undefined property " + patch.getName());
+        throw new JsforjException("Undefined property " + patch.getName());
       }
 
       final var parent = prop.getValue()
@@ -206,5 +229,30 @@ public class JSOverrideImpl extends JSPatchObjectImpl
     }
 
     return prop;
+  }
+
+  private List<JSProperty<?>> makePatches(final JsonPointer root,
+                                          final JSProperty<?> prop) {
+    /* The easiest approach is to simply work down to the leaf nodes
+       generating a list of json path objects as we go.
+     */
+    final var patches = new ArrayList<JSProperty<?>>();
+
+    final var path = root.append(
+            JsonPointer.compile("/" + prop.getName()));
+    final var val = prop.getValue();
+
+    if (val.getChanged()) {
+      patches.add(new JSPropertyImpl<>(path.toString().substring(1),
+                                       val.copy()));
+    } else {
+      final var children = val.getProperties();
+      if (!Util.isEmpty(children)) {
+        for (final var ch: children) {
+          patches.addAll(makePatches(path, ch));
+        }
+      }
+    }
+    return patches;
   }
 }

@@ -1,0 +1,17 @@
+{
+  "@type": "jsevent",
+  "uid": "2a358cee-6489-4f14-a57f-c104db4dc2f1",
+  "updated": "2018-01-15T18:00:00Z",
+  "title": "Some event with a bedework location",
+  "start": "2018-01-15T13:00:00",
+  "timeZone": "America/New_York",
+  "duration": "PT1H",
+  "bedework.org:location": {
+    "bedework.org:location-addr": "The address",
+    "bedework.org:location-room": "The room",
+    "bedework.org:location-street": "3rd St",
+    "bedework.org:location-city": "Troy",
+    "bedework.org:location-state": "New York"
+
+  }
+}

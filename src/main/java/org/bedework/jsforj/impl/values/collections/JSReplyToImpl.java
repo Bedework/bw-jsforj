@@ -37,6 +37,12 @@ public class JSReplyToImpl
   }
 
   @Override
+  protected JSProperty<?> makeProperty(final String name,
+                                       final JsonNode node) {
+    return factory.makeProperty(name, node, JSTypes.typeString);
+  }
+
+  @Override
   public JSProperty<JSString> makeReplyTo(final String method,
                                           final String address) {
     final var prop = getFactory().makeProperty(method, address);

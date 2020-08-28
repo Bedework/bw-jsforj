@@ -213,7 +213,7 @@ public abstract class JSValueImpl implements JSValue {
       return null;
     }
 
-    p = (JSProperty<T>)factory.makeProperty(name, pnode);
+    p = (JSProperty<T>)makeProperty(name, pnode);
     ((JSValueImpl)p.getValue()).setOwner(this);
     childProperties.put(name, p);
 
@@ -236,7 +236,7 @@ public abstract class JSValueImpl implements JSValue {
       return null;
     }
 
-    p = factory.makeProperty(name, pnode);
+    p = makeProperty(name, pnode);
     ((JSValueImpl)p.getValue()).setOwner(this);
     childProperties.put(name, p);
 
@@ -443,6 +443,11 @@ public abstract class JSValueImpl implements JSValue {
     setProperty(p);
 
     return p;
+  }
+
+  protected JSProperty<?> makeProperty(final String name,
+                                       final JsonNode node) {
+    return factory.makeProperty(name, node);
   }
 
   protected void assertStringNode() {

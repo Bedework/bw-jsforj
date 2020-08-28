@@ -17,6 +17,7 @@ import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.BooleanNode;
@@ -112,9 +113,28 @@ public class JSFactory {
     }
   }
 
+  /**
+   *
+   * @param propertyName - may be a path
+   * @param nd - representing value
+   * @return the new value
+   */
   public JSValue makePropertyValue(final String propertyName,
-                                   final JsonNode nd) {
-    String type = getPropertyType(propertyName);
+                                   final JsonNode nd,
+                                   final String providedType) {
+    final String theName;
+    if (propertyName.contains("/")) {
+      theName = JsonPointer.compile("/" + propertyName)
+                           .last().getMatchingProperty();
+    } else {
+      theName = propertyName;
+    }
+
+    String type = providedType;
+    if (type == null) {
+      type = getPropertyType(theName);
+    }
+
     if (type == null) {
       if ((nd == null) || (!nd.isObject())) {
         type = JSTypes.typeUnknown;
@@ -122,7 +142,7 @@ public class JSFactory {
         type = getType(nd);
       }
     } else {
-      final var typeInfo = getTypeInfo(propertyName);
+      final var typeInfo = getTypeInfo(theName);
       if ((typeInfo != null) && typeInfo.getRequiresType()) {
         // Could validate here
         if (nd.isObject() && !type.equals(JSTypes.typePatchObject)) {
@@ -208,7 +228,16 @@ public class JSFactory {
   public JSProperty<?> makeProperty(final String propertyName,
                                     final JsonNode nd) {
     //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
-    final var value = makePropertyValue(propertyName, nd);
+    final var value = makePropertyValue(propertyName, nd, null);
+
+    return new JSPropertyImpl<>(propertyName, value);
+  }
+
+  public JSProperty<?> makeProperty(final String propertyName,
+                                    final JsonNode nd,
+                                    final String providedType) {
+    //final var pInfo = JSPropertyAttributes.getPropertyTypeInfo(name);
+    final var value = makePropertyValue(propertyName, nd, providedType);
 
     return new JSPropertyImpl<>(propertyName, value);
   }

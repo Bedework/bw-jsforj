@@ -75,10 +75,10 @@ public abstract class JSMapImpl<K, E extends JSValue>
 
     for (final var it = node.fieldNames(); it.hasNext(); ) {
       final var name = it.next();
-      res.add(postCreate(
-              getFactory().makeProperty(name,
-                                        getPropertyType(),
-                                        node.get(name))));
+      res.add(postCreate((JSProperty<E>)getProperty(name)));
+//              getFactory().makeProperty(name,
+  //                                      getPropertyType(),
+    //                                    node.get(name))));
     }
 
     return Collections.unmodifiableList(res);
@@ -88,8 +88,8 @@ public abstract class JSMapImpl<K, E extends JSValue>
   public JSProperty<E> get(final K key) {
     assertObject("get(i)");
 
-    final var node = (ObjectNode)getNode();
     final String name = convertKey(key);
+/*    final var node = (ObjectNode)getNode();
     final var elNode = node.get(name);
 
     if (elNode == null) {
@@ -100,6 +100,8 @@ public abstract class JSMapImpl<K, E extends JSValue>
             getFactory().makeProperty(name,
                                      getPropertyType(),
                                      node.get(name)));
+                                     */
+    return postCreate((JSProperty<E>)getProperty(name));
   }
 
   @Override
@@ -124,26 +126,28 @@ public abstract class JSMapImpl<K, E extends JSValue>
   public void remove(final K key) {
     assertObject("remove");
 
-    final var node = (ObjectNode)getNode();
-    node.remove(convertKey(key));
+//    final var node = (ObjectNode)getNode();
+//    node.remove(convertKey(key));
+    removeProperty(convertKey(key));
   }
 
   @Override
   public void remove(final JSProperty<E> entry) {
     assertObject("remove");
 
-    final var node = (ObjectNode)getNode();
-    node.remove(entry.getName());
+//    final var node = (ObjectNode)getNode();
+ //   node.remove(entry.getName());
+    removeProperty(entry.getName());
   }
 
   @Override
   public JSProperty<E> makeEntry(final K key) {
     final JSProperty<E> p =
-            getFactory().makeProperty(convertKey(key),
-                                      getPropertyType(),
-                                      null);
+            postCreate(
+                    getFactory().makeProperty(convertKey(key),
+                                              getPropertyType(),
+                                              null));
     put(p);
-
-    return postCreate(p);
+    return p;
   }
 }

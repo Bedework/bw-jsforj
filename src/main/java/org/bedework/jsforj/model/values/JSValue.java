@@ -17,6 +17,18 @@ import java.util.List;
  */
 public interface JSValue {
   /**
+   * Flags this value is being generated for overrides. Will be
+   * skipped when generating patches.
+   */
+  void markOverrideGenerated();
+
+  /**
+   *
+   * @return true if this is fenerated for overrides.
+   */
+  boolean getOverrideGenerated();
+
+  /**
    *
    * @return type passed to constructor
    */

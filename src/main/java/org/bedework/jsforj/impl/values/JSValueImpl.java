@@ -64,6 +64,8 @@ public abstract class JSValueImpl implements JSValue {
 
   private boolean changed;
 
+  private boolean overrideGenerated;
+
   public JSValueImpl(final String type,
                      final JsonNode node) {
     if (node == null) {
@@ -141,6 +143,16 @@ public abstract class JSValueImpl implements JSValue {
   @Override
   public boolean getChanged() {
     return changed;
+  }
+
+  @Override
+  public void markOverrideGenerated() {
+    overrideGenerated = true;
+  }
+
+  @Override
+  public boolean getOverrideGenerated() {
+    return overrideGenerated;
   }
 
   @Override

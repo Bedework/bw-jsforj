@@ -193,10 +193,17 @@ public class JSOverrideImpl extends JSPatchObjectImpl
     }
 
     if (start == null) {
-      setProperty(factory.makeProperty(
+      final var startP = setProperty(factory.makeProperty(
               JSPropertyNames.start,
               new JSLocalDateTimeImpl(getParentProperty().getName())));
+
+      startP.getValue().markOverrideGenerated();
     }
+
+    final var ridP = setProperty(factory.makeProperty(
+            JSPropertyNames.recurrenceId,
+            new JSLocalDateTimeImpl(recurrencedId)));
+    ridP.getValue().markOverrideGenerated();
   }
 
   /** Return referenced property
@@ -242,6 +249,10 @@ public class JSOverrideImpl extends JSPatchObjectImpl
             JsonPointer.compile("/" + prop.getName()));
     final var val = prop.getValue();
 
+    if (val.getOverrideGenerated()) {
+      return patches;
+    }
+
     if (val.getChanged()) {
       patches.add(new JSPropertyImpl<>(path.toString().substring(1),
                                        val.copy()));
@@ -253,6 +264,7 @@ public class JSOverrideImpl extends JSPatchObjectImpl
         }
       }
     }
+
     return patches;
   }
 }

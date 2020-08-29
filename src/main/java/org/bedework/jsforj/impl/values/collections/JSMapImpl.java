@@ -41,6 +41,12 @@ public abstract class JSMapImpl<K, E extends JSValue>
 
   protected abstract K convertFieldName(String fieldName);
 
+  @Override
+  protected JSProperty<?> makeProperty(final String name,
+                                       final JsonNode node) {
+    return factory.makeProperty(name, node, getPropertyType());
+  }
+
   protected JSProperty<E> postCreate(final JSProperty<E> entry) {
     return entry;
   }

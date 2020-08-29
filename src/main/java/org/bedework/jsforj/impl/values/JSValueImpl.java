@@ -490,6 +490,20 @@ public abstract class JSValueImpl implements JSValue {
                                        + type);
   }
 
+  protected void assertBooleanNode() {
+    if (getNode() == null) {
+      throw new JsforjException("Null node for type: "
+                                         + type);
+    }
+
+    if (getNode().isBoolean()) {
+      return;
+    }
+
+    throw new JsforjException("Not boolean value. Type: "
+                                       + type);
+  }
+
   protected void assertObject(final String action) {
     if (getNode().isObject()) {
       return;

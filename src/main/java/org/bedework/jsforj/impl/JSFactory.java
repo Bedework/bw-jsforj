@@ -173,7 +173,8 @@ public class JSFactory {
                                            final String value) {
     final var node = new TextNode(value);
 
-    return (JSProperty<JSString>)makeProperty(propertyName, node);
+    return (JSProperty<JSString>)makeProperty(propertyName, node,
+                                              JSTypes.typeString);
   }
 
   /** Create an UnsignedInteger property
@@ -186,7 +187,8 @@ public class JSFactory {
                                     final JSUnsignedInteger value) {
     final var node = new IntNode(value.get());
 
-    return makeProperty(propertyName, node);
+    return makeProperty(propertyName, node,
+                        JSTypes.typeUnsignedInt);
   }
 
   /** Create an Integer property
@@ -196,10 +198,11 @@ public class JSFactory {
    * @return the property
    */
   public JSProperty<?> makeProperty(final String propertyName,
-                                 final Integer value) {
+                                    final Integer value) {
     final var node = new IntNode(value);
 
-    return makeProperty(propertyName, node);
+    return makeProperty(propertyName, node,
+                        JSTypes.typeInt);
   }
 
   /** Create a boolean property
@@ -209,7 +212,7 @@ public class JSFactory {
    * @return the property
    */
   public JSProperty<?> makeProperty(final String propertyName,
-                                 final boolean value) {
+                                    final boolean value) {
     final JsonNode node;
 
     if (value) {
@@ -218,7 +221,8 @@ public class JSFactory {
       node = BooleanNode.getFalse();
     }
 
-    return makeProperty(propertyName, node);
+    return makeProperty(propertyName, node,
+                        JSTypes.typeBoolean);
   }
 
   public JSProperty<?> makeProperty(final String propertyName) {

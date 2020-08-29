@@ -8,6 +8,7 @@ import org.bedework.jsforj.JSTypeInfo;
 import org.bedework.jsforj.JSValueFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertFactory;
 import org.bedework.jsforj.impl.values.factories.JSAlertsFactory;
+import org.bedework.jsforj.impl.values.factories.JSBooleanFactory;
 import org.bedework.jsforj.impl.values.factories.JSCalendarObjectFactory;
 import org.bedework.jsforj.impl.values.factories.JSDurationFactory;
 import org.bedework.jsforj.impl.values.factories.JSEntriesFactory;
@@ -391,7 +392,7 @@ class JSPropertyAttributes implements JSRegistration {
          false, // propertyList
          null, // elementType
          false, // object
-         null); // factoryClass
+         JSBooleanFactory.class); // factoryClass
 
     type(JSTypes.typeComments,
          false, // requiresType

@@ -66,12 +66,6 @@ public class JSRecurrenceOverridesImpl
     return new JSLocalDateTimeImpl(fieldName);
   }
 
-  @Override
-  protected JSProperty<?> makeProperty(final String name,
-                                       final JsonNode node) {
-    return factory.makeProperty(name, node, JSTypes.typeOverride);
-  }
-
   protected JSProperty<JSOverride> postCreate(
           final JSProperty<JSOverride> entry) {
     final var ovval = entry.getValue();

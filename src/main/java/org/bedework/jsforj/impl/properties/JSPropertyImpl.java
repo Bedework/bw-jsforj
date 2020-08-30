@@ -48,4 +48,23 @@ public class JSPropertyImpl<T extends JSValue>
     return new JSPropertyImpl<T>(getName(),
                                  (T)getValue().copy());
   }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (!(o instanceof JSPropertyImpl)) {
+      return false;
+    }
+
+    final var that = (JSPropertyImpl<?>)o;
+
+    if (!name.equals(that.name)) {
+      return false;
+    }
+
+    return getValue().equals(that.getValue());
+  }
 }

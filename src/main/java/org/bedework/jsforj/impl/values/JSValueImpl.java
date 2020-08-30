@@ -10,6 +10,7 @@ import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
+import org.bedework.util.misc.Util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -455,6 +456,25 @@ public abstract class JSValueImpl implements JSValue {
     setProperty(p);
 
     return p;
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (!getClass().equals(o.getClass())) {
+      return false;
+    }
+
+    final var that = (JSValueImpl)o;
+
+    if (Util.cmpObjval(this.type, that.type) != 0) {
+      return false;
+    }
+
+    return this.getNode().equals(that.getNode());
   }
 
   protected JSProperty<?> makeProperty(final String name,

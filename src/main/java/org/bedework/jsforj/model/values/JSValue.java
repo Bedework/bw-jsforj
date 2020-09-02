@@ -180,13 +180,13 @@ public interface JSValue {
    */
   boolean isString();
 
-  /** Set the value for an UnsignedInteger type property
+  /** Set the value for an JSValue type property
    *
    * @param name the property name - non null
    * @param val the property value - non null
    * @return the property
    */
-  JSProperty<?> setProperty(String name, JSUnsignedInteger val);
+  JSProperty<?> setProperty(String name, JSValue val);
 
   /** Set the value for an UnsignedInteger type property
    *

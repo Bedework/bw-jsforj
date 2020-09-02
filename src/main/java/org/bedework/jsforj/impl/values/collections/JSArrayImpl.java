@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl.values.collections;
 
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.collections.JSArray;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
-public abstract class JSArrayImpl<T> extends JSValueImpl
+public abstract class JSArrayImpl<T extends JSValue> extends JSValueImpl
         implements JSArray<T> {
   public JSArrayImpl(final String type,
                      final JsonNode node) {
@@ -36,6 +37,13 @@ public abstract class JSArrayImpl<T> extends JSValueImpl
    * @return external representation
    */
   protected abstract T convertToT(JsonNode node);
+
+  @Override
+  public void preWrite() {
+    for (final var v: get()) {
+      v.preWrite();
+    }
+  }
 
   @Override
   public int size() {

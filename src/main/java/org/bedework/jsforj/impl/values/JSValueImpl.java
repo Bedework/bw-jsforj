@@ -412,6 +412,9 @@ public abstract class JSValueImpl implements JSValue {
     final var prop = getProperty(new TypeReference<>() {}, name);
 
     if (prop != null) {
+      if (prop.equals(val)) {
+        return val;
+      }
       // Update the property with the value
       return (JSProperty<ValType>)updateProperty(prop,
                                                  val);
@@ -428,7 +431,7 @@ public abstract class JSValueImpl implements JSValue {
 
   @Override
   public JSProperty<?> setProperty(final String name,
-                                   final JSUnsignedInteger val) {
+                                   final JSValue val) {
     return setProperty(factory.makeProperty(name, val));
   }
 

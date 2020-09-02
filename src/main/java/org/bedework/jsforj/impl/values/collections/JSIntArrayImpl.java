@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.node.IntNode;
 /**
  * User: mike Date: 5/11/20 Time: 00:46
  */
-public class JSIntArrayImpl  extends JSArrayImpl<JSInteger> {
+public class JSIntArrayImpl extends JSArrayImpl<JSInteger> {
   public JSIntArrayImpl(final String type,
                         final JsonNode node) {
     super(type, node);

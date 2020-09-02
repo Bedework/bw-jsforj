@@ -5,6 +5,8 @@ package org.bedework.jsforj.impl.values.collections;
 
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.JSValueImpl;
+import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.collections.JSList;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -43,6 +45,13 @@ public abstract class JSListImpl<T> extends JSValueImpl
    * @return external representation
    */
   protected abstract T convertToT(String val);
+
+  @Override
+  protected JSProperty<?> makeProperty(final String name,
+                                       final JsonNode node) {
+    return factory.makeProperty(name, node,
+                                JSTypes.typeBoolean);
+  }
 
   @Override
   public int size() {

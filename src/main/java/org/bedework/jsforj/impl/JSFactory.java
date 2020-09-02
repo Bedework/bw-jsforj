@@ -107,9 +107,7 @@ public class JSFactory {
     try {
       return (JSCalendarObject)newValue(type, nd);
     } catch (final Throwable t) {
-        throw new JsforjException(
-                "Unknown or unsupported type: ",
-                type);
+      throw new JsforjException(t);
     }
   }
 
@@ -130,11 +128,15 @@ public class JSFactory {
       theName = propertyName;
     }
 
-    String type = providedType;
-    if (type == null) {
-      type = getPropertyType(theName);
-    }
+    String type = getPropertyType(theName);
 
+    if (type == null) {
+      type = providedType;
+    } else if ((providedType != null) &&
+            !providedType.equals(type)) {
+      throw new JsforjException("Mismatched types, expected: " +
+              type + " provided: " + providedType);
+    }
     if (type == null) {
       if ((nd == null) || (!nd.isObject())) {
         type = JSTypes.typeUnknown;

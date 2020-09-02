@@ -34,7 +34,7 @@ public interface JSPropertyNames {
   String contentType = "contentType"; //  String    Valid for: Link
   String coordinates = "coordinates"; //  String    Valid for: Location
   String count = "count";       // UnsignedInt      Valid for: Recurrence
-  String created  = "created ";    //  UTCDateTime    Valid for: JSEvent,
+  String created  = "created";    //  UTCDateTime    Valid for: JSEvent,
   //                                   JSTask, JSGroup
   String day = "day";           // String         Valid for: NDay
   String delegatedFrom = "delegatedFrom";//  String[Boolean]Valid for: Participant

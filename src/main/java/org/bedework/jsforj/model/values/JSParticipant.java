@@ -1,7 +1,9 @@
 package org.bedework.jsforj.model.values;
 
+import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSSendTo;
+import org.bedework.jsforj.model.values.dataTypes.JSString;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
@@ -88,9 +90,7 @@ public interface JSParticipant extends JSValue {
 
   String getScheduleForceSend();
 
-  void setScheduleStatus(String val);
-
-  String getScheduleStatus();
+  JSArrayImpl<JSString> getScheduleStatus(boolean create);
 
   JSSendTo getSendTo(boolean create);
 

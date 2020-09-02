@@ -4,9 +4,11 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.impl.JSPropertyNames;
+import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSSendTo;
+import org.bedework.jsforj.model.values.dataTypes.JSString;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -132,13 +134,11 @@ public class JSParticipantImpl extends JSValueImpl
   }
 
   @Override
-  public void setScheduleStatus(final String val) {
-    setProperty(JSPropertyNames.scheduleStatus, val);
-  }
-
-  @Override
-  public String getScheduleStatus() {
-    return getStringProperty(JSPropertyNames.scheduleStatus);
+  public JSArrayImpl<JSString> getScheduleStatus(
+          final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.scheduleStatus,
+                    create);
   }
 
   @Override

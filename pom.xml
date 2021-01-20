@@ -19,7 +19,7 @@
 
     <!-- Third Party Library Versions -->
     <jackson.version>2.9.10</jackson.version>
-    <jackson.databind.version>2.9.10.4</jackson.databind.version>
+    <jackson.databind.version>2.9.10.7</jackson.databind.version>
 
     <!-- test only -->
     <junit.version>4.13.1</junit.version>

@@ -24,7 +24,7 @@ public interface JSValue {
 
   /**
    *
-   * @return true if this is fenerated for overrides.
+   * @return true if this is generated for overrides.
    */
   boolean getOverrideGenerated();
 

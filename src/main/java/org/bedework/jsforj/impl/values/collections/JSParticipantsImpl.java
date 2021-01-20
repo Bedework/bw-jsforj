@@ -13,14 +13,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
 public class JSParticipantsImpl
-        extends JSMapImpl<String, JSParticipant>
+        extends JSIdMapImpl<String, JSParticipant>
         implements JSParticipants {
+  private final AtomicInteger idCtr = new AtomicInteger();
+
   public JSParticipantsImpl(final String type,
                             final JsonNode node) {
     super(type, node);
@@ -43,7 +45,7 @@ public class JSParticipantsImpl
 
   @Override
   public JSProperty<JSParticipant> makeParticipant() {
-    return makeEntry(UUID.randomUUID().toString());
+    return makeEntry(nextId());
   }
 
   @Override

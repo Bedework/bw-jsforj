@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface JSParticipants
         extends JSMap<String, JSParticipant> {
-  /** Create and add a new participant object with a random uuid as key
+  /** Create and add a new participant object with a small integer as key
    *
    */
   JSProperty<JSParticipant> makeParticipant();

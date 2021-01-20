@@ -11,7 +11,7 @@ import org.bedework.jsforj.model.values.JSLocation;
  */
 public interface JSLocations
         extends JSMap<String, JSLocation> {
-  /** Create and add a new location object with a random uuid as key
+  /** Create and add a new location object with a small integer as key
    *
    */
   JSProperty<JSLocation> makeLocation();

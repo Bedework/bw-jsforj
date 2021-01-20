@@ -12,13 +12,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * User: mike Date: 5/4/20 Time: 23:30
  */
 public class JSLinksImpl
-        extends JSMapImpl<String, JSLink>
+        extends JSIdMapImpl<String, JSLink>
         implements JSLinks {
   public JSLinksImpl(final String type,
                      final JsonNode node) {
@@ -55,7 +54,7 @@ public class JSLinksImpl
 
   @Override
   public JSProperty<JSLink> makeLink() {
-    return makeEntry(UUID.randomUUID().toString());
+    return makeEntry(nextId());
   }
 
   @Override

@@ -10,14 +10,16 @@ import org.bedework.jsforj.model.values.collections.JSLocations;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:45
  */
 public class JSLocationsImpl
-        extends JSMapImpl<String, JSLocation>
+        extends JSIdMapImpl<String, JSLocation>
         implements JSLocations {
+  private final AtomicInteger idCtr = new AtomicInteger();
+
   public JSLocationsImpl(final String type,
                          final JsonNode node) {
     super(type, node);
@@ -40,6 +42,6 @@ public class JSLocationsImpl
 
   @Override
   public JSProperty<JSLocation> makeLocation() {
-    return makeEntry(UUID.randomUUID().toString());
+    return makeEntry(nextId());
   }
 }

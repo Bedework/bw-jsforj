@@ -100,6 +100,8 @@ public interface JSPropertyNames {
   //                                   Participant
   String recurrenceId = "recurrenceId";//  LocalDateTime  Valid for: JSEvent,
   //                                   JSTask
+  String recurrenceIdTimeZone = "recurrenceIdTimeZone";
+
   String recurrenceOverrides = "recurrenceOverrides";//  LocalDateTime[PatchObject]   Valid for: JSEvent,
   //                                   JSTask
   String recurrenceRules = "recurrenceRules";//  RecurrenceRule[] Valid for: JSEvent,

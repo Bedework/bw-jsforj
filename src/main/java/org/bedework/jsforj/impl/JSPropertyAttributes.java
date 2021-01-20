@@ -40,6 +40,7 @@ import org.bedework.jsforj.impl.values.factories.JSUTCDateTimeFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntFactory;
 import org.bedework.jsforj.impl.values.factories.JSVirtualLocationFactory;
+import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 
 import java.util.ArrayList;

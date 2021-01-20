@@ -1,4 +1,4 @@
-package org.bedework.jsforj.impl;
+package org.bedework.jsforj.model;
 
 /**
  * User: mike Date: 10/24/19 Time: 23:52

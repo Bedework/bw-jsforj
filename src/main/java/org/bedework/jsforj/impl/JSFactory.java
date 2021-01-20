@@ -12,6 +12,7 @@ import org.bedework.jsforj.impl.values.JSNullImpl;
 import org.bedework.jsforj.impl.values.JSUnknownTypeImpl;
 import org.bedework.jsforj.model.JSCalendarObject;
 import org.bedework.jsforj.model.JSProperty;
+import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 import org.bedework.jsforj.model.values.dataTypes.JSString;

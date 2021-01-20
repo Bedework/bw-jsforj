@@ -5,7 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.JSValueFactory;
-import org.bedework.jsforj.impl.JSPropertyNames;
+import org.bedework.jsforj.model.JSPropertyNames;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;

@@ -6,6 +6,7 @@ package org.bedework.jsforj.test;
 import org.bedework.jsforj.impl.JSFactory;
 import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.impl.values.JSOverrideImpl;
+import org.bedework.jsforj.impl.values.collections.JSRecurrenceOverridesImpl;
 import org.bedework.jsforj.impl.values.collections.JSReplyToImpl;
 import org.bedework.jsforj.impl.values.collections.JSUnsignedIntArrayImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSStringImpl;
@@ -121,6 +122,9 @@ public class JsForJTest {
         */
         final var overrides = obj.getOverrides(false);
         if (overrides != null) {
+          assertEquals("Must be class " + JSRecurrenceOverridesImpl.class,
+                       JSRecurrenceOverridesImpl.class,
+                       overrides.getClass());
           info("Has overrides with class " + overrides.getClass());
 
           final var ovs = overrides.get();
@@ -128,7 +132,11 @@ public class JsForJTest {
           info("Has " + ovs.size() + " overrides");
 
           for (final var ov: ovs) {
+            assertEquals("Must be class " + JSOverrideImpl.class,
+                         JSOverrideImpl.class,
+                         ov.getValue().getClass());
             info("value has class " + ov.getValue().getClass());
+            info(ov.getValue().writeValueAsStringFormatted(mapper));
           }
         }
 

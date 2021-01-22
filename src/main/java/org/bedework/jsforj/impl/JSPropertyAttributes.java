@@ -312,6 +312,9 @@ class JSPropertyAttributes implements JSRegistration {
     ptype(JSPropertyNames.scheduleUpdated,
           JSTypes.typeUTCDateTime);
 
+    ptype(JSPropertyNames.scheme,
+          JSTypes.typeString);
+
     ptype(JSPropertyNames.sendTo,
           JSTypes.typeSendTo);
 
@@ -855,6 +858,7 @@ class JSPropertyAttributes implements JSRegistration {
     validFor(JSPropertyNames.scheduleAgent, JSTypes.typeParticipant);
     validFor(JSPropertyNames.scheduleSequence, JSTypes.typeParticipant);
     validFor(JSPropertyNames.scheduleUpdated, JSTypes.typeParticipant);
+    validFor(JSPropertyNames.scheme, JSTypes.typeLink);
     validFor(JSPropertyNames.sendTo, JSTypes.typeParticipant);
     validFor(JSPropertyNames.sequence,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask);

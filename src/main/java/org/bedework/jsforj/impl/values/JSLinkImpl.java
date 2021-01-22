@@ -31,6 +31,16 @@ public class JSLinkImpl extends JSValueImpl
   }
 
   @Override
+  public void setScheme(final String val) {
+    setProperty(JSPropertyNames.scheme, val);
+  }
+
+  @Override
+  public String getScheme() {
+    return getStringProperty(JSPropertyNames.scheme);
+  }
+
+  @Override
   public void setCid(final String val) {
     setProperty(JSPropertyNames.cid, val);
   }

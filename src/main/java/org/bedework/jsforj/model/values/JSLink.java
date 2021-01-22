@@ -10,6 +10,10 @@ public interface JSLink extends JSValue {
 
   String getHref();
 
+  void setScheme(String val);
+
+  String getScheme();
+
   void setCid(String val);
 
   String getCid();

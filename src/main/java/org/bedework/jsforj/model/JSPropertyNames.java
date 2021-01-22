@@ -120,6 +120,7 @@ public interface JSPropertyNames {
   String scheduleStatus = "scheduleStatus";//  String    Valid for: Participant
   String scheduleSequence = "scheduleSequence";//  UnsignedInt    Valid for: Participant
   String scheduleUpdated = "scheduleUpdated";//  UTCDateTime    Valid for: Participant
+  String scheme = "scheme";      //  String Valid for: Link
   String sendTo = "sendTo";      //  String[String] Valid for: Participant
   String sequence = "sequence";    //  UnsignedInt    Valid for: JSEvent,
   //                                   JSTask

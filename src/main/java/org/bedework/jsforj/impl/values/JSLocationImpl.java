@@ -3,8 +3,10 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSLocation;
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,6 +30,21 @@ public class JSLocationImpl extends JSValueImpl
   @Override
   public String getName() {
     return getStringProperty(JSPropertyNames.name);
+  }
+
+  @Override
+  public void setUid(final String val) {
+    if (getUid() != null) {
+      throw new JsforjException("uid is immutable");
+    }
+
+    setProperty(factory.makeProperty(JSPropertyNames.uid,
+                                     val));
+  }
+
+  @Override
+  public String getUid() {
+    return getStringProperty(JSPropertyNames.uid);
   }
 
   @Override
@@ -80,5 +97,11 @@ public class JSLocationImpl extends JSValueImpl
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.locationTypes,
                     create);
+  }
+
+  @Override
+  public JSLinks getLinks(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.links, create);
   }
 }

@@ -1,5 +1,6 @@
 package org.bedework.jsforj.model.values;
 
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 
 /**
@@ -9,6 +10,10 @@ public interface JSLocation extends JSValue {
   void setName(String val);
 
   String getName();
+
+  void setUid(String val);
+
+  String getUid();
 
   void setDescription(String val);
 
@@ -35,5 +40,10 @@ public interface JSLocation extends JSValue {
    */
   JSList<String> getLocationTypes(boolean create);
 
-  // linkIds: "Id[Boolean]"
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return JSLinks object - never null if create true
+   */
+  JSLinks getLinks(boolean create);
 }

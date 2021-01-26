@@ -96,6 +96,13 @@ public interface JSCalendarObject extends JSValue {
    * @param create true if we create property if it doesn't exist
    * @return JSList<String> object - never null if create true
    */
+  JSList<String> getCategories(boolean create);
+
+  /**
+   *
+   * @param create true if we create property if it doesn't exist
+   * @return JSList<String> object - never null if create true
+   */
   JSList<String> getKeywords(boolean create);
 
   /**

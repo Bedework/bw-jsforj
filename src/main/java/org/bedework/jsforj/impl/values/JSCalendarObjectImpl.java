@@ -113,6 +113,12 @@ public class JSCalendarObjectImpl extends JSValueImpl
    */
 
   @Override
+  public JSList<String> getCategories(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.categories, create);
+  }
+
+  @Override
   public JSList<String> getKeywords(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.keywords, create);

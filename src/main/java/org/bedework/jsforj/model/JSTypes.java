@@ -76,6 +76,7 @@ public interface JSTypes {
 
   // Internally used types
   String typeNull = "null";
+  String typeRoles = "roles";
   String typeOverride = "override";
   String typeTrigger = "trigger";
 }

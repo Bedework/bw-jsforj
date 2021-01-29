@@ -28,6 +28,7 @@ import org.bedework.jsforj.impl.values.factories.JSRecurrenceRulesFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationFactory;
 import org.bedework.jsforj.impl.values.factories.JSRelationsFactory;
 import org.bedework.jsforj.impl.values.factories.JSReplyToFactory;
+import org.bedework.jsforj.impl.values.factories.JSRolesFactory;
 import org.bedework.jsforj.impl.values.factories.JSSendToFactory;
 import org.bedework.jsforj.impl.values.factories.JSSignedDurationFactory;
 import org.bedework.jsforj.impl.values.factories.JSStringArrayFactory;
@@ -292,7 +293,7 @@ class JSPropertyAttributes implements JSRegistration {
           JSTypes.typeReplyTo);
 
     ptype(JSPropertyNames.roles,
-          JSTypes.typeStrings);
+          JSTypes.typeRoles);
 
     ptype(JSPropertyNames.rscale,
           JSTypes.typeString);
@@ -678,7 +679,15 @@ class JSPropertyAttributes implements JSRegistration {
          false, // object
          JSTimeZoneFactory.class); // factoryClass
 
-    // Internal type
+    // Internal types
+    type(JSTypes.typeRoles,
+         false, // requiresType
+         false, // valueList
+         true, // propertyList
+         types(JSTypes.typeString), // elementType
+         false, // object
+         JSRolesFactory.class); // factoryClass
+
     type(JSTypes.typeTrigger,
          true, // requiresType
          false, // valueList

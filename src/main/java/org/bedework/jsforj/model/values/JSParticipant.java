@@ -80,7 +80,7 @@ public interface JSParticipant extends JSValue {
    * @param create true if we create property if it doesn't exist
    * @return JSList<String> object - never null if create true
    */
-  JSList<String> getRoles(boolean create);
+  JSRoles getRoles(boolean create);
 
   void setScheduleAgent(String val);
 

@@ -20,6 +20,14 @@ public interface JSPatchObject extends JSValue {
    */
   void setNull(String... name);
 
+  /** Set the value for a property
+   *
+   * @param val the property value - non null
+   * @param names the property names - non null - forms path
+   * @return the property
+   */
+  JSProperty<?> setOverrideProperty(JSValue val, String... names);
+
   /** Set the value for a string type property
    *
    * @param val the property value - non null

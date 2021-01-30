@@ -26,6 +26,12 @@ public class JSPatchObjectImpl extends JSCalendarObjectImpl
   }
 
   @Override
+  public JSProperty<?> setOverrideProperty(final JSValue val,
+                                           final String... names) {
+    return setProperty(makePath(names), val);
+  }
+
+  @Override
   public JSProperty<?> setOverrideProperty(final String val,
                                            final String... names) {
     return setProperty(makePath(names), val);

@@ -7,6 +7,7 @@ import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSRoles;
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSSendTo;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
@@ -188,9 +189,9 @@ public class JSParticipantImpl extends JSValueImpl
   }
 
   @Override
-  public JSList<String> getLinkIds(final boolean create) {
+  public JSLinks getLinks(final boolean create) {
     return getValue(new TypeReference<>() {},
-                    JSPropertyNames.linkIds,
+                    JSPropertyNames.links,
                     create);
   }
 }

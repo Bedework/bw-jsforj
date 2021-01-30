@@ -205,9 +205,6 @@ class JSPropertyAttributes implements JSRegistration {
     ptype(JSPropertyNames.language,
           JSTypes.typeString);
 
-    ptype(JSPropertyNames.linkIds,
-          JSTypes.typeIds);
-
     ptype(JSPropertyNames.links,
           JSTypes.typeLinks);
 
@@ -817,8 +814,6 @@ class JSPropertyAttributes implements JSRegistration {
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.kind, JSTypes.typeParticipant);
     validFor(JSPropertyNames.language, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.linkIds, JSTypes.typeLocation,
-             JSTypes.typeParticipant);
     validFor(JSPropertyNames.locale,  JSTypes.typeJSEvent,
              JSTypes.typeJSTask, JSTypes.typeJSGroup);
     validFor(JSPropertyNames.localizations,  JSTypes.typeJSEvent,

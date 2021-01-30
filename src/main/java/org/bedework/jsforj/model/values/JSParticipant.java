@@ -1,6 +1,7 @@
 package org.bedework.jsforj.model.values;
 
 import org.bedework.jsforj.impl.values.collections.JSArrayImpl;
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSSendTo;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
@@ -106,14 +107,13 @@ public interface JSParticipant extends JSValue {
    */
   JSList<String> getMemberOf(boolean create);
 
-  /** A set of links to more information about this participant, for
-  example in vCard format.  The keys in the set MUST be the id of a
-  Link object in the calendar object's "links" property.  The value
-          for each key in the set MUST be true.  If there are no links, this
-  MUST be omitted (rather than specified as an empty set).
+  /** A map of link ids to Link objects, representing external resources
+   associated with this participant, for example a vCard or image.
+   If there are no links, this MUST be omitted (rather than specified
+   as an empty set).
    *
    * @param create true if we create property if it doesn't exist
    * @return JSList<String> object - never null if create true
    */
-  JSList<String> getLinkIds(boolean create);
+  JSLinks getLinks(boolean create);
 }

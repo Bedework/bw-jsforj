@@ -106,6 +106,22 @@ public abstract class JSListImpl<T> extends JSValueImpl
   }
 
   @Override
+  public boolean contains(final T val) {
+    assertObject("contains");
+
+    final var node = (ObjectNode)getNode();
+
+    for (final var it = node.fieldNames(); it.hasNext(); ) {
+      final var el = convertToT(it.next());
+      if (el.equals(val)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  @Override
   public void remove(final T val) {
     assertObject("remove");
 

@@ -370,6 +370,7 @@ public class JsForJTest {
       final var roles = part.getRoles(true);
       roles.add("owner");
       roles.add("chair");
+      assertTrue("Check roles contains", roles.contains("owner"));
 
       final var relations = event.getRelatedTo(true);
 

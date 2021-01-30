@@ -40,6 +40,13 @@ public interface JSList<T> extends JSValue {
 
   /**
    *
+   * @param val to be checked
+   * @return true if present in list
+   */
+  boolean contains(T val);
+
+  /**
+   *
    * @param val to remove
    * throws JsforjException if index out of bounds
    */

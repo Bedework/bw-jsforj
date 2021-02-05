@@ -34,6 +34,10 @@ public interface JSLink extends JSValue {
 
   JSUnsignedInteger getSize();
 
+  String linkRelAlternateDescription = "describedby";
+
+  String linkRelAlternate = "alternate";
+
   void setRel(String val);
 
   String getRel();

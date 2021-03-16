@@ -1,5 +1,5 @@
 {
-  "@type": "jstask",
+  "@type": "Task",
   "uid": "2a358cee-6489-4f14-a57f-c104db4dc2f2",
   "updated": "2018-01-15T18:00:00Z",
   "title": "Do something"

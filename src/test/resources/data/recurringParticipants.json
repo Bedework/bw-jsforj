@@ -1,5 +1,5 @@
 {
-  "@type": "jsevent",
+  "@type": "Event",
   "uid": "2a358cee-6489-4f14-a57f-c104db4d9999",
   "title": "FooBar team meeting",
   "start": "2018-01-08T09:00:00",

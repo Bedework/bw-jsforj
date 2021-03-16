@@ -27,13 +27,13 @@ public class JSCalendarObjectFactory extends JSValueFactoryImpl {
     }
 
     switch (typeName) {
-      case JSTypes.typeJSEvent:
+      case JSTypes.typeEvent:
         return new JSEventImpl(typeName, theNode);
 
-      case JSTypes.typeJSTask:
+      case JSTypes.typeTask:
         return new JSTaskImpl(typeName, theNode);
 
-      case JSTypes.typeJSGroup:
+      case JSTypes.typeGroup:
         return new JSGroupImpl(typeName, theNode);
 
       default:

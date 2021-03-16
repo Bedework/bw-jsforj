@@ -7,11 +7,11 @@ public interface JSTypes {
   String typeUnknown = "Unknown";
 
   // Top level objects
-  String typeJSEvent = "jsevent";
-  String typeJSGroup = "jsgroup";
-  String typeJSTask = "jstask";
+  String typeEvent = "Event";
+  String typeGroup = "Group";
+  String typeTask = "Task";
 
-  String typeJSVPoll = "jsvpoll";
+  String typeVPoll = "Vpoll";
 
   String typeAlert = "Alert";
   String typeAlerts = "Id[Alert]";

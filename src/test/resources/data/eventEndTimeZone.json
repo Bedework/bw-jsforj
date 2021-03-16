@@ -1,5 +1,5 @@
 {
-  "@type": "jsevent",
+  "@type": "Event",
   "uid": "2a358cee-6489-4f14-a57f-c104db4d3333",
   "title": "Flight XY51 to Tokyo",
   "start": "2018-04-01T09:00:00",

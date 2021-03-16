@@ -327,7 +327,7 @@ public class JsForJTest {
   public void testBuildEvent() {
     try {
       final JSCalendarObject event =
-              (JSCalendarObject)factory.newValue(JSTypes.typeJSEvent);
+              (JSCalendarObject)factory.newValue(JSTypes.typeEvent);
 
       assertTrue("Not JSEvent", event instanceof JSEvent);
 

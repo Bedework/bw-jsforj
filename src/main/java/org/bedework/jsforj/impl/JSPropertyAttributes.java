@@ -416,7 +416,7 @@ class JSPropertyAttributes implements JSRegistration {
          false, // requiresType
          true, // valueList
          false, // propertyList
-         types(JSTypes.typeJSEvent, JSTypes.typeJSTask),// elementType
+         types(JSTypes.typeEvent, JSTypes.typeTask),// elementType
          false, // object
          JSEntriesFactory.class); // factoryClass
 
@@ -452,7 +452,7 @@ class JSPropertyAttributes implements JSRegistration {
          false, // object
          JSIntArrayFactory.class); // factoryClass
 
-    type(JSTypes.typeJSEvent,
+    type(JSTypes.typeEvent,
          true, // requiresType
          false, // valueList
          false, // propertyList
@@ -460,7 +460,7 @@ class JSPropertyAttributes implements JSRegistration {
          true, // object
          JSCalendarObjectFactory.class); // factoryClass
 
-    type(JSTypes.typeJSGroup,
+    type(JSTypes.typeGroup,
          true, // requiresType
          false, // valueList
          false, // propertyList
@@ -468,7 +468,7 @@ class JSPropertyAttributes implements JSRegistration {
          true, // object
          JSCalendarObjectFactory.class); // factoryClass
 
-    type(JSTypes.typeJSTask,
+    type(JSTypes.typeTask,
          true, // requiresType
          false, // valueList
          false, // propertyList
@@ -751,8 +751,8 @@ class JSPropertyAttributes implements JSRegistration {
 
     /* ===== valid for ============================== */
 
-    validFor(JSPropertyNames.type, JSTypes.typeJSEvent, JSTypes.typeJSTask,
-             JSTypes.typeJSGroup, JSTypes.typeAbsoluteTrigger,
+    validFor(JSPropertyNames.type, JSTypes.typeEvent, JSTypes.typeTask,
+             JSTypes.typeGroup, JSTypes.typeAbsoluteTrigger,
              JSTypes.typeAlert, JSTypes.typeLink,
              JSTypes.typeLocation, JSTypes.typeOffsetTrigger,
              JSTypes.typeParticipant,
@@ -763,8 +763,8 @@ class JSPropertyAttributes implements JSRegistration {
 
     validFor(JSPropertyNames.action, JSTypes.typeAlert);
 
-    validFor(JSPropertyNames.alerts, JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.alerts, JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.byDay, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.byHour, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.byMinute, JSTypes.typeRecurrenceRule);
@@ -774,89 +774,89 @@ class JSPropertyAttributes implements JSRegistration {
     validFor(JSPropertyNames.bySetPosition, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.byWeekNo, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.byYearDay, JSTypes.typeRecurrenceRule);
-    validFor(JSPropertyNames.categories,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup,
+    validFor(JSPropertyNames.categories, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup,
              JSTypes.typeLocation);
     validFor(JSPropertyNames.cid, JSTypes.typeLink);
-    validFor(JSPropertyNames.color,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSPropertyNames.comments,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.color, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
+    validFor(JSPropertyNames.comments,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.contentType, JSTypes.typeLink);
     validFor(JSPropertyNames.coordinates, JSTypes.typeLocation);
     validFor(JSPropertyNames.count, JSTypes.typeRecurrenceRule);
-    validFor(JSPropertyNames.created ,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.created , JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
     validFor(JSPropertyNames.delegatedFrom, JSTypes.typeParticipant);
     validFor(JSPropertyNames.delegatedTo, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.description,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeLocation,
+    validFor(JSPropertyNames.description, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeLocation,
              JSTypes.typeVirtualLocation);
-    validFor(JSPropertyNames.descriptionContentType, JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.descriptionContentType, JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.display, JSTypes.typeLink);
-    validFor(JSPropertyNames.due,  JSTypes.typeJSTask);
-    validFor(JSPropertyNames.duration,  JSTypes.typeJSEvent);
+    validFor(JSPropertyNames.due,  JSTypes.typeTask);
+    validFor(JSPropertyNames.duration,  JSTypes.typeEvent);
     validFor(JSPropertyNames.email, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.entries, JSTypes.typeJSGroup);
-    validFor(JSPropertyNames.estimatedDuration,  JSTypes.typeJSTask);
-    validFor(JSPropertyNames.excluded,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.entries, JSTypes.typeGroup);
+    validFor(JSPropertyNames.estimatedDuration,  JSTypes.typeTask);
+    validFor(JSPropertyNames.excluded,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.expectReply, JSTypes.typeParticipant);
     validFor(JSPropertyNames.firstDayOfWeek, JSTypes.typeRecurrenceRule);
-    validFor(JSPropertyNames.freeBusyStatus,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.freeBusyStatus,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.frequency, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.href, JSTypes.typeLink);
     validFor(JSPropertyNames.interval, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.invitedBy, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.keywords,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.keywords, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
     validFor(JSPropertyNames.kind, JSTypes.typeParticipant);
     validFor(JSPropertyNames.language, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.locale,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSPropertyNames.localizations,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.locale, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
+    validFor(JSPropertyNames.localizations,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.locationId, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.locations,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.locations,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.locationTypes, JSTypes.typeLocation);
     validFor(JSPropertyNames.memberOf, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.method,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.method,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.name, JSTypes.typeLocation,
              JSTypes.typeParticipant);
     validFor(JSPropertyNames.offset, JSTypes.typeOffsetTrigger);
-    validFor(JSPropertyNames.participants,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.participants,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.participationComment, JSTypes.typeParticipant);
     validFor(JSPropertyNames.participationStatus, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.priority,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.privacy,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.prodId,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
-    validFor(JSPropertyNames.progress,  JSTypes.typeJSTask,
+    validFor(JSPropertyNames.priority,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.privacy,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.prodId, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
+    validFor(JSPropertyNames.progress,  JSTypes.typeTask,
              JSTypes.typeParticipant);
-    validFor(JSPropertyNames.progressUpdated, JSTypes.typeJSTask,
+    validFor(JSPropertyNames.progressUpdated, JSTypes.typeTask,
              JSTypes.typeParticipant);
-    validFor(JSPropertyNames.recurrenceId,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.recurrenceOverrides,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.recurrenceId,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.recurrenceOverrides,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.recurrenceRules,
-             JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+             JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.rel, JSTypes.typeLink);
-    validFor(JSPropertyNames.relatedTo,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeAlert);
+    validFor(JSPropertyNames.relatedTo, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeAlert);
     validFor(JSPropertyNames.relation, JSTypes.typeRelation);
     validFor(JSPropertyNames.relativeTo, JSTypes.typeOffsetTrigger,
              JSTypes.typeLocation);
-    validFor(JSPropertyNames.replyTo,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.replyTo,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.roles, JSTypes.typeParticipant);
     validFor(JSPropertyNames.rscale, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.scheduleAgent, JSTypes.typeParticipant);
@@ -864,36 +864,36 @@ class JSPropertyAttributes implements JSRegistration {
     validFor(JSPropertyNames.scheduleUpdated, JSTypes.typeParticipant);
     validFor(JSPropertyNames.scheme, JSTypes.typeLink);
     validFor(JSPropertyNames.sendTo, JSTypes.typeParticipant);
-    validFor(JSPropertyNames.sequence,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.showWithoutTime,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.sequence,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.showWithoutTime,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.size, JSTypes.typeLink);
     validFor(JSPropertyNames.skip, JSTypes.typeRecurrenceRule);
-    validFor(JSPropertyNames.source, JSTypes.typeJSGroup);
-    validFor(JSPropertyNames.start,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.status,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.timeZone,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeLocation);
-    validFor(JSPropertyNames.timeZones,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.title,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup, JSTypes.typeLink);
+    validFor(JSPropertyNames.source, JSTypes.typeGroup);
+    validFor(JSPropertyNames.start,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.status,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.timeZone, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeLocation);
+    validFor(JSPropertyNames.timeZones,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.title, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup, JSTypes.typeLink);
     validFor(JSPropertyNames.trigger, JSTypes.typeOffsetTrigger,
              JSTypes.typeAbsoluteTrigger, JSTypes.typeUnknownTrigger,
              JSTypes.typeAlert);
-    validFor(JSPropertyNames.uid,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.uid, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
     validFor(JSPropertyNames.until, JSTypes.typeRecurrenceRule);
-    validFor(JSPropertyNames.updated,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask, JSTypes.typeJSGroup);
+    validFor(JSPropertyNames.updated, JSTypes.typeEvent,
+             JSTypes.typeTask, JSTypes.typeGroup);
     validFor(JSPropertyNames.uri,  JSTypes.typeVirtualLocation);
-    validFor(JSPropertyNames.useDefaultAlerts,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
-    validFor(JSPropertyNames.virtualLocations,  JSTypes.typeJSEvent,
-             JSTypes.typeJSTask);
+    validFor(JSPropertyNames.useDefaultAlerts,  JSTypes.typeEvent,
+             JSTypes.typeTask);
+    validFor(JSPropertyNames.virtualLocations,  JSTypes.typeEvent,
+             JSTypes.typeTask);
     validFor(JSPropertyNames.when, JSTypes.typeAbsoluteTrigger);
 
     // Replace all contains values with immutable lists

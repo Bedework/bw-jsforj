@@ -1,5 +1,5 @@
 {
-  "@type": "jstask",
+  "@type": "Task",
   "uid": "2a358cee-6489-4f14-a57f-c104db4d2222",
   "title": "Buy groceries",
   "due": "2018-01-19T18:00:00",

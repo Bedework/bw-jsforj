@@ -1,10 +1,10 @@
 {
-  "@type": "jsgroup",
+  "@type": "Group",
   "uid": "2a358cee-6489-4f14-a57f-c104db4dc343",
   "updated": "2018-01-15T18:00:00Z",
   "name": "A simple group",
   "entries": [{
-      "@type": "jsevent",
+      "@type": "Event",
       "uid": "2a358cee-6489-4f14-a57f-c104db4dc2f1",
       "updated": "2018-01-15T18:00:00Z",
       "title": "Some event",
@@ -13,7 +13,7 @@
       "duration": "PT1H"
     },
     {
-      "@type": "jstask",
+      "@type": "Task",
       "uid": "2a358cee-6489-4f14-a57f-c104db4dc2f2",
       "updated": "2018-01-15T18:00:00Z",
       "title": "Do something"

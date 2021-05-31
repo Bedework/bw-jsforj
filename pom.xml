@@ -14,13 +14,12 @@
     <maven.source.plugin.version>2.1.2</maven.source.plugin.version>
 
     <!-- Bedework Versions -->
-    <bw-util.version>4.0.27</bw-util.version>
-    <bw-util-logging.version>4.0.5</bw-util-logging.version>
-    <bw-util-deploy.version>4.0.28-SNAPSHOT</bw-util-deploy.version>
+    <bw-util.version>4.0.28</bw-util.version>
+    <bw-util-logging.version>5.0.0</bw-util-logging.version>
 
     <!-- Third Party Library Versions -->
-    <jackson.version>2.9.10</jackson.version>
-    <jackson.databind.version>2.9.10.7</jackson.databind.version>
+    <jackson.version>2.11.0</jackson.version>
+    <jackson.databind.version>2.11.0</jackson.databind.version>
 
     <!-- test only -->
     <junit.version>4.13.1</junit.version>
@@ -55,9 +54,9 @@
     <developer>
       <name>Mike Douglass</name>
       <organization>
-        Spherical Cow Group
+        Bedework Commercial Services
       </organization>
-      <organizationUrl>http://sphericalcowgroup.com/</organizationUrl>
+      <organizationUrl>https://bedework.com/</organizationUrl>
     </developer>
     <developer>
       <name>Arlen Johnson</name>
@@ -178,59 +177,6 @@
         <configuration>
           <!--<additionalJOption>-Xdoclint:none</additionalJOption>-->
           <failOnError>false</failOnError>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.bedework</groupId>
-        <artifactId>bw-util-maven-deploy-wfmodule</artifactId>
-        <version>${bw-util-deploy.version}</version>
-        <executions>
-          <execution>
-            <phase>install</phase>
-            <goals>
-              <goal>bw-deploy-wfmodule</goal>
-            </goals>
-          </execution>
-        </executions>
-
-        <configuration>
-          <moduleName>org.bedework.jsforj</moduleName>
-
-          <jarDependencies>
-            <jarDependency>
-              <moduleName>org.bedework.com.fasterxml.jackson.core.annotations</moduleName>
-              <groupId>com.fasterxml.jackson.core</groupId>
-              <artifactId>jackson-annotations</artifactId>
-              <version>${jackson.version}</version>
-              <type>jar</type>
-            </jarDependency>
-
-            <jarDependency>
-              <moduleName>org.bedework.com.fasterxml.jackson.core.databind</moduleName>
-              <groupId>com.fasterxml.jackson.core</groupId>
-              <artifactId>jackson-databind</artifactId>
-              <version>${jackson.version}</version>
-              <type>jar</type>
-              <moduleDependencies>
-                <moduleDependency>
-                  <name>com.fasterxml.jackson.core.jackson-core</name>
-                </moduleDependency>
-                <moduleDependency>
-                  <name>org.bedework.com.fasterxml.jackson.core.annotations</name>
-                </moduleDependency>
-              </moduleDependencies>
-            </jarDependency>
-          </jarDependencies>
-
-          <moduleDependencies>
-            <moduleDependency>
-              <name>org.bedework.logging</name>
-            </moduleDependency>
-            <moduleDependency>
-              <name>org.bedework.util.misc</name>
-            </moduleDependency>
-          </moduleDependencies>
         </configuration>
       </plugin>
     </plugins>

@@ -13,6 +13,13 @@
   <description>JSCalendar/JSContacts support</description>
   <url>https://github.com/Bedework/bw-jsforj</url>
 
+  <scm>
+    <connection>scm:git:git@github.com:Bedework/bw-jsforj.git</connection>
+    <developerConnection>scm:git:git@github.com:Bedework/bw-jsforj.git</developerConnection>
+    <url>https://github.com/Bedework/bw-jsforj</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <dependencies>
     <!-- Bedework Dependencies -->
 

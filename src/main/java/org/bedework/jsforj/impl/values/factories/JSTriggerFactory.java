@@ -7,6 +7,7 @@ import org.bedework.jsforj.impl.values.JSAbsoluteTriggerImpl;
 import org.bedework.jsforj.impl.values.JSOffsetTriggerImpl;
 import org.bedework.jsforj.impl.values.JSUnknownTriggerImpl;
 import org.bedework.jsforj.impl.values.JSValueFactoryImpl;
+import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 
@@ -36,18 +37,23 @@ public class JSTriggerFactory extends JSValueFactoryImpl {
       }
     }
 
-    final String type = factory.getType(nd);
+    final String theType;
+    if ( JSPropertyNames.trigger.equals(typeName)) {
+      theType = factory.getType(nd);
+    } else {
+      theType = typeName;
+    }
 
-    switch (type) {
+    switch (theType) {
       case JSTypes.typeAbsoluteTrigger:
-        return new JSAbsoluteTriggerImpl(typeName, nd);
+        return new JSAbsoluteTriggerImpl(theType, nd);
 
       case JSTypes.typeOffsetTrigger:
-        return new JSOffsetTriggerImpl(typeName, nd);
+        return new JSOffsetTriggerImpl(theType, nd);
 
       case JSTypes.typeUnknownTrigger:
       default:
-        return new JSUnknownTriggerImpl(typeName, nd);
+        return new JSUnknownTriggerImpl(theType, nd);
     }
   }
 }

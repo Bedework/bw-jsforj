@@ -244,6 +244,7 @@ public class JsForJTest {
       final var alert = alist.get(0).getValue();
 
       final var trigger = alert.getTrigger();
+      info("trigger class is " + trigger.getClass());
       assertTrue(trigger instanceof JSOffsetTrigger);
 
       info("Offset alert passes");

@@ -12,6 +12,7 @@ import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSValue;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * User: mike Date: 10/25/19 Time: 14:59
@@ -46,14 +47,20 @@ public class JSTriggerFactory extends JSValueFactoryImpl {
 
     switch (theType) {
       case JSTypes.typeAbsoluteTrigger:
-        return new JSAbsoluteTriggerImpl(theType, nd);
+        return new JSAbsoluteTriggerImpl(theType,
+                                         ensureType(theType,
+                                                    (ObjectNode)nd));
 
       case JSTypes.typeOffsetTrigger:
-        return new JSOffsetTriggerImpl(theType, nd);
+        return new JSOffsetTriggerImpl(theType,
+                                       ensureType(theType,
+                                                  (ObjectNode)nd));
 
       case JSTypes.typeUnknownTrigger:
       default:
-        return new JSUnknownTriggerImpl(theType, nd);
+        return new JSUnknownTriggerImpl(theType,
+                                        ensureType(theType,
+                                                   (ObjectNode)nd));
     }
   }
 }

@@ -82,4 +82,26 @@ public class JSAlertImpl extends JSValueImpl
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.relatedTo, create);
   }
+
+  @Override
+  public void setDescription(final String val) {
+    setProperty(factory.makeProperty(JSPropertyNames.description,
+                                     val));
+  }
+
+  @Override
+  public String getDescription() {
+    return getStringProperty(JSPropertyNames.description);
+  }
+
+  @Override
+  public void setTitle(final String val) {
+    setProperty(factory.makeProperty(JSPropertyNames.title,
+                                     val));
+  }
+
+  @Override
+  public String getTitle() {
+    return getStringProperty(JSPropertyNames.title);
+  }
 }

@@ -86,6 +86,17 @@ public class JSCalendarObjectImpl extends JSValueImpl
   }
 
   @Override
+  public void setColor(final String val) {
+    setProperty(factory.makeProperty(JSPropertyNames.color,
+                                     val));
+  }
+
+  @Override
+  public String getColor() {
+    return getStringProperty(JSPropertyNames.color);
+  }
+
+  @Override
   public JSAlerts getAlerts(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.alerts, create);

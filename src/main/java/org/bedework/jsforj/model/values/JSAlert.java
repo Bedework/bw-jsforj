@@ -48,4 +48,29 @@ public interface JSAlert extends JSValue {
    * @return relations object
    */
   JSRelations getRelatedTo(boolean create);
+
+  /**
+   *
+   * @param val the description
+   * throws JsforjException if value already present
+   */
+  void setDescription(String val);
+
+  /**
+   *
+   * @return description or null if none set
+   */
+  String getDescription();
+
+  /**
+   *
+   * @param val the title
+   */
+  void setTitle(String val);
+
+  /**
+   *
+   * @return title or null if none set
+   */
+  String getTitle();
 }

@@ -70,6 +70,18 @@ public interface JSCalendarObject extends JSValue {
 
   /**
    *
+   * @param val the color
+   */
+  void setColor(String val);
+
+  /**
+   *
+   * @return color or null if none set
+   */
+  String getColor();
+
+  /**
+   *
    * @param create true if we create property if it doesn't exist
    * @return list of alerts
    */

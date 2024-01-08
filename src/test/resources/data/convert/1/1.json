@@ -1,0 +1,13 @@
+{
+  "@type": "Event",
+  "uid": "2a358cee-6489-4f14-a57f-c104db4d1111",
+  "title": "April Fool's Day",
+  "showWithoutTime": true,
+  "start": "1900-04-01T00:00:00",
+  "created": "1900-04-01T00:00:00",
+  "duration": "P1D",
+  "recurrenceRules": [{
+    "@type": "RecurrenceRule",
+    "frequency": "yearly"
+  }]
+}

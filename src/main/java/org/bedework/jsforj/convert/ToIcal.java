@@ -16,19 +16,18 @@ import org.bedework.jsforj.model.values.JSOffsetTrigger;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSTrigger;
 import org.bedework.jsforj.model.values.dataTypes.JSDateTime;
-import org.bedework.util.logging.BwLogger;
-import org.bedework.util.logging.Logged;
 import org.bedework.util.misc.Util;
 import org.bedework.util.misc.response.GetEntityResponse;
 import org.bedework.util.misc.response.Response;
 
+import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Dur;
 import net.fortuna.ical4j.model.Parameter;
+import net.fortuna.ical4j.model.ParameterList;
 import net.fortuna.ical4j.model.Property;
-import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VAlarm;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -42,6 +41,8 @@ import net.fortuna.ical4j.model.parameter.PartStat;
 import net.fortuna.ical4j.model.parameter.Related;
 import net.fortuna.ical4j.model.parameter.Role;
 import net.fortuna.ical4j.model.parameter.Rsvp;
+import net.fortuna.ical4j.model.parameter.TzId;
+import net.fortuna.ical4j.model.parameter.Value;
 import net.fortuna.ical4j.model.property.Action;
 import net.fortuna.ical4j.model.property.Attendee;
 import net.fortuna.ical4j.model.property.Categories;
@@ -50,6 +51,7 @@ import net.fortuna.ical4j.model.property.Concept;
 import net.fortuna.ical4j.model.property.Contact;
 import net.fortuna.ical4j.model.property.Created;
 import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Due;
 import net.fortuna.ical4j.model.property.Duration;
@@ -77,15 +79,18 @@ import static org.bedework.util.misc.response.Response.Status.failed;
  * User: mike Date: 12/27/23 Time: 22:40
  */
 public class ToIcal {
-  public static GetEntityResponse<Component> convert(
+  public static GetEntityResponse<Calendar> convert(
           final JSCalendarObject val) {
-    final var resp = new GetEntityResponse<Component>();
+    final var resp = new GetEntityResponse<Calendar>();
 
     if (val == null) {
       return Response.notOk(resp, failed, "No entity supplied");
     }
 
     final var jstype = val.getType();
+
+    final var cal = new Calendar();
+    resp.setEntity(cal);
 
     final CalendarComponent comp;
 
@@ -103,22 +108,20 @@ public class ToIcal {
                 .error(resp, "org.bedework.invalid.component.type: " +
                         jstype);
     }
+    
+    cal.getComponents().add(comp);
 
     if (!setValues(resp, comp, val).isOk()) {
       return resp;
     }
 
-    resp.setEntity(comp);
-
     return Response.ok(resp);
   }
 
-  private static GetEntityResponse<Component> setValues(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> setValues(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject val) {
-    final var props = comp.getProperties();
-
     /* ------------------- Alarms -------------------- */
     if (!doAlarms(resp, comp, val).isOk()) {
       return resp;
@@ -134,7 +137,7 @@ public class ToIcal {
     if (val.hasProperty(JSPropertyNames.color)) {
       final var color = val.getColor();
       if (color != null) {
-        props.add(new Color(null, color));
+        addProp(comp, new Color(null, color));
       }
     }
 
@@ -146,7 +149,7 @@ public class ToIcal {
 
     /* ------------------- Dates and duration --------------- */
 
-    if (!setDates(resp, comp, val, recurrenceId)) {
+    if (!setDates(resp, comp, val, null).isOk()) {
       return resp;
     }
 
@@ -155,7 +158,7 @@ public class ToIcal {
     if (val.hasProperty(JSPropertyNames.description)) {
       final var desc = val.getDescription();
       if (desc != null) {
-        props.add(new Description(null, desc));
+        addProp(comp, new Description(null, desc));
       }
     }
 
@@ -167,7 +170,7 @@ public class ToIcal {
     if (val.hasProperty(JSPropertyNames.estimatedDuration)) {
       final var estd = val.getStringProperty(JSPropertyNames.estimatedDuration);
       if (estd != null) {
-        props.add(new EstimatedDuration(null, estd));
+        addProp(comp, new EstimatedDuration(null, estd));
       }
     }
 
@@ -181,7 +184,7 @@ public class ToIcal {
       return Response.error(resp, "No uid supplied");
     }
 
-    props.add(new Uid(null, guid));
+    addProp(comp, new Uid(null, guid));
 
     /* ------------------- keywords -------------------- */
     if (!doKeywords(resp, comp, val).isOk()) {
@@ -205,17 +208,15 @@ public class ToIcal {
     if (val.hasProperty(JSPropertyNames.sequence)) {
       final var seq = val.getUnsignedIntegerProperty(JSPropertyNames.sequence);
       if (seq != null) {
-        props.add(new Sequence(null, seq.get()));
+        addProp(comp, new Sequence(null, seq.get()));
       }
     }
 
     /* ------------------- Summary -------------------- */
 
     if (val.getTitle() != null) {
-      props.add(new Summary(null, val.getTitle();
+      addProp(comp, new Summary(null, val.getTitle()));
     }
-
-    ev.setRecurring(false);
 
     for (final JSProperty<?> prop: val.getProperties()) {
       final var pname = prop.getName();
@@ -258,6 +259,12 @@ public class ToIcal {
         case JSPropertyNames.progressUpdated:
           break;
 
+        case JSPropertyNames.recurrenceId:
+          break;
+
+        case JSPropertyNames.recurrenceOverrides:
+          break;
+
         case JSPropertyNames.recurrenceRules:
           break;
 
@@ -292,10 +299,12 @@ public class ToIcal {
           resp.warning("Unknown property: " + pname);
       }
     }
+
+    return resp;
   }
 
-  private static GetEntityResponse<Component> doAlarms(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doAlarms(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject val) {
     final var alerts = val.getAlerts(false);
@@ -409,8 +418,8 @@ public class ToIcal {
     return tr;
   }
 
-  private static GetEntityResponse<Component> doCategories(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doCategories(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject val) {
     final var cats = val.getCategories(false);
@@ -429,8 +438,8 @@ public class ToIcal {
     return resp;
   }
 
-  private static GetEntityResponse<Component> doKeywords(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doKeywords(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject val) {
     final var keys = val.getKeywords(false);
@@ -445,8 +454,8 @@ public class ToIcal {
     return resp;
   }
 
-  private static GetEntityResponse<Component> doLinks(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doLinks(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject val) {
     final var links = val.getLinks(false);
@@ -463,8 +472,8 @@ public class ToIcal {
                         roleInformational,
                         roleChair);
 
-  private static GetEntityResponse<Component> doParticipants(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doParticipants(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject val) {
     final var participants = val.getParticipants(false);
@@ -497,13 +506,17 @@ public class ToIcal {
         }
         processed = true;
       }
+
+      if (!processed) {
+        resp.warning("Unprocessed participant " + part.getName());
+      }
     }
 
     return resp;
   }
 
-  private static GetEntityResponse<Component> doContact(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doContact(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final String partKey,
           final JSParticipant value) {
@@ -536,12 +549,13 @@ public class ToIcal {
     return resp;
   }
 
-  private static GetEntityResponse<Component> doAttendee(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doAttendee(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSParticipant value) {
     final var calAddr = getSendTo("imip", value);
     if (calAddr == null) {
+      resp.warning("No calendar address for " + value.getName());
       return resp; // No calendar address
     }
 
@@ -690,10 +704,14 @@ public class ToIcal {
     return "REQ-PARTICIPANT";
   }
 
-  private static GetEntityResponse<Component> doCreated(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> doCreated(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final String value) {
+    if (value == null) {
+      return Response.error(resp, "Missing created property");
+    }
+
     final IcalDate icalDate = new IcalDate(value);
     final String dt = icalDate.format(false);
 
@@ -710,11 +728,11 @@ public class ToIcal {
      If this is an override the value will have a recurrence id which
      we can use to set the date.
    */
-  private static GetEntityResponse<Component> setDates(
-          final GetEntityResponse<Component> resp,
+  private static GetEntityResponse<Calendar> setDates(
+          final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSCalendarObject obj,
-          final BwDateTime recurrenceId) {
+          final String recurrenceId) {
     /*
       We need the following - these values may come from overrides)
         * date or date-time - from showWithoutTimes flag
@@ -751,38 +769,31 @@ public class ToIcal {
         endTimezoneId = null; // from location
       }
 
-      final TimeZone startTz;
-      if (startTimezoneId != null) {
-        startTz = Timezones.getTz(startTimezoneId);
-      } else {
-        startTz = null;
-      }
-
       final String start = obj.getStringProperty(JSPropertyNames.start);
-      final DtStart st;
 
       if (start == null) {
         if (recurrenceId != null) {
           // start didn't come from an override.
           // Get it from the recurrence id
-          st = recurrenceId.makeDtStart();
+
+          addProp(comp, dtProp(DtType.start,
+                               new IcalDate(recurrenceId).format(dateOnly),
+                               startTimezoneId));
         } else {
           return Response.error(resp, "Missing start");
         }
       } else {
-        final var icdt = new IcalDate(start);
-
-        st = new DtStart(icdt.format(dateOnly), startTz);
+        addProp(comp, dtProp(DtType.start,
+                             new IcalDate(start).format(dateOnly),
+                             startTimezoneId));
       }
-
-      addProp(comp, st);
 
       if (comp instanceof VToDo) {
         final var due = obj.getStringProperty(JSPropertyNames.due);
         if (due != null) {
-          final var icdt = new IcalDate(due);
-
-          addProp(comp, new Due(icdt.format(dateOnly), startTz));
+          addProp(comp, dtProp(DtType.due,
+                               new IcalDate(due).format(dateOnly),
+                               startTimezoneId));
         }
       }
 
@@ -796,6 +807,36 @@ public class ToIcal {
     }
 
     return resp;
+  }
+
+  private static enum DtType {
+    start, end, due
+  }
+
+  private static Property dtProp(final DtType dtType,
+                                 final String val,
+                                 final String tzid) throws Throwable {
+    final boolean dateOnly = val.length() == 8;
+
+    var params = new ParameterList();
+
+    if (dateOnly) {
+      params.add(Value.DATE);
+    }
+
+    if (tzid != null) {
+      params.add(new TzId(tzid));
+    }
+
+    if (dtType == DtType.start) {
+      return new DtStart(params, val);
+    }
+
+    if (dtType == DtType.end) {
+      return new DtEnd(params, val);
+    }
+
+    return new Due(params, val);
   }
 
   private static class IcalDate {

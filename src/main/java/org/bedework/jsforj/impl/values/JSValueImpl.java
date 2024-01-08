@@ -5,6 +5,7 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.JSFactory;
+import org.bedework.jsforj.impl.JSMapper;
 import org.bedework.jsforj.impl.values.dataTypes.JSUnsignedIntegerImpl;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSValue;
@@ -596,5 +597,12 @@ public abstract class JSValueImpl implements JSValue {
     value.node = newValue.getNode();
 
     return (JSProperty<ValType>)val;
+  }
+
+  @Override
+  public String toString() {
+    final JSMapper mapper = new JSMapper();
+
+    return writeValueAsString(mapper);
   }
 }

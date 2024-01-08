@@ -25,6 +25,7 @@ public interface JSPropertyNames {
   String bySetPosition = "bySetPosition"; // Int[] Valid for: Recurrence Rule
   String byWeekNo = "byWeekNo"; // Int[]          Valid for: Recurrence Rule
   String byYearDay = "byYearDay"; // Int[]        Valid for: Recurrence Rule
+  String calendarAddress = "calendarAddress"; // URI        Valid for: Participant
   String categories = "categories";  // String[Boolean]Valid for: JSEvent,
   //                                   JSTask, JSGroup Location
   String cid = "cid";         //  String    Valid for: Link

@@ -24,6 +24,7 @@
     "dG9tQGZvb2Jhci5xlLmNvbQ": {
       "@type": "Participant",
       "name": "Tom Tool",
+      "calendarAddress": "mailto:6489-4f14-a57f-c1@calendar.example.com",
       "email": "tom@foobar.example.com",
       "sendTo": {
         "imip": "mailto:6489-4f14-a57f-c1@calendar.example.com"
@@ -36,6 +37,7 @@
     "em9lQGZvb2GFtcGxlLmNvbQ": {
       "@type": "Participant",
       "name": "Zoe Zelda",
+      "calendarAddress": "mailto:zoe@foobar.example.com",
       "email": "zoe@foobar.example.com",
       "sendTo": {
         "imip": "mailto:zoe@foobar.example.com"

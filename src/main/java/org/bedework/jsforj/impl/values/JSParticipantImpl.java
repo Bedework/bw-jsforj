@@ -11,6 +11,7 @@ import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSSendTo;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
+import org.bedework.jsforj.model.values.dataTypes.JSURI;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -171,6 +172,18 @@ public class JSParticipantImpl extends JSValueImpl
   public JSList<String> getDelegatedTo(final boolean create) {
     return getValue(new TypeReference<>() {},
                     JSPropertyNames.delegatedTo,
+                    create);
+  }
+
+  @Override
+  public void setCalendarAddress(final JSURI val) {
+    setProperty(JSPropertyNames.calendarAddress, val);
+  }
+
+  @Override
+  public JSURI getCalendarAddress(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.calendarAddress,
                     create);
   }
 

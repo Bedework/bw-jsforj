@@ -66,6 +66,7 @@ public interface JSTypes {
   String typeTimeZoneRule = "TimeZoneRule";
   String typeUnsignedInt = "UnsignedInt";
   String typeUnsignedIntArray = "UnsignedInt[]";
+  String typeURI = "Uri";
   String typeUTCDateTime = "UTCDateTime";
   String typeVirtualLocation = "VirtualLocation";
   String typeVirtualLocations = "Id[VirtualLocation]";

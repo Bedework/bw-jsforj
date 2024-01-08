@@ -37,6 +37,7 @@ import org.bedework.jsforj.impl.values.factories.JSStringListFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneFactory;
 import org.bedework.jsforj.impl.values.factories.JSTimeZoneRuleFactory;
 import org.bedework.jsforj.impl.values.factories.JSTriggerFactory;
+import org.bedework.jsforj.impl.values.factories.JSURIFactory;
 import org.bedework.jsforj.impl.values.factories.JSUTCDateTimeFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntArrayFactory;
 import org.bedework.jsforj.impl.values.factories.JSUnsignedIntFactory;
@@ -55,8 +56,7 @@ import java.util.Set;
  * User: mike Date: 10/23/19 Time: 16:53
  */
 class JSPropertyAttributes implements JSRegistration {
-  private final static String registrationName =
-          "draft-ietf-calext-jscalendar-27";
+  public final static String registrationName = "RFC8984";
 
   // Type names for properties
   private final static Map<String, String> ptypes =
@@ -717,6 +717,14 @@ class JSPropertyAttributes implements JSRegistration {
          false, // object
          JSUnsignedIntArrayFactory.class); // factoryClass
 
+    type(JSTypes.typeURI,
+         false, // requiresType
+         false, // valueList
+         false, // propertyList
+         null, // elementType
+         false, // object
+         JSURIFactory.class); // factoryClass
+
     type(JSTypes.typeUTCDateTime,
          false, // requiresType
          false, // valueList
@@ -774,6 +782,7 @@ class JSPropertyAttributes implements JSRegistration {
     validFor(JSPropertyNames.bySetPosition, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.byWeekNo, JSTypes.typeRecurrenceRule);
     validFor(JSPropertyNames.byYearDay, JSTypes.typeRecurrenceRule);
+    validFor(JSPropertyNames.calendarAddress, JSTypes.typeParticipant);
     validFor(JSPropertyNames.categories, JSTypes.typeEvent,
              JSTypes.typeTask, JSTypes.typeGroup,
              JSTypes.typeLocation);

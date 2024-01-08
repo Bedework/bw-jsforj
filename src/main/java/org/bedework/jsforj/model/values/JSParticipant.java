@@ -5,6 +5,7 @@ import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
 import org.bedework.jsforj.model.values.collections.JSSendTo;
 import org.bedework.jsforj.model.values.dataTypes.JSString;
+import org.bedework.jsforj.model.values.dataTypes.JSURI;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
@@ -31,6 +32,10 @@ public interface JSParticipant extends JSValue {
    * @return JSList<String> object - never null if create true
    */
   JSList<String> getDelegatedTo(boolean create);
+
+  void setCalendarAddress(JSURI val);
+
+  JSURI getCalendarAddress(boolean create);
 
   void setDescription(String val);
 

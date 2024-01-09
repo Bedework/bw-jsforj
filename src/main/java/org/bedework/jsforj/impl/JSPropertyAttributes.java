@@ -188,7 +188,7 @@ class JSPropertyAttributes implements JSRegistration {
           JSTypes.typeString);
 
     ptype(JSPropertyNames.href,
-          JSTypes.typeString);
+          JSTypes.typeURI);
 
     ptype(JSPropertyNames.interval,
           JSTypes.typeUnsignedInt);

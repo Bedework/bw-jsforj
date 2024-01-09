@@ -6,6 +6,7 @@ package org.bedework.jsforj.model.values.collections;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.values.JSLink;
 
+import java.net.URI;
 import java.util.List;
 
 /** Represents the set of links
@@ -27,5 +28,5 @@ public interface JSLinks extends JSMap<String, JSLink> {
   /** Try to find the link object with the given href
    *
    */
-  JSProperty<JSLink> findLink(String href);
+  JSProperty<JSLink> findLink(URI href);
 }

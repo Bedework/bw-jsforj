@@ -1,14 +1,15 @@
 package org.bedework.jsforj.model.values;
 
+import org.bedework.jsforj.model.values.dataTypes.JSURI;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
  */
 public interface JSLink extends JSValue {
-  void setHref(String val);
+  void setHref(JSURI val);
 
-  String getHref();
+  JSURI getHref(boolean create);
 
   void setScheme(String val);
 

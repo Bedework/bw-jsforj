@@ -5,9 +5,11 @@ package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSLink;
+import org.bedework.jsforj.model.values.dataTypes.JSURI;
 import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 import org.bedework.util.misc.Util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -21,13 +23,15 @@ public class JSLinkImpl extends JSValueImpl
   }
 
   @Override
-  public void setHref(final String val) {
+  public void setHref(final JSURI val) {
     setProperty(JSPropertyNames.href, val);
   }
 
   @Override
-  public String getHref() {
-    return getStringProperty(JSPropertyNames.href);
+  public JSURI getHref(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.href,
+                    create);
   }
 
   @Override
@@ -106,9 +110,16 @@ public class JSLinkImpl extends JSValueImpl
       return false;
     }
 
-    var that = (JSLink)o;
+    final var that = (JSLink)o;
+    final var thisHref = getHref(false);
+    final var thatHref = that.getHref(false);
 
-    if (Util.cmpObjval(getHref(), that.getHref()) != 0) {
+    if ((thisHref != null) && (thatHref != null)) {
+      if (Util.cmpObjval(thisHref.get(),
+                         thatHref.get()) != 0) {
+        return false;
+      }
+    } else if ((thisHref != null) || (thatHref != null)) {
       return false;
     }
 

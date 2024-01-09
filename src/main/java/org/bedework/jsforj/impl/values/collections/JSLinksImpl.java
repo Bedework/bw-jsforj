@@ -10,6 +10,7 @@ import org.bedework.jsforj.model.values.collections.JSLinks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +59,15 @@ public class JSLinksImpl
   }
 
   @Override
-  public JSProperty<JSLink> findLink(final String href) {
+  public JSProperty<JSLink> findLink(final URI href) {
     for (final JSProperty<JSLink> prop: get()) {
-      if (href.equals(prop.getValue().getHref())) {
+      final var hrefVal = prop.getValue().getHref(false);
+
+      if (hrefVal == null) {
+        continue;
+      }
+
+      if (href.equals(hrefVal.get())) {
         return prop;
       }
     }

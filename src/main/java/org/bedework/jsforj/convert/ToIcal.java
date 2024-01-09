@@ -61,7 +61,6 @@ import net.fortuna.ical4j.model.property.Summary;
 import net.fortuna.ical4j.model.property.Trigger;
 import net.fortuna.ical4j.model.property.Uid;
 
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -537,11 +536,8 @@ public class ToIcal {
     final var contact = new Contact(cn);
 
     if (link != null) {
-      try {
-        contact.getParameters().add(new AltRep(link.getHref()));
-      } catch (final URISyntaxException use) {
-        return Response.error(resp, use);
-      }
+      addParam(contact,
+               new AltRep(link.getHref(false).get()));
     }
 
     addProp(comp, contact);
@@ -553,91 +549,71 @@ public class ToIcal {
           final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
           final JSParticipant value) {
-    final var calAddr = getSendTo("imip", value);
-    if (calAddr == null) {
+    final var calAddr = value.getCalendarAddress(false);
+    if ((calAddr == null) || (calAddr.get() == null)) {
       resp.warning("No calendar address for " + value.getName());
       return resp; // No calendar address
     }
 
     final Attendee attendee;
 
-    try {
-      attendee = new Attendee(calAddr);
+    attendee = new Attendee(calAddr.get());
 
-      if (value.getParticipationStatus() != null) {
-        addParam(attendee,
-                 new PartStat(value.getParticipationStatus().toUpperCase()));
-      }
+    if (value.getParticipationStatus() != null) {
+      addParam(attendee,
+               new PartStat(value.getParticipationStatus().toUpperCase()));
+    }
 
-      if (value.getExpectReply()) {
-        addParam(attendee, new Rsvp(true));
-      }
+    if (value.getExpectReply()) {
+      addParam(attendee, new Rsvp(true));
+    }
 
-      if (value.getName() != null) {
-        addParam(attendee, new Cn(value.getName()));
-      }
+    if (value.getName() != null) {
+      addParam(attendee, new Cn(value.getName()));
+    }
 
-      final var cuType = iCalCutype(value.getKind());
-      if (cuType != null) {
-        addParam(attendee, new CuType(cuType));
-      }
+    final var cuType = iCalCutype(value.getKind());
+    if (cuType != null) {
+      addParam(attendee, new CuType(cuType));
+    }
 
-      // delegated from
-      // delegated to
+    // delegated from
+    // delegated to
 
-      final var links = value.getLinks(false);
-      JSLink link = null;
-      if (links != null) {
-        for (final var linkP: links.get()) {
-          final var l = linkP.getValue();
-          if (linkRelAlternate.equals(l.getRel())) {
-            link = l;
-            break;
-          }
+    final var links = value.getLinks(false);
+    JSLink link = null;
+    if (links != null) {
+      for (final var linkP: links.get()) {
+        final var l = linkP.getValue();
+        if (linkRelAlternate.equals(l.getRel())) {
+          link = l;
+          break;
         }
       }
-
-      if (link != null) {
-        addParam(attendee, new Dir(link.getHref()));
-      }
-
-      final var lang = value.getLanguage();
-      if (lang != null) {
-        addParam(attendee, new Language(lang));
-      }
-
-      final var roles = value.getRoles(false);
-
-      if (roles != null) {
-        addParam(attendee, new Role(iCalRole(roles.get())));
-      }
-
-      // scheduleAgent
-      // getScheduleStatus
-      // ...
-
-      addProp(comp, attendee);
-    } catch (final URISyntaxException use) {
-      return Response.error(resp, use);
     }
+
+    if (link != null) {
+      addParam(attendee, new Dir(link.getHref(false).get()));
+    }
+
+    final var lang = value.getLanguage();
+    if (lang != null) {
+      addParam(attendee, new Language(lang));
+    }
+
+    final var roles = value.getRoles(false);
+
+    if (roles != null) {
+      addParam(attendee, new Role(iCalRole(roles.get())));
+    }
+
+    // scheduleAgent
+    // getScheduleStatus
+    // ...
+
+    addProp(comp, attendee);
 
     return resp;
-  }
-
-  private static String getSendTo(final String key,
-                           final JSParticipant value) {
-    final var sendTo = value.getSendTo(false);
-    if (sendTo == null) {
-      return null; // No calendar address
-    }
-
-    final var imipAddr = sendTo.get(key);
-
-    if ((imipAddr == null) || (imipAddr.getValue() == null)) {
-      return null; // No send to for calendar address
-    }
-
-    return imipAddr.getValue().getStringValue();
   }
 
   private static String iCalCutype(final String jsCalCutype) {

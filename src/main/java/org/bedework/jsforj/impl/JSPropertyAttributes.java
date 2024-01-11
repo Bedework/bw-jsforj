@@ -128,7 +128,7 @@ class JSPropertyAttributes implements JSRegistration {
           JSTypes.typeString);
 
     ptype(JSPropertyNames.coordinates,
-          JSTypes.typeString);
+          JSTypes.typeURI);
 
     ptype(JSPropertyNames.count,
           JSTypes.typeUnsignedInt);

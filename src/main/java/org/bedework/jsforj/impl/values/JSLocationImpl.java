@@ -4,10 +4,12 @@
 package org.bedework.jsforj.impl.values;
 
 import org.bedework.jsforj.JsforjException;
+import org.bedework.jsforj.impl.values.dataTypes.JSURIImpl;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.dataTypes.JSURI;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -78,13 +80,20 @@ public class JSLocationImpl extends JSValueImpl
   }
 
   @Override
-  public void setCoordinates(final String val) {
+  public void setCoordinates(final JSURI val) {
     setProperty(JSPropertyNames.coordinates, val);
   }
 
   @Override
-  public String getCoordinates() {
-    return getStringProperty(JSPropertyNames.coordinates);
+  public void setCoordinates(final String val) {
+    setCoordinates(new JSURIImpl(val));
+  }
+
+  @Override
+  public JSURI getCoordinates(final boolean create) {
+    return getValue(new TypeReference<>() {},
+                    JSPropertyNames.href,
+                    create);
   }
 
   @Override

@@ -12,9 +12,11 @@ import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSAbsoluteTrigger;
 import org.bedework.jsforj.model.values.JSAlert;
 import org.bedework.jsforj.model.values.JSLink;
+import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSOffsetTrigger;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSTrigger;
+import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.dataTypes.JSDateTime;
 import org.bedework.util.misc.Util;
 import org.bedework.util.misc.response.GetEntityResponse;
@@ -22,6 +24,7 @@ import org.bedework.util.misc.response.Response;
 
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
+import net.fortuna.ical4j.model.ComponentContainer;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Dur;
@@ -31,6 +34,7 @@ import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VAlarm;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.component.VLocation;
 import net.fortuna.ical4j.model.component.VToDo;
 import net.fortuna.ical4j.model.parameter.AltRep;
 import net.fortuna.ical4j.model.parameter.Cn;
@@ -56,10 +60,14 @@ import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Due;
 import net.fortuna.ical4j.model.property.Duration;
 import net.fortuna.ical4j.model.property.EstimatedDuration;
+import net.fortuna.ical4j.model.property.LocationType;
+import net.fortuna.ical4j.model.property.Name;
+import net.fortuna.ical4j.model.property.RelatedTo;
 import net.fortuna.ical4j.model.property.Sequence;
 import net.fortuna.ical4j.model.property.Summary;
 import net.fortuna.ical4j.model.property.Trigger;
 import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.model.property.Url;
 
 import java.util.Arrays;
 import java.util.List;
@@ -191,11 +199,14 @@ public class ToIcal {
     }
 
     /* ------------------- Links ------------------------ */
-    if (!doLinks(resp, comp, val).isOk()) {
+    if (!doLinks(resp, comp, val.getLinks(false)).isOk()) {
       return resp;
     }
 
     /* ------------------- Locations ------------------------ */
+    if (!doLocations(resp, comp, val).isOk()) {
+      return resp;
+    }
 
     /* ------------------- Participants ------------------------ */
     if (!doParticipants(resp, comp, val).isOk()) {
@@ -456,11 +467,108 @@ public class ToIcal {
   private static GetEntityResponse<Calendar> doLinks(
           final GetEntityResponse<Calendar> resp,
           final CalendarComponent comp,
-          final JSCalendarObject val) {
-    final var links = val.getLinks(false);
-    if (links == null) {
+          final JSLinks val) {
+    if (val == null) {
       return resp;
     }
+
+    return resp;
+  }
+
+  private static GetEntityResponse<Calendar> doLocations(
+          final GetEntityResponse<Calendar> resp,
+          final CalendarComponent comp,
+          final JSCalendarObject val) {
+    final var locs = val.getLocations(false);
+    if (locs == null) {
+      return resp;
+    }
+
+    JSLocation startLoc = null;
+
+    for (final var locVal: locs.get()) {
+      final var loc = locVal.getValue();
+      if (startLoc == null) {
+        startLoc = loc;
+      }
+
+      if ("start".equals(loc.getRelativeTo())) {
+        startLoc = loc;
+      }
+
+      if (!doLocation(resp, comp, loc).isOk()) {
+        return resp;
+      }
+    }
+
+    if (startLoc != null) {
+      // create LOCATION property forbackwards compatibility
+      if (!makeLocProp(resp, comp, startLoc).isOk()) {
+        return resp;
+      }
+    }
+
+    return resp;
+  }
+
+  /* JSCalendar locations should be mapped on to
+   [draft-ietf-calext-eventpub-extensions]VLOCATION components.
+   Additionally, for backwards compatibility, a location should be
+   mapped on to a [RFC5545] LOCATION property.  This property should be
+   mapped from the only location or the one related to the start.
+   */
+  private static GetEntityResponse<Calendar> doLocation(
+          final GetEntityResponse<Calendar> resp,
+          final CalendarComponent comp,
+          final JSLocation val) {
+    final var vloc = new VLocation();
+
+    /* ------------------- coordinates ------------------- */
+    if (val.hasProperty(JSPropertyNames.coordinates)) {
+      addProp(vloc, new Url(val.getCoordinates(false).get()));
+    }
+
+    /* ------------------- description ------------------- */
+    if (val.hasProperty(JSPropertyNames.description)) {
+      addProp(vloc, new Description(val.getDescription()));
+    }
+
+    /* ------------------- locationTypes ------------------- */
+    if (val.hasProperty(JSPropertyNames.locationTypes)) {
+      for (final var locType: val.getLocationTypes(false).get()) {
+        addProp(vloc, new LocationType(locType));
+      }
+    }
+
+    /* ------------------- links ------------------- */
+    if (!doLinks(resp, comp, val.getLinks(false)).isOk()) {
+      return resp;
+    }
+
+    /* ------------------- name ------------------- */
+    if (val.hasProperty(JSPropertyNames.name)) {
+      addProp(vloc, new Name(val.getName()));
+    }
+
+    /* ------------------- relativeTo ------------------- */
+    if (val.hasProperty(JSPropertyNames.relativeTo)) {
+      addProp(vloc, new RelatedTo(val.getRelativeTo()));
+    }
+
+    /* ------------------- timeZone ------------------- */
+    if (val.hasProperty(JSPropertyNames.timeZone)) {
+      addProp(vloc, new net.fortuna.ical4j.model.property.TzId(val.getTimeZone()));
+    }
+
+    addComp((ComponentContainer<Component>)comp, vloc);
+
+    return resp;
+  }
+
+  private static GetEntityResponse<Calendar> makeLocProp(
+          final GetEntityResponse<Calendar> resp,
+          final CalendarComponent comp,
+          final JSLocation val) {
 
     return resp;
   }
@@ -880,6 +988,11 @@ public class ToIcal {
     public boolean triggerStart;
     /** true if trigger is a date time value */
     public boolean triggerDateTime;
+  }
+
+  private static void addComp(final ComponentContainer<Component> comp,
+                              final Component val) {
+    comp.getComponents().add(val);
   }
 
   private static void addProp(final Component comp, final Property prop) {

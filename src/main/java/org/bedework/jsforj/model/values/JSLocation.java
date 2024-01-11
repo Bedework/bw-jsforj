@@ -2,6 +2,7 @@ package org.bedework.jsforj.model.values;
 
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.collections.JSList;
+import org.bedework.jsforj.model.values.dataTypes.JSURI;
 
 /**
  * User: mike Date: 10/25/19 Time: 12:46
@@ -27,9 +28,15 @@ public interface JSLocation extends JSValue {
 
   String getTimeZone();
 
+  void setCoordinates(JSURI val);
+
+  /**
+   *
+   * @param val must be a valid URI
+   */
   void setCoordinates(String val);
 
-  String getCoordinates();
+  JSURI getCoordinates(boolean create);
 
   void setLocationTypes(JSList<String> val);
 

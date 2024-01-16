@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.convert;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.dataTypes.JSLocalDateTimeImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSUTCDateTimeImpl;
 import org.bedework.jsforj.model.DateTimeComponents;
@@ -14,6 +15,7 @@ import org.bedework.jsforj.model.values.JSAlert;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.JSLocation;
 import org.bedework.jsforj.model.values.JSOffsetTrigger;
+import org.bedework.jsforj.model.values.JSOverride;
 import org.bedework.jsforj.model.values.JSParticipant;
 import org.bedework.jsforj.model.values.JSTrigger;
 import org.bedework.jsforj.model.values.collections.JSLinks;
@@ -60,8 +62,10 @@ import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Due;
 import net.fortuna.ical4j.model.property.Duration;
 import net.fortuna.ical4j.model.property.EstimatedDuration;
+import net.fortuna.ical4j.model.property.ExDate;
 import net.fortuna.ical4j.model.property.LocationType;
 import net.fortuna.ical4j.model.property.Name;
+import net.fortuna.ical4j.model.property.RDate;
 import net.fortuna.ical4j.model.property.RelatedTo;
 import net.fortuna.ical4j.model.property.Sequence;
 import net.fortuna.ical4j.model.property.Summary;
@@ -73,6 +77,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.bedework.jsforj.model.JSTypes.typeEvent;
+import static org.bedework.jsforj.model.JSTypes.typeOverride;
 import static org.bedework.jsforj.model.JSTypes.typeTask;
 import static org.bedework.jsforj.model.values.JSLink.linkRelAlternate;
 import static org.bedework.jsforj.model.values.JSRoles.roleAttendee;
@@ -109,6 +114,30 @@ public class ToIcal {
       case typeTask:
         comp = new VToDo(false);
         break;
+
+      case typeOverride: {
+        // Type comes from master
+        final var master = ((JSOverride)val).getMaster();
+        final var masterType = master.getType();
+
+        switch (masterType) {
+          case typeEvent:
+            comp = new VEvent(false);
+            break;
+
+          case typeTask:
+            comp = new VToDo(false);
+            break;
+
+          default:
+            return Response
+                    .error(resp,
+                           "org.bedework.invalid.component.type: " +
+                                   jstype);
+        }
+
+        break;
+      }
 
       default:
         return Response
@@ -228,6 +257,12 @@ public class ToIcal {
       addProp(comp, new Summary(null, val.getTitle()));
     }
 
+    /* ------------------- Overrides -------------------- */
+    // Must be last
+    if (!doOverrides(resp, comp, val).isOk()) {
+      return resp;
+    }
+
     for (final JSProperty<?> prop: val.getProperties()) {
       final var pname = prop.getName();
       final var pval = prop.getValue();
@@ -270,9 +305,6 @@ public class ToIcal {
           break;
 
         case JSPropertyNames.recurrenceId:
-          break;
-
-        case JSPropertyNames.recurrenceOverrides:
           break;
 
         case JSPropertyNames.recurrenceRules:
@@ -808,6 +840,36 @@ public class ToIcal {
     return resp;
   }
 
+  private static class DtInfo {
+    boolean dateOnly;
+    String startTimezoneId;
+    String endTimezoneId;
+  }
+
+  /**
+   *
+   * @param obj the jscal object which contains the information
+   *            as to date only and yzid.
+   * @return DtInfo object set appropriately
+   */
+  private static DtInfo getDtInfo(final JSCalendarObject obj) {
+    final var res = new DtInfo();
+
+    // date or date-time - from showWithoutTimes flag
+    res.dateOnly =
+            obj.getBooleanProperty(JSPropertyNames.showWithoutTime);
+
+    if (res.dateOnly) {
+      res.startTimezoneId = null;
+      res.endTimezoneId = null;
+    } else {
+      res.startTimezoneId = obj.getStringProperty(JSPropertyNames.timeZone);
+      res.endTimezoneId = null; // from location
+    }
+
+    return res;
+  }
+
   /*
      If this is an override the value will have a recurrence id which
      we can use to set the date.
@@ -838,21 +900,7 @@ public class ToIcal {
       // obj = val;
       // }
 
-      // date or date-time - from showWithoutTimes flag
-      final var dateOnly =
-              obj.getBooleanProperty(JSPropertyNames.showWithoutTime);
-      // start timezone
-      final String startTimezoneId;
-      final String endTimezoneId;
-
-      if (dateOnly) {
-        startTimezoneId = null;
-        endTimezoneId = null;
-      } else {
-        startTimezoneId = obj.getStringProperty(JSPropertyNames.timeZone);
-        endTimezoneId = null; // from location
-      }
-
+      final var dtInfo = getDtInfo(obj);
       final String start = obj.getStringProperty(JSPropertyNames.start);
 
       if (start == null) {
@@ -861,23 +909,23 @@ public class ToIcal {
           // Get it from the recurrence id
 
           addProp(comp, dtProp(DtType.start,
-                               new IcalDate(recurrenceId).format(dateOnly),
-                               startTimezoneId));
+                               new IcalDate(recurrenceId).format(dtInfo.dateOnly),
+                               dtInfo.startTimezoneId));
         } else {
           return Response.error(resp, "Missing start");
         }
       } else {
         addProp(comp, dtProp(DtType.start,
-                             new IcalDate(start).format(dateOnly),
-                             startTimezoneId));
+                             new IcalDate(start).format(dtInfo.dateOnly),
+                             dtInfo.startTimezoneId));
       }
 
       if (comp instanceof VToDo) {
         final var due = obj.getStringProperty(JSPropertyNames.due);
         if (due != null) {
           addProp(comp, dtProp(DtType.due,
-                               new IcalDate(due).format(dateOnly),
-                               startTimezoneId));
+                               new IcalDate(due).format(dtInfo.dateOnly),
+                               dtInfo.startTimezoneId));
         }
       }
 
@@ -894,7 +942,7 @@ public class ToIcal {
   }
 
   private static enum DtType {
-    start, end, due
+    start, end, due, exdate, rdate
   }
 
   private static Property dtProp(final DtType dtType,
@@ -902,7 +950,7 @@ public class ToIcal {
                                  final String tzid) throws Throwable {
     final boolean dateOnly = val.length() == 8;
 
-    var params = new ParameterList();
+    final var params = new ParameterList();
 
     if (dateOnly) {
       params.add(Value.DATE);
@@ -912,15 +960,31 @@ public class ToIcal {
       params.add(new TzId(tzid));
     }
 
-    if (dtType == DtType.start) {
-      return new DtStart(params, val);
-    }
+    switch (dtType) {
+      case start: {
+        return new DtStart(params, val);
+      }
 
-    if (dtType == DtType.end) {
-      return new DtEnd(params, val);
-    }
+      case end: {
+        return new DtEnd(params, val);
+      }
 
-    return new Due(params, val);
+      case due: {
+        return new Due(params, val);
+      }
+
+      case exdate: {
+        return new ExDate(params, val);
+      }
+
+      case rdate: {
+        return new RDate(params, val);
+      }
+
+      // Should not need this...
+      default:
+        throw new JsforjException("Unimplemented dtType " + dtType);
+    }
   }
 
   private static class IcalDate {
@@ -976,6 +1040,71 @@ public class ToIcal {
 
     boolean isUtc() {
       return dtc.isUtc();
+    }
+  }
+
+  private static GetEntityResponse<Calendar> doOverrides(
+          final GetEntityResponse<Calendar> resp,
+          final CalendarComponent comp,
+          final JSCalendarObject val) {
+    final var ovrds = val.getOverrides(false);
+    if (ovrds == null) {
+      return resp;
+    }
+
+    final var iCalOverrides = new ComponentList<Component>();
+
+    for (final var ovrdVal: ovrds.get()) {
+      final var iCalOver = doOverride(resp, comp, val,
+                                      ovrdVal.getValue());
+      if (!resp.isOk()) {
+        return resp;
+      }
+
+      if (iCalOver == null) {
+        continue;
+      }
+
+      iCalOverrides.add(iCalOver);
+    }
+
+    if (!iCalOverrides.isEmpty()) {
+      ((ComponentContainer<Component>)comp).getComponents().addAll(iCalOverrides);
+    }
+
+    return resp;
+  }
+
+
+  private static Component doOverride(
+          final GetEntityResponse<Calendar> resp,
+          final CalendarComponent comp,
+          final JSCalendarObject jsonMaster,
+          final JSOverride val) {
+    try {
+      if (val.getExcluded()) {
+        // Add an exdate to the master
+        final var dtInfo = getDtInfo(jsonMaster);
+        addProp(comp, dtProp(DtType.exdate,
+                             new IcalDate(val.getRecurrenceId()
+                                             .getStringValue()).format(
+                                     dtInfo.dateOnly),
+                             dtInfo.startTimezoneId));
+        return null;
+      }
+
+      // Create an override
+      final var ovResp = convert(val);
+
+      if (!ovResp.isOk()) {
+        Response.fromResponse(resp, ovResp);
+        return null;
+      }
+
+      return ovResp.getEntity().getComponents().get(0);
+    } catch (final Throwable t) {
+      Response.error(resp, t);
+      return null;
     }
   }
 

@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values;
 
+import org.bedework.jsforj.impl.values.dataTypes.JSURIImpl;
 import org.bedework.jsforj.model.JSPropertyNames;
 import org.bedework.jsforj.model.values.JSLink;
 import org.bedework.jsforj.model.values.dataTypes.JSURI;
@@ -25,6 +26,11 @@ public class JSLinkImpl extends JSValueImpl
   @Override
   public void setHref(final JSURI val) {
     setProperty(JSPropertyNames.href, val);
+  }
+
+  @Override
+  public void setHref(final String val) {
+    setHref(new JSURIImpl(val));
   }
 
   @Override

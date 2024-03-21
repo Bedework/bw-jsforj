@@ -3,6 +3,7 @@
 */
 package org.bedework.jsforj.impl.values.collections;
 
+import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.model.JSProperty;
 import org.bedework.jsforj.model.JSTypes;
 import org.bedework.jsforj.model.values.JSLink;
@@ -73,5 +74,18 @@ public class JSLinksImpl
     }
 
     return null;
+  }
+
+  @Override
+  public JSProperty<JSLink> findLink(final String href) {
+    if (href == null) {
+      throw new IllegalArgumentException("Null href not allowed");
+    }
+
+    try {
+      return findLink(new URI(href));
+    } catch (final Throwable t) {
+      throw new JsforjException(t);
+    }
   }
 }

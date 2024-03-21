@@ -9,6 +9,8 @@ import org.bedework.jsforj.model.values.dataTypes.JSUnsignedInteger;
 public interface JSLink extends JSValue {
   void setHref(JSURI val);
 
+  void setHref(String val);
+
   JSURI getHref(boolean create);
 
   void setScheme(String val);

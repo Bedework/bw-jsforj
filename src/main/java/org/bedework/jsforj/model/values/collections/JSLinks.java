@@ -29,4 +29,9 @@ public interface JSLinks extends JSMap<String, JSLink> {
    *
    */
   JSProperty<JSLink> findLink(URI href);
+
+  /** Try to find the link object with the given href string value
+   *
+   */
+  JSProperty<JSLink> findLink(String href);
 }

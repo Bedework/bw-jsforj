@@ -68,4 +68,5 @@ For full details, see [Sonatype's documentation for using Maven to publish relea
 
 ### 1.1.2
 * Update library versions
+* Response classes moved to bw-base
 * Pre jakarta release

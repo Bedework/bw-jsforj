@@ -3,6 +3,8 @@
 */
 package org.bedework.jsforj.convert;
 
+import org.bedework.base.response.GetEntityResponse;
+import org.bedework.base.response.Response;
 import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.dataTypes.JSLocalDateTimeImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSUTCDateTimeImpl;
@@ -21,8 +23,6 @@ import org.bedework.jsforj.model.values.JSTrigger;
 import org.bedework.jsforj.model.values.collections.JSLinks;
 import org.bedework.jsforj.model.values.dataTypes.JSDateTime;
 import org.bedework.util.misc.Util;
-import org.bedework.util.misc.response.GetEntityResponse;
-import org.bedework.util.misc.response.Response;
 
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
@@ -85,7 +85,7 @@ import static org.bedework.jsforj.model.values.JSRoles.roleChair;
 import static org.bedework.jsforj.model.values.JSRoles.roleContact;
 import static org.bedework.jsforj.model.values.JSRoles.roleInformational;
 import static org.bedework.jsforj.model.values.JSRoles.roleOptional;
-import static org.bedework.util.misc.response.Response.Status.failed;
+import static org.bedework.base.response.Response.Status.failed;
 
 /**
  * User: mike Date: 12/27/23 Time: 22:40

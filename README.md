@@ -66,3 +66,6 @@ For full details, see [Sonatype's documentation for using Maven to publish relea
 * Initial handling of recurrence overrides.
 * Add href as a String value to Link
 
+### 1.1.2
+* Update library versions
+* Pre jakarta release

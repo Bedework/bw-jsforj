@@ -1,0 +1,6 @@
+[[jsforj]]
+== Introduction
+
+This project provides a number of classes and methods to handle jscalendar and jscontacts for
+Bedework.
+

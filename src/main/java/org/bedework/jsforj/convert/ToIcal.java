@@ -4,8 +4,6 @@
 package org.bedework.jsforj.convert;
 
 import org.bedework.base.response.GetEntityResponse;
-import org.bedework.base.response.Response;
-import org.bedework.jsforj.JsforjException;
 import org.bedework.jsforj.impl.values.dataTypes.JSLocalDateTimeImpl;
 import org.bedework.jsforj.impl.values.dataTypes.JSUTCDateTimeImpl;
 import org.bedework.jsforj.model.DateTimeComponents;
@@ -76,6 +74,7 @@ import net.fortuna.ical4j.model.property.Url;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.bedework.base.response.Response.Status.failed;
 import static org.bedework.jsforj.model.JSTypes.typeEvent;
 import static org.bedework.jsforj.model.JSTypes.typeOverride;
 import static org.bedework.jsforj.model.JSTypes.typeTask;
@@ -85,7 +84,6 @@ import static org.bedework.jsforj.model.values.JSRoles.roleChair;
 import static org.bedework.jsforj.model.values.JSRoles.roleContact;
 import static org.bedework.jsforj.model.values.JSRoles.roleInformational;
 import static org.bedework.jsforj.model.values.JSRoles.roleOptional;
-import static org.bedework.base.response.Response.Status.failed;
 
 /**
  * User: mike Date: 12/27/23 Time: 22:40
@@ -96,7 +94,7 @@ public class ToIcal {
     final var resp = new GetEntityResponse<Calendar>();
 
     if (val == null) {
-      return Response.notOk(resp, failed, "No entity supplied");
+      return resp.notOk(failed, "No entity supplied");
     }
 
     final var jstype = val.getType();
@@ -130,18 +128,17 @@ public class ToIcal {
             break;
 
           default:
-            return Response
-                    .error(resp,
-                           "org.bedework.invalid.component.type: " +
-                                   jstype);
+            return resp.error(
+                    "org.bedework.invalid.component.type: " +
+                            jstype);
         }
 
         break;
       }
 
       default:
-        return Response
-                .error(resp, "org.bedework.invalid.component.type: " +
+        return resp.error(
+                "org.bedework.invalid.component.type: " +
                         jstype);
     }
     
@@ -151,7 +148,7 @@ public class ToIcal {
       return resp;
     }
 
-    return Response.ok(resp);
+    return resp.ok();
   }
 
   private static GetEntityResponse<Calendar> setValues(
@@ -217,7 +214,7 @@ public class ToIcal {
       /* XXX A guid is required - but are there devices out there without a
        *       guid - and if so how do we handle it?
        */
-      return Response.error(resp, "No uid supplied");
+      return resp.error("No uid supplied");
     }
 
     addProp(comp, new Uid(null, guid));
@@ -361,9 +358,9 @@ public class ToIcal {
     } else if (comp instanceof VToDo) {
       subComps = ((VToDo)comp).getComponents();
     } else {
-      return Response.error(resp,
-                            "org.bedework.invalid.component.type " +
-                                         comp.getName());
+      return resp.error(
+              "org.bedework.invalid.component.type " +
+                      comp.getName());
     }
 
     for (final var alertp: alerts.get()) {
@@ -419,7 +416,7 @@ public class ToIcal {
 
         addProp(alarm, trigger);
       } catch (final Throwable t) {
-        return Response.error(resp, t);
+        return resp.error(t);
       }
 
       subComps.add(alarm);
@@ -435,8 +432,7 @@ public class ToIcal {
   private static TriggerVal getTrigger(final JSTrigger val) {
     final TriggerVal tr = new TriggerVal();
 
-    if (val instanceof JSAbsoluteTrigger) {
-      final var absTrigger = (JSAbsoluteTrigger)val;
+    if (val instanceof final JSAbsoluteTrigger absTrigger) {
       final IcalDate icalDate =
               new IcalDate(absTrigger.getWhen().getStringValue());
       tr.trigger = icalDate.format(false);
@@ -445,11 +441,10 @@ public class ToIcal {
       return tr;
     }
 
-    if (!(val instanceof JSOffsetTrigger)) {
+    if (!(val instanceof final JSOffsetTrigger offsetTrigger)) {
       return tr;
     }
 
-    final var offsetTrigger = (JSOffsetTrigger)val;
     final var rel = offsetTrigger.getRelativeTo();
 
     tr.triggerStart = (rel == null) ||
@@ -473,7 +468,7 @@ public class ToIcal {
       try {
         addProp(comp, new Concept(null, cval));
       } catch (final Throwable t) {
-        return Response.error(resp, t);
+        return resp.error(t);
       }
     }
 
@@ -825,7 +820,7 @@ public class ToIcal {
           final CalendarComponent comp,
           final String value) {
     if (value == null) {
-      return Response.error(resp, "Missing created property");
+      return resp.error("Missing created property");
     }
 
     final IcalDate icalDate = new IcalDate(value);
@@ -834,7 +829,7 @@ public class ToIcal {
     try {
       addProp(comp, new Created(dt));
     } catch (final Throwable use) {
-      return Response.error(resp, use);
+      return resp.error(use);
     }
 
     return resp;
@@ -912,7 +907,7 @@ public class ToIcal {
                                new IcalDate(recurrenceId).format(dtInfo.dateOnly),
                                dtInfo.startTimezoneId));
         } else {
-          return Response.error(resp, "Missing start");
+          return resp.error("Missing start");
         }
       } else {
         addProp(comp, dtProp(DtType.start,
@@ -935,13 +930,13 @@ public class ToIcal {
         addProp(comp, new Duration(null, durStr));
       }
     } catch (final Throwable t) {
-      return Response.error(resp, t);
+      return resp.error(t);
     }
 
     return resp;
   }
 
-  private static enum DtType {
+  private enum DtType {
     start, end, due, exdate, rdate
   }
 
@@ -960,31 +955,13 @@ public class ToIcal {
       params.add(new TzId(tzid));
     }
 
-    switch (dtType) {
-      case start: {
-        return new DtStart(params, val);
-      }
-
-      case end: {
-        return new DtEnd(params, val);
-      }
-
-      case due: {
-        return new Due(params, val);
-      }
-
-      case exdate: {
-        return new ExDate(params, val);
-      }
-
-      case rdate: {
-        return new RDate(params, val);
-      }
-
-      // Should not need this...
-      default:
-        throw new JsforjException("Unimplemented dtType " + dtType);
-    }
+    return switch (dtType) {
+      case start -> new DtStart(params, val);
+      case end -> new DtEnd(params, val);
+      case due -> new Due(params, val);
+      case exdate -> new ExDate(params, val);
+      case rdate -> new RDate(params, val);
+    };
   }
 
   private static class IcalDate {
@@ -1052,7 +1029,7 @@ public class ToIcal {
       return resp;
     }
 
-    final var iCalOverrides = new ComponentList<Component>();
+    final var iCalOverrides = new ComponentList<>();
 
     for (final var ovrdVal: ovrds.get()) {
       final var iCalOver = doOverride(resp, comp, val,
@@ -1097,13 +1074,13 @@ public class ToIcal {
       final var ovResp = convert(val);
 
       if (!ovResp.isOk()) {
-        Response.fromResponse(resp, ovResp);
+        resp.fromResponse(ovResp);
         return null;
       }
 
-      return ovResp.getEntity().getComponents().get(0);
+      return ovResp.getEntity().getComponents().getFirst();
     } catch (final Throwable t) {
-      Response.error(resp, t);
+      resp.error(t);
       return null;
     }
   }
